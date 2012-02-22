@@ -47,3 +47,6 @@ _ReSharper*/
 
 #NuGet
 packages/
+
+#bat files personal use
+*mongodb.bat
