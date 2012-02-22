@@ -1,4 +1,4 @@
 TripData
 
 A RestService that registers data from trips with a lease car.
-The start milage, end milage, start location and end location etc.
+The start milage, end milage, start location and end location etc. 
