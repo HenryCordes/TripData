@@ -34,6 +34,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="DreamSongs.MongoRepository, Version=1.2.4.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MongoRepository.1.2.4\lib\DreamSongs.MongoRepository.dll</HintPath>
+    </Reference>
     <Reference Include="EntityFramework">
       <HintPath>..\packages\EntityFramework.4.1.10331.0\lib\net40\EntityFramework.dll</HintPath>
     </Reference>
@@ -41,6 +44,12 @@
     <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>True</Private>
       <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="Ninject">
+      <HintPath>..\packages\Ninject.2.2.1.4\lib\net40-Full\Ninject.dll</HintPath>
+    </Reference>
+    <Reference Include="Ninject.Web.Mvc">
+      <HintPath>..\packages\Ninject.MVC3.2.2.2.0\lib\net40-Full\Ninject.Web.Mvc.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -119,8 +128,12 @@
     <Reference Include="System.Configuration" />
     <Reference Include="System.Web.Services" />
     <Reference Include="System.EnterpriseServices" />
+    <Reference Include="WebActivator">
+      <HintPath>..\packages\WebActivator.1.4.4\lib\net40\WebActivator.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="App_Start\NinjectMVC3.cs" />
     <Compile Include="Controllers\TripDataController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -196,6 +209,14 @@
     <ProjectReference Include="..\HC.TripData.Domain\HC.TripData.Domain.csproj">
       <Project>{09A3E27B-6A6F-4828-AB76-C6E696751E6F}</Project>
       <Name>HC.TripData.Domain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\HC.TripData.Repository.Interfaces\HC.TripData.Repository.Interfaces.csproj">
+      <Project>{A7112085-33B6-4A74-899C-760464E25090}</Project>
+      <Name>HC.TripData.Repository.Interfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\HC.TripData.Repository.Mongo\HC.TripData.Repository.Mongo.csproj">
+      <Project>{B3FBE918-F26E-4EAE-B1FA-39EC94F59545}</Project>
+      <Name>HC.TripData.Repository.Mongo</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

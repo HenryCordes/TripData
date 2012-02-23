@@ -3,21 +3,31 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Web.Http;
+using HC.TripData.Domain;
+using HC.TripData.Repository.Interfaces;
 
 namespace HC.TripData.Web.Controllers
 {
     public class TripDataController : ApiController
     {
-        // GET /api/tripdata
-        public IEnumerable<string> Get()
+
+        private ITripDataRepository _tripDataRepository;
+
+        public TripDataController(ITripDataRepository tripDataRepository)
         {
-            return new string[] { "value1", "value2" };
+            _tripDataRepository = tripDataRepository;
         }
 
-        // GET /api/tripdata/5
-        public string Get(int id)
+        // GET /api/tripdata
+        public List<Trip> Get()
         {
-            return "value";
+            return _tripDataRepository.GetTrips();
+        }
+
+        // GET /api/tripdata/<userName>
+        public List<Trip> Get(string userName)
+        {
+            return _tripDataRepository.GetTrips().Where(t => t.Driver.UserName == userName).ToList();
         }
 
         // POST /api/tripdata

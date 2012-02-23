@@ -6,6 +6,10 @@ using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
+using HC.TripData.Repository.Interfaces;
+using Ninject;
+using Ninject.Web.Mvc;
+using HC.TripData.Repository.Mongo;
 
 namespace HC.TripData.Web
 {
@@ -44,7 +48,24 @@ namespace HC.TripData.Web
             RegisterRoutes(RouteTable.Routes);
 
             BundleTable.Bundles.RegisterTemplateBundles();
+
+            Configure(GlobalConfiguration.Configuration);
         }
+
+        public static void Configure(HttpConfiguration config)
+        {
+            var kernel = new StandardKernel();
+            RegisterServices(kernel);
+            config.ServiceResolver.SetResolver(
+                t => kernel.TryGet(t),
+                t => kernel.GetAll(t));
+        }
+
+        public static void RegisterServices(IKernel kernel)
+        {
+            kernel.Bind<ITripDataRepository>().To<TripDataRepository>();
+        }
+
 
         public static void RegisterApis(HttpConfiguration config)
         {
