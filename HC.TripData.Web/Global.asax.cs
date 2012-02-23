@@ -45,5 +45,12 @@ namespace HC.TripData.Web
 
             BundleTable.Bundles.RegisterTemplateBundles();
         }
+
+        public static void RegisterApis(HttpConfiguration config)
+        {
+          //  config.MessageHandlers.Add(new ApiUsageLogger());
+
+            config.Routes.MapHttpRoute("tripdata-route", "tripdata", new { controller = "tripdata" });
+        }
     }
 }
