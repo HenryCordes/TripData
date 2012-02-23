@@ -1,4 +1,5 @@
-﻿@model HC.TripData.Domain.Trip
+﻿@using System.Configuration
+@model HC.TripData.Domain.Trip
 
 @{
     ViewBag.Title = "Index";
@@ -6,3 +7,5 @@
 }
 
 <h2>TripData</h2>
+
+Mongo: @ConfigurationManager.AppSettings["MONGOLAB_URI"]
