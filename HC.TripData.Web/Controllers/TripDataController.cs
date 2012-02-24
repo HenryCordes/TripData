@@ -30,17 +30,17 @@ namespace HC.TripData.Web.Controllers
         }
 
         // POST /api/tripdata
-        public void Post(string value)
+        public void Post(List<Trip> value)
         {
         }
 
         // PUT /api/tripdata/5
-        public void Put(int id, string value)
+        public void Put(string id, string value)
         {
         }
 
         // DELETE /api/tripdata/5
-        public void Delete(int id)
+        public void Delete(string id)
         {
         }
     }

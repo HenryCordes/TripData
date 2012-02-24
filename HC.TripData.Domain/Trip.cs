@@ -1,7 +1,9 @@
 ﻿
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using DreamSongs.MongoRepository;
+using MongoDB.Bson;
 
 namespace HC.TripData.Domain
 {
@@ -9,7 +11,10 @@ namespace HC.TripData.Domain
     {
         public int StartMilage { get; set; }
         public int EndMilage { get; set; }
+
+        [DataType(DataType.Date)]
         public DateTime DateTime  { get; set; }
+
         public string PlaceOfDeparture { get; set; }
         public string Destination { get; set; }
         public string DepartureZipCode { get; set; }
@@ -17,8 +22,8 @@ namespace HC.TripData.Domain
         public string Description { get; set; }
         public TripType TripType { get; set; }
 
-        public Driver Driver { get; set; }
-        public Car Car { get; set; }
+        public ObjectId DriverId { get; set; }
+        public ObjectId CarId { get; set; }
     }
 
     public enum TripType
@@ -27,23 +32,4 @@ namespace HC.TripData.Domain
         Private
     }
 
-    public class Driver
-    {
-        public string LastName { get; set; }
-        public string FirstName { get; set; }
-
-        public string UserName { get; set; }
-        public string Password { get; set; }
-
-        public List<Car> Cars { get; set; }
-    }
-
-
-    public class Car
-    {
-        public string LicensePlateNumber { get; set; }
-        public string Make { get; set; }
-        public string Model { get; set; }
-        public bool IsCurrentCar { get; set; }
-    }
 }

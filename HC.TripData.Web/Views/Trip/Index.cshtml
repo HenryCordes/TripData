@@ -1,11 +1,20 @@
 ﻿@using System.Configuration
-@model HC.TripData.Domain.Trip
+
 
 @{
     ViewBag.Title = "Index";
-    Layout = "~/Views/Shared/_Layout.cshtml";
 }
+
 
 <h2>TripData</h2>
 
-Mongo: @ConfigurationManager.AppSettings["MONGOLAB_URI"]
+<section>
+    <div class="field-label">Mongo:</div>
+    <div class="field-value">@ConfigurationManager.AppSettings["MONGOLAB_URI"]</div>
+</section>
+
+<nav class="crud-links">
+    <ul>
+        <li>@Html.ActionLink("Create new trip", "Create")</li>
+    </ul>
+</nav>
