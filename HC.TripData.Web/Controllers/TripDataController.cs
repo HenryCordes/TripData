@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web.Http;
 using HC.TripData.Domain;
 using HC.TripData.Repository.Interfaces;
+using MongoDB.Bson;
 
 namespace HC.TripData.Web.Controllers
 {
@@ -23,11 +24,11 @@ namespace HC.TripData.Web.Controllers
             return _tripDataRepository.GetTrips();
         }
 
-        // GET /api/tripdata/<userName>
-        public List<Trip> Get(string userName)
-        {
-            return _tripDataRepository.GetTrips().Where(t => t.Driver.UserName == userName).ToList();
-        }
+        // GET /api/tripdata/<userId>
+        //public List<Trip> Get(ObjectId userId)
+        //{
+        //    return _tripDataRepository.GetTrips().Where(t => t.DriverId == userId).ToList();
+        //}
 
         // POST /api/tripdata
         public void Post(List<Trip> value)

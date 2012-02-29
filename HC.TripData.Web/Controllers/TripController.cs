@@ -3,11 +3,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using HC.TripData.Domain;
+using HC.TripData.Repository.Interfaces;
 
 namespace HC.TripData.Web.Controllers
 {
     public class TripController : Controller
     {
+
+        private ITripDataRepository _tripRepository;
+
+        public TripController(ITripDataRepository tripRepository)
+        {
+            _tripRepository = tripRepository;
+        }
         //
         // GET: /Trip/
 
@@ -16,13 +25,13 @@ namespace HC.TripData.Web.Controllers
             return View();
         }
 
-        //
-        // GET: /Trip/Details/5
+        ////
+        //// GET: /Trip/Details/5
 
-        public ActionResult Details(int id)
-        {
-            return View();
-        }
+        //public ActionResult Details(int id)
+        //{
+        //    return View();
+        //}
 
         //
         // GET: /Trip/Create
@@ -36,12 +45,12 @@ namespace HC.TripData.Web.Controllers
         // POST: /Trip/Create
 
         [HttpPost]
-        public ActionResult Create(FormCollection collection)
+        public ActionResult Create(Trip trip)
         {
             try
             {
-                // TODO: Add insert logic here
-
+                
+                _tripRepository.AddTrips(new List<Trip>(){trip});
                 return RedirectToAction("Index");
             }
             catch
@@ -50,56 +59,56 @@ namespace HC.TripData.Web.Controllers
             }
         }
 
-        //
-        // GET: /Trip/Edit/5
+        ////
+        //// GET: /Trip/Edit/5
 
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
+        //public ActionResult Edit(int id)
+        //{
+        //    return View();
+        //}
 
-        //
-        // POST: /Trip/Edit/5
+        ////
+        //// POST: /Trip/Edit/5
 
-        [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add update logic here
+        //[HttpPost]
+        //public ActionResult Edit(int id, FormCollection collection)
+        //{
+        //    try
+        //    {
+        //        // TODO: Add update logic here
 
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
-        }
+        //        return RedirectToAction("Index");
+        //    }
+        //    catch
+        //    {
+        //        return View();
+        //    }
+        //}
 
-        //
-        // GET: /Trip/Delete/5
+        ////
+        //// GET: /Trip/Delete/5
 
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
+        //public ActionResult Delete(int id)
+        //{
+        //    return View();
+        //}
 
-        //
-        // POST: /Trip/Delete/5
+        ////
+        //// POST: /Trip/Delete/5
 
-        [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add delete logic here
+        //[HttpPost]
+        //public ActionResult Delete(int id, FormCollection collection)
+        //{
+        //    try
+        //    {
+        //        // TODO: Add delete logic here
 
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
-        }
+        //        return RedirectToAction("Index");
+        //    }
+        //    catch
+        //    {
+        //        return View();
+        //    }
+        //}
     }
 }

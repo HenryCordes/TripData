@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Web;
 using System.Web.Http;
 using System.Web.Mvc;
@@ -50,6 +51,7 @@ namespace HC.TripData.Web
             BundleTable.Bundles.RegisterTemplateBundles();
 
             Configure(GlobalConfiguration.Configuration);
+
         }
 
         public static void Configure(HttpConfiguration config)
@@ -57,6 +59,10 @@ namespace HC.TripData.Web
             var kernel = new StandardKernel();
             RegisterServices(kernel);
             config.ServiceResolver.SetResolver(
+                t => kernel.TryGet(t),
+                t => kernel.GetAll(t));
+
+            DependencyResolver.SetResolver(
                 t => kernel.TryGet(t),
                 t => kernel.GetAll(t));
         }

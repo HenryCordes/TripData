@@ -72,7 +72,7 @@ namespace HC.TripData.Repository.Mongo.UnitTests
         /// <summary>
         ///A test for AddTrips
         ///</summary>
-      //  [TestMethod()]
+   //     [TestMethod()]
         public void AddTripsTest()
         {
             const int  milageConstant = 37;
@@ -86,8 +86,6 @@ namespace HC.TripData.Repository.Mongo.UnitTests
                 var trip = new Trip()
                 {
                     StartMilage = milage,
-                    Car = GetCar(),
-                    Driver = GetDriver(),
                     DateTime = DateTime.Now,
                     DepartureZipCode = "1234 AA",
                     Description = "Woon werkverkeer heenreis",
@@ -103,6 +101,12 @@ namespace HC.TripData.Repository.Mongo.UnitTests
             target.AddTrips(trips);
         }
 
+       //  [TestMethod()]
+        public void DeleteTripsTest()
+        {
+            var target = new TripDataRepository("mongodb://localhost/TripData");
+             target.DeleteTrips();
+        }
 
         private static Car GetCar()
         {
