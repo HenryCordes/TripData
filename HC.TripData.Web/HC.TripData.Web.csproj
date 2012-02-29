@@ -126,7 +126,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="App_Start\NinjectMVC3.cs" />
     <Compile Include="Controllers\TripController.cs" />
     <Compile Include="Controllers\TripDataController.cs" />
     <Compile Include="Global.asax.cs">
@@ -262,6 +261,12 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Shared\EditorTemplates\Color.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Trip\List.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Trip\Edit.cshtml" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />

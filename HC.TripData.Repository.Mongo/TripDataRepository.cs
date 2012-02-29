@@ -38,6 +38,11 @@ namespace HC.TripData.Repository.Mongo
             return repository.All().ToList();
         }
 
+        public Trip GetTrip(string tripId)
+        {
+            var repository = ResolveTripRepository();
+            return repository.GetById(tripId);
+        }
 
          public void DeleteTrips()
          {

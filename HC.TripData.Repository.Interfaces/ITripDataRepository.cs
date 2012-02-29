@@ -9,6 +9,7 @@ namespace HC.TripData.Repository.Interfaces
     public interface ITripDataRepository
     {
         List<Trip> GetTrips();
+        Trip GetTrip(string tripId);
         void AddTrips(IEnumerable<Trip> trips);
         void DeleteTrips();
     }

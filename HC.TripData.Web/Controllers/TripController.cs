@@ -17,21 +17,24 @@ namespace HC.TripData.Web.Controllers
         {
             _tripRepository = tripRepository;
         }
+
+
+
         //
         // GET: /Trip/
 
         public ActionResult Index()
         {
-            return View();
+           return View("List", _tripRepository.GetTrips());
         }
 
         ////
         //// GET: /Trip/Details/5
 
-        //public ActionResult Details(int id)
-        //{
-        //    return View();
-        //}
+        public ActionResult Details(string id)
+        {
+            return View();
+        }
 
         //
         // GET: /Trip/Create
@@ -62,10 +65,10 @@ namespace HC.TripData.Web.Controllers
         ////
         //// GET: /Trip/Edit/5
 
-        //public ActionResult Edit(int id)
-        //{
-        //    return View();
-        //}
+        public ActionResult Edit(string id)
+        {
+            return View(_tripRepository.GetTrip(id));
+        }
 
         ////
         //// POST: /Trip/Edit/5
