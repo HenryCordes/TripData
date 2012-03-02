@@ -33,7 +33,7 @@ namespace HC.TripData.Web.Controllers
 
         public ActionResult Details(string id)
         {
-            return View();
+            return View("Edit",_tripRepository.GetTrip(id));
         }
 
         //

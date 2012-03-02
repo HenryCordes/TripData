@@ -19,16 +19,23 @@ namespace HC.TripData.Web.Controllers
         }
 
         // GET /api/tripdata
-        public List<Trip> Get()
+        public List<Trip> GetTrips()
         {
             return _tripDataRepository.GetTrips();
         }
 
-        // GET /api/tripdata/<userId>
-        //public List<Trip> Get(ObjectId userId)
-        //{
-        //    return _tripDataRepository.GetTrips().Where(t => t.DriverId == userId).ToList();
-        //}
+        // GET /api/tripdata/<tripId>
+        public Trip GetTrip(string tripId)
+        {
+            return _tripDataRepository.GetTrips().FirstOrDefault(t => t.Id == tripId);
+        }
+
+        // GET /api/tripdata
+        public List<Trip> GetTripsByDriver(ObjectId driverId)
+        {
+            return _tripDataRepository.GetTrips().Where(t => t.DriverId == driverId).ToList();
+        }
+
 
         // POST /api/tripdata
         public void Post(List<Trip> value)
