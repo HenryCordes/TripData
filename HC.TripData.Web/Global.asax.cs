@@ -30,14 +30,20 @@ namespace HC.TripData.Web
 
             routes.MapHttpRoute(
                 name: "DefaultApi",
-                routeTemplate: "api/{controller}/{id}",
+                routeTemplate: "{controller}/{id}",
                 defaults: new { id = RouteParameter.Optional }
             );
+
+            routes.MapHttpRoute(
+                name: "DriverSpecific",
+                routeTemplate: "driver/{driverId}/{controller}/{*id}",
+                defaults:new { controller="trip", driverId = "", id="" }
+                );
 
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
-                defaults: new { controller = "Trip", action = "Index", id = UrlParameter.Optional }
+                defaults: new { controller = "Page", action = "Index", id = UrlParameter.Optional }
             );
         }
 

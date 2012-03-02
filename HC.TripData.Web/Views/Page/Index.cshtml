@@ -1,0 +1,23 @@
+﻿@{
+    ViewBag.Title = "Index";
+}
+
+<h2>TripData</h2>
+
+
+
+<script type="text/x-handlebars">
+    {{#view TripData.TripView}}
+      <h3>Driver</h3>
+      
+      Name:     {{TripData.driver.fullName}}<br />
+      Username: {{TripData.driver.userName}}<br />
+      Cars:
+      <ul>
+          {{#each TripData.driver.cars}}
+            <li>{{make}} - {{model}} - {{licensePlateNumber}} - {{isCurrentCar}} </li>
+          {{/each}}
+        </ul>
+
+    {{/view}}
+  </script>

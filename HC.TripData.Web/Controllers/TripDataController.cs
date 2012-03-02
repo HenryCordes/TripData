@@ -2,54 +2,115 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
+using System.Web.Mvc;
 using HC.TripData.Domain;
 using HC.TripData.Repository.Interfaces;
 using MongoDB.Bson;
 
 namespace HC.TripData.Web.Controllers
 {
-    public class TripDataController : ApiController
+    public class TripDataController : Controller
     {
 
-        private ITripDataRepository _tripDataRepository;
+        //private ITripDataRepository _tripDataRepository;
 
-        public TripDataController(ITripDataRepository tripDataRepository)
-        {
-            _tripDataRepository = tripDataRepository;
-        }
+        //public TripDataController(ITripDataRepository tripDataRepository)
+        //{
+        //    _tripDataRepository = tripDataRepository;
+        //}
 
-        // GET /api/tripdata
-        public List<Trip> GetTrips()
-        {
-            return _tripDataRepository.GetTrips();
-        }
+        ////
+        //// GET: /Trip/
 
-        // GET /api/tripdata/<tripId>
-        public Trip GetTrip(string tripId)
-        {
-            return _tripDataRepository.GetTrips().FirstOrDefault(t => t.Id == tripId);
-        }
+        //public ActionResult Index()
+        //{
+        //    return View("List", _tripRepository.GetTrips());
+        //}
 
-        // GET /api/tripdata
-        public List<Trip> GetTripsByDriver(ObjectId driverId)
-        {
-            return _tripDataRepository.GetTrips().Where(t => t.DriverId == driverId).ToList();
-        }
+        //////
+        ////// GET: /Trip/Details/5
 
+        //public ActionResult Details(string id)
+        //{
+        //    return View("Edit", _tripRepository.GetTrip(id));
+        //}
 
-        // POST /api/tripdata
-        public void Post(List<Trip> value)
-        {
-        }
+        ////
+        //// GET: /Trip/Create
 
-        // PUT /api/tripdata/5
-        public void Put(string id, string value)
-        {
-        }
+        //public ActionResult Create()
+        //{
+        //    return View();
+        //}
 
-        // DELETE /api/tripdata/5
-        public void Delete(string id)
-        {
-        }
+        ////
+        //// POST: /Trip/Create
+
+        //[System.Web.Mvc.HttpPost]
+        //public ActionResult Create(Trip trip)
+        //{
+        //    try
+        //    {
+
+        //        _tripRepository.AddTrips(new List<Trip>() { trip });
+        //        return RedirectToAction("Index");
+        //    }
+        //    catch
+        //    {
+        //        return View();
+        //    }
+        //}
+
+        //////
+        ////// GET: /Trip/Edit/5
+
+        //public ActionResult Edit(string id)
+        //{
+        //    return View(_tripRepository.GetTrip(id));
+        //}
+
+        ////
+        //// POST: /Trip/Edit/5
+
+        //[HttpPost]
+        //public ActionResult Edit(int id, FormCollection collection)
+        //{
+        //    try
+        //    {
+        //        // TODO: Add update logic here
+
+        //        return RedirectToAction("Index");
+        //    }
+        //    catch
+        //    {
+        //        return View();
+        //    }
+        //}
+
+        ////
+        //// GET: /Trip/Delete/5
+
+        //public ActionResult Delete(int id)
+        //{
+        //    return View();
+        //}
+
+        ////
+        //// POST: /Trip/Delete/5
+
+        //[HttpPost]
+        //public ActionResult Delete(int id, FormCollection collection)
+        //{
+        //    try
+        //    {
+        //        // TODO: Add delete logic here
+
+        //        return RedirectToAction("Index");
+        //    }
+        //    catch
+        //    {
+        //        return View();
+        //    }
+        //}
     }
 }
