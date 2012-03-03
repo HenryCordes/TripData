@@ -37,6 +37,9 @@
     <Reference Include="DreamSongs.MongoRepository, Version=1.2.4.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\MongoRepository.1.2.4\lib\DreamSongs.MongoRepository.dll</HintPath>
     </Reference>
+    <Reference Include="Elmah">
+      <HintPath>..\packages\elmah.corelibrary.1.2.1\lib\Elmah.dll</HintPath>
+    </Reference>
     <Reference Include="EntityFramework, Version=4.1.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.4.1.10331.0\lib\net40\EntityFramework.dll</HintPath>
     </Reference>
@@ -138,6 +141,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Readme\Elmah.MongoDB.txt" />
     <Content Include="Content\apple-touch-icon-114x114-precomposed.png" />
     <Content Include="Content\apple-touch-icon-57x57-precomposed.png" />
     <Content Include="Content\apple-touch-icon-72x72-precomposed.png" />
@@ -219,6 +223,10 @@
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Elmah.MongoDB\Elmah.MongoDB.csproj">
+      <Project>{41AFEE84-1EE9-4457-917A-52632B55A1BA}</Project>
+      <Name>Elmah.MongoDB</Name>
+    </ProjectReference>
     <ProjectReference Include="..\HC.TripData.Domain\HC.TripData.Domain.csproj">
       <Project>{09A3E27B-6A6F-4828-AB76-C6E696751E6F}</Project>
       <Name>HC.TripData.Domain</Name>
