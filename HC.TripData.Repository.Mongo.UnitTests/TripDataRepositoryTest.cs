@@ -126,7 +126,7 @@ namespace HC.TripData.Repository.Mongo.UnitTests
                        {
                            FirstName = "Henry",
                            LastName = "Cordes",
-                           UserName = "HenDaMan",
+                           EmailAddress = "j.meloen@gmail.com",
                            Password = "EncryptedPasswordComesHere",
                            Cars = new List<Car>()
                                       {
