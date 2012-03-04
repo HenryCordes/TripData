@@ -1,23 +1,19 @@
-﻿var TripData = Em.Application.create();
+﻿
+var TripData = Em.Application.create();
 
-TripData.TripView = Em.View.extend({
-    mouseDown: function () {
-        window.alert("trips view!");
-    }
-});
 
-TripData.trip = Ember.Object.create({
+Trip = Ember.Object.extend({
     startMilage: 0,
     endMilage: 0,
-    dateTime: null ,
-    placeOfDeparture:"",
+    dateTime: null,
+    placeOfDeparture: "",
     deparetureZipCode: "",
     destination: "",
-    destinationZipCode:"",
-    description:"",
+    destinationZipCode: "",
+    description: "",
     tripType: "",
-    driverId:"",
-    carId:""
+    driverId: "",
+    carId: ""
 });
 
 
@@ -53,15 +49,37 @@ TripData.driver = Ember.Object.create({
     password: "",
     cars: cars,
 
-    fullName: function() {
+    fullName: function () {
         return this.get('firstName') + ' ' + this.get('lastName');
     } .property('firstName', 'lastName')
-    
+
 });
 
-TripData.car = Ember.Object.create({
-    licensePlateNumber: "18-PNG-7",
-    make: "Volvo",
-    model: "V60",
-    isCurrentcar: true
+
+
+TripData.TripView = Em.View.extend({
+    onLoad: function () {
+        
+    },
+    mouseDown: function () {
+        window.alert("trips view!");
+    }
+});
+
+TripData.tripsController = Em.ArrayProxy.create({
+  trips: [],
+
+  loadTrips: function(driverId) {
+    var that = this;
+   
+    $.ajax({
+      url: '/driver/'+ driverId +'/trips',
+      dataType: 'json',
+      data: data,
+      success: function(data) {
+                  alert(data);
+              }
+    });
+      
+  }
 });

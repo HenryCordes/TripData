@@ -75,7 +75,8 @@ namespace HC.TripData.Web
 
         public static void RegisterServices(IKernel kernel)
         {
-            kernel.Bind<ITripDataRepository>().To<TripDataRepository>();
+            kernel.Bind<ITripRepository>().To<TripRepository>();
+            kernel.Bind<IDriverRepository>().To<DriverRepository>();
         }
 
 

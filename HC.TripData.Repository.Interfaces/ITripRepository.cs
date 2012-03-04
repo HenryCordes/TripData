@@ -6,7 +6,7 @@ using HC.TripData.Domain;
 
 namespace HC.TripData.Repository.Interfaces
 {
-    public interface ITripDataRepository
+    public interface ITripRepository
     {
         List<Trip> GetTrips();
         Trip GetTrip(string tripId);

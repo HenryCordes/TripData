@@ -132,8 +132,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\DriverController.cs" />
     <Compile Include="Controllers\PageController.cs" />
-    <Compile Include="Controllers\TripController.cs" />
+    <Compile Include="Controllers\TripsController.cs" />
     <Compile Include="Controllers\TripDataController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>

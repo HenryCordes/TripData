@@ -78,7 +78,7 @@ namespace HC.TripData.Repository.Mongo.UnitTests
             const int  milageConstant = 37;
             List<Trip> trips = new List<Trip>();
 
-            var target = new TripDataRepository("mongodb://localhost/TripData");
+            var target = new TripRepository("mongodb://localhost/TripData");
             int milage = 0;
 
             for (int i = 0; i < 10; i++)
@@ -104,7 +104,7 @@ namespace HC.TripData.Repository.Mongo.UnitTests
        //  [TestMethod()]
         public void DeleteTripsTest()
         {
-            var target = new TripDataRepository("mongodb://localhost/TripData");
+            var target = new TripRepository("mongodb://localhost/TripData");
              target.DeleteTrips();
         }
 

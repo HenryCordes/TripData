@@ -44,7 +44,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="IDriverRepository.cs" />
-    <Compile Include="ITripDataRepository.cs" />
+    <Compile Include="ITripRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

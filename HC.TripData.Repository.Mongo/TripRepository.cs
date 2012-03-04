@@ -9,7 +9,7 @@ namespace HC.TripData.Repository.Mongo
 {
 
 
-    public class TripDataRepository : ITripDataRepository
+    public class TripRepository : ITripRepository
     {
         #region Private members
         
@@ -19,12 +19,12 @@ namespace HC.TripData.Repository.Mongo
 
         #region C'tors
        
-        public TripDataRepository()
+        public TripRepository()
         {
             _connectionString = ConfigurationManager.AppSettings.Get("MONGOLAB_URI");
         }
 
-        public TripDataRepository(string connectionString)
+        public TripRepository(string connectionString)
         {
             _connectionString = connectionString;
         }

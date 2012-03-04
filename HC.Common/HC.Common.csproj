@@ -5,13 +5,15 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{B3FBE918-F26E-4EAE-B1FA-39EC94F59545}</ProjectGuid>
+    <ProjectGuid>{B0517494-BE77-4E25-BD07-0B60473A2DAA}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>HC.TripData.Repository.Mongo</RootNamespace>
-    <AssemblyName>HC.TripData.Repository.Mongo</AssemblyName>
+    <RootNamespace>HC.Common</RootNamespace>
+    <AssemblyName>HC.Common</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -31,20 +33,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="DreamSongs.MongoRepository">
-      <HintPath>..\packages\MongoRepository.1.2.4\lib\DreamSongs.MongoRepository.dll</HintPath>
-    </Reference>
-    <Reference Include="FluentMongo">
-      <HintPath>..\packages\FluentMongo.1.3.1.1\lib\FluentMongo.dll</HintPath>
-    </Reference>
-    <Reference Include="MongoDB.Bson">
-      <HintPath>..\packages\mongocsharpdriver.1.3.1\lib\net35\MongoDB.Bson.dll</HintPath>
-    </Reference>
-    <Reference Include="MongoDB.Driver">
-      <HintPath>..\packages\mongocsharpdriver.1.3.1\lib\net35\MongoDB.Driver.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
-    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -53,28 +42,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DriverRepository.cs" />
+    <Compile Include="Cryptography\EncryptionHelper.cs" />
+    <Compile Include="Cryptography\IEncryptionHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TripRepository.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\HC.Common\HC.Common.csproj">
-      <Project>{B0517494-BE77-4E25-BD07-0B60473A2DAA}</Project>
-      <Name>HC.Common</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\HC.TripData.Domain\HC.TripData.Domain.csproj">
-      <Project>{09A3E27B-6A6F-4828-AB76-C6E696751E6F}</Project>
-      <Name>HC.TripData.Domain</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\HC.TripData.Repository.Interfaces\HC.TripData.Repository.Interfaces.csproj">
-      <Project>{A7112085-33B6-4A74-899C-760464E25090}</Project>
-      <Name>HC.TripData.Repository.Interfaces</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
