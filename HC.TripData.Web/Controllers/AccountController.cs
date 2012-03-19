@@ -13,14 +13,15 @@ namespace HC.TripData.Web.Controllers
     {
         #region Private Members
        
-        private IDriverRepository _accountRepository;
+        private IDriverRepository _driverRepository;
+
         #endregion
 
         #region C'tor
 
-        public AccountController(IDriverRepository accountRepository)
+        public AccountController(IDriverRepository driverRepository)
         {
-            _accountRepository = accountRepository;
+            _driverRepository = driverRepository;
         }
 
         #endregion
@@ -53,7 +54,7 @@ namespace HC.TripData.Web.Controllers
                                }
                            };
             }
-            var driver = _accountRepository.GetDriver(id);
+            var driver = _driverRepository.GetDriver(id);
 
             if (driver == null)
                 throw new HttpResponseException(HttpStatusCode.NotFound);
@@ -66,7 +67,7 @@ namespace HC.TripData.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                var newId = _accountRepository.CreateDriver(driver);
+                var newId = _driverRepository.CreateDriver(driver);
 
                 var response = new HttpResponseMessage<Driver>(driver, HttpStatusCode.Created);
 
@@ -85,7 +86,7 @@ namespace HC.TripData.Web.Controllers
            
             if (ModelState.IsValid)
             {
-                _accountRepository.UpdateDriver(id, driver);
+                _driverRepository.UpdateDriver(id, driver);
 
                 var response = new HttpResponseMessage<Driver>(driver, HttpStatusCode.Accepted);
 

@@ -7,9 +7,10 @@ using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
+using Autofac;
+using Autofac.Integration.WebApi;
+using HC.Common.Cryptography;
 using HC.TripData.Repository.Interfaces;
-using Ninject;
-using Ninject.Web.Mvc;
 using HC.TripData.Repository.Mongo;
 
 namespace HC.TripData.Web
@@ -56,35 +57,43 @@ namespace HC.TripData.Web
 
             BundleTable.Bundles.RegisterTemplateBundles();
 
-            Configure(GlobalConfiguration.Configuration);
+            var configuration = GlobalConfiguration.Configuration;
+            var builder = new ContainerBuilder();
 
+            // Configure the container with the integration implementations.
+            builder.ConfigureWebApi(configuration);
+            // Register API controllers using assembly scanning.
+            builder.RegisterApiControllers(Assembly.GetExecutingAssembly());
+
+            builder.RegisterType<TripRepository>().As<ITripRepository>();
+            builder.RegisterType<DriverRepository>().As<IDriverRepository>();
+            builder.RegisterType<EncryptionHelper>().As<IEncryptionHelper>();
+
+            var container = builder.Build();
+            // Set the dependency resolver implementation.
+            var resolver = new AutofacWebApiDependencyResolver(container);
+            configuration.ServiceResolver.SetResolver(resolver);
         }
 
         public static void Configure(HttpConfiguration config)
         {
-            var kernel = new StandardKernel();
-            RegisterServices(kernel);
-            config.ServiceResolver.SetResolver(
-                t => kernel.TryGet(t),
-                t => kernel.GetAll(t));
 
-            DependencyResolver.SetResolver(
-                t => kernel.TryGet(t),
-                t => kernel.GetAll(t));
+          
         }
 
-        public static void RegisterServices(IKernel kernel)
-        {
-            kernel.Bind<ITripRepository>().To<TripRepository>();
-            kernel.Bind<IDriverRepository>().To<DriverRepository>();
-        }
+        //public static void RegisterServices(IKernel kernel)
+        //{
+        //  //  kernel.Bind<ITripRepository>().To<TripRepository>();
+        //  //  kernel.Bind<IDriverRepository>().To<DriverRepository>();
+        //}
 
 
         public static void RegisterApis(HttpConfiguration config)
         {
           //  config.MessageHandlers.Add(new ApiUsageLogger());
 
-            config.Routes.MapHttpRoute("tripdata-route", "tripdata", new { controller = "tripdata" });
+            config.Routes.MapHttpRoute("trips-route", "trips", new { controller = "trips" });
+            config.Routes.MapHttpRoute("account-route", "account", new { controller = "account" });
         }
     }
 }
