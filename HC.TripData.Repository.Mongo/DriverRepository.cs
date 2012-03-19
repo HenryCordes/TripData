@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Globalization;
 using System.Linq;
 using System.Security.Principal;
 using System.Text;
@@ -85,8 +86,10 @@ namespace HC.TripData.Repository.Mongo
         {
             var repository = ResolveDriverRepository();
             var driver = repository.GetSingle(d => d.EmailAddress == emailaddres);
+            var hash = _encryptionHelper.Encrypt(password, driver.Salt);
 
-            return driver != null;
+            return (string.Compare(hash, driver.Password,false,CultureInfo.InvariantCulture) == 0);
+
         }
 
         #region Private methods

@@ -45,7 +45,7 @@ var cars = [
 TripData.driver = Ember.Object.create({
     lastName: "Cordes",
     firstName: "Henry",
-    userName: "HenDaMan",
+    emailAddress: "j.meloen@gmail.com",
     password: "",
     cars: cars,
 
