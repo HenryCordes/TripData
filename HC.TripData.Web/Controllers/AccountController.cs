@@ -29,6 +29,30 @@ namespace HC.TripData.Web.Controllers
         // GET /account/[emailaddress]
         public Driver Get(string id)
         {
+            if (id == "999")
+            {
+                return new Driver()
+                           {
+                               FirstName = "Joep",
+                               LastName = "Meloen",
+                               EmailAddress = "j.meloen@mel.on",
+                               Password = "12345",
+                               Cars = new List<Car>() { 
+                                            new Car() { 
+                                                    IsCurrentCar = true,
+                                                    LicensePlateNumber = "11-ABC-1",
+                                                    Make = "BMW",
+                                                    Model = "323i"
+                                            },
+                                            new Car() { 
+                                                    IsCurrentCar = false,
+                                                    LicensePlateNumber = "23-DFG-2",
+                                                    Make = "Volvo",
+                                                    Model = "V70"
+                                            }
+                               }
+                           };
+            }
             var driver = _accountRepository.GetDriver(id);
 
             if (driver == null)
