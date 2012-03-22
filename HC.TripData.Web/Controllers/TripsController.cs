@@ -4,12 +4,14 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Http;
-using System.Web.Mvc;
 using HC.TripData.Domain;
 using HC.TripData.Repository.Interfaces;
+using HC.TripData.Web.Authorization;
+
 
 namespace HC.TripData.Web.Controllers
 {
+    [RequireBasicAuthentication]
     public class TripsController : ApiController
     {
 
@@ -21,6 +23,7 @@ namespace HC.TripData.Web.Controllers
         }
 
         /// GET /trips
+         
         public List<Trip> GetTrips()
         {
             var trips = _tripRepository.GetTrips();
