@@ -4,6 +4,7 @@ using System.Linq;
 using DreamSongs.MongoRepository;
 using HC.TripData.Domain;
 using HC.TripData.Repository.Interfaces;
+using Microsoft.Practices.Unity;
 
 namespace HC.TripData.Repository.Mongo
 {
@@ -18,7 +19,7 @@ namespace HC.TripData.Repository.Mongo
         #endregion
 
         #region C'tors
-       
+       [InjectionConstructor]
         public TripRepository()
         {
             _connectionString = ConfigurationManager.AppSettings.Get("MONGOLAB_URI");

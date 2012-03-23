@@ -15,11 +15,8 @@ using System.Web.Http.Hosting;
 namespace HC.TripData.Web.Authorization
 {
 
-
-
     public class BasicAuthenticationMessageHandler : DelegatingHandler
     {
-
 
         private readonly IDriverValidator _driverValidator;
 
@@ -27,8 +24,6 @@ namespace HC.TripData.Web.Authorization
         {
             _driverValidator = driverValidator;
         }
-
-    //    private readonly ILogger _logger;
 
         private class Credentials
         {
@@ -40,25 +35,18 @@ namespace HC.TripData.Web.Authorization
         protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request,
                                                                System.Threading.CancellationToken cancellationToken)
         {
-          //  if (request.Headers.Authorization != null)
-          //  {
-                var credentials = ExtractCredentials(request.Headers.Authorization);
-                if (credentials != null && ValidateUser(credentials))
-                {
-                    var identity = new GenericIdentity(credentials.Email, "Basic");
-                    request.Properties.Add(HttpPropertyKeys.UserPrincipalKey,
-                                           new GenericPrincipal(identity, new string[0]));
+            var credentials = ExtractCredentials(request.Headers.Authorization);
+            if (credentials != null && ValidateUser(credentials))
+            {
+                var identity = new GenericIdentity(credentials.Email, "Basic");
+                request.Properties.Add(HttpPropertyKeys.UserPrincipalKey,
+                                        new GenericPrincipal(identity, new string[0]));
  
-                }
-                else
-                {
-                    return ReturnUnauthorizedResponse();
-                }
-           // }
-            //else
-            //{
-            //    return ReturnUnauthorizedResponse();
-            //}
+            }
+            else
+            {
+                return ReturnUnauthorizedResponse();
+            }
 
             return base.SendAsync(request, cancellationToken);
         }
@@ -67,16 +55,18 @@ namespace HC.TripData.Web.Authorization
         {
             return
                 Task<HttpResponseMessage>.Factory.StartNew(
-                    () => { return new HttpResponseMessage(HttpStatusCode.Unauthorized); });
+                    () =>
+                        {
+                            var response = new HttpResponseMessage(HttpStatusCode.Unauthorized);
+                            response.Headers.WwwAuthenticate.Add(new AuthenticationHeaderValue("Basic"));
+                            return response;
+                        });
         }
 
         private bool ValidateUser(Credentials credentials)
         {
             if (!_driverValidator.Validate(credentials.Email, credentials.Password))
             {
-    //            _logger.Debug(
-           //         "BasicAuthenticationMessageHandler.ExtractCredentials: Authentication failed for user '{0}'",
-          //          credentials.Email);
                 return false;
             }
             return true;
@@ -88,16 +78,11 @@ namespace HC.TripData.Web.Authorization
             {
                 if (authHeader == null)
                 {
-      //              _logger.Debug(
-          //              "BasicAuthenticationMessageHandler.ExtractCredentials: auth header is null, returning null");
                     return null;
                 }
 
                 if (authHeader.Scheme != "Basic")
                 {
-     //               _logger.Debug(
-     //                   "BasicAuthenticationMessageHandler.ExtractCredentials: unsupported scheme {{0}), returning null",
-       //                 authHeader.Scheme);
                     return null;
                 }
 
@@ -109,7 +94,6 @@ namespace HC.TripData.Web.Authorization
             }
             catch (Exception ex)
             {
-     //           _logger.Error(ex, "BasicAuthenticationMessageHandler.ExtractCredentials: Cannot extract credentials.");
                 return null;
             }
         }

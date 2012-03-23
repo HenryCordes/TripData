@@ -9,11 +9,10 @@ using DreamSongs.MongoRepository;
 using HC.Common.Cryptography;
 using HC.TripData.Domain;
 using HC.TripData.Repository.Interfaces;
+using Microsoft.Practices.Unity;
 
 namespace HC.TripData.Repository.Mongo
 {
-
-
     public class DriverRepository : IDriverRepository
     {
         #region Private members
@@ -24,7 +23,7 @@ namespace HC.TripData.Repository.Mongo
         #endregion
 
         #region C'tors
-       
+       [InjectionConstructor]
         public DriverRepository(IEncryptionHelper encryptionHelper)
         {
             _connectionString = ConfigurationManager.AppSettings.Get("MONGOLAB_URI");
@@ -86,6 +85,8 @@ namespace HC.TripData.Repository.Mongo
         {
             var repository = ResolveDriverRepository();
             var driver = repository.GetSingle(d => d.EmailAddress == emailaddres);
+            if (driver == null) return false;
+
             var hash = _encryptionHelper.Encrypt(password, driver.Salt);
 
             return (string.Compare(hash, driver.Password,false,CultureInfo.InvariantCulture) == 0);

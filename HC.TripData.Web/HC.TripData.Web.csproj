@@ -34,15 +34,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Autofac">
-      <HintPath>..\packages\Autofac.2.6.1.841\lib\NET40\Autofac.dll</HintPath>
-    </Reference>
-    <Reference Include="Autofac.Configuration">
-      <HintPath>..\packages\Autofac.2.6.1.841\lib\NET40\Autofac.Configuration.dll</HintPath>
-    </Reference>
-    <Reference Include="Autofac.Integration.WebApi">
-      <HintPath>..\packages\Autofac.WebApi.2.6.1.841\lib\NET40\Autofac.Integration.WebApi.dll</HintPath>
-    </Reference>
     <Reference Include="DreamSongs.MongoRepository, Version=1.2.4.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\MongoRepository.1.2.4\lib\DreamSongs.MongoRepository.dll</HintPath>
     </Reference>
@@ -59,6 +50,12 @@
     <Reference Include="Microsoft.IdentityModel, Version=3.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="Microsoft.Practices.ServiceLocation">
       <HintPath>..\packages\CommonServiceLocator.1.0\lib\NET35\Microsoft.Practices.ServiceLocation.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Unity">
+      <HintPath>..\packages\Unity.2.1.505.0\lib\NET35\Microsoft.Practices.Unity.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Unity.Configuration">
+      <HintPath>..\packages\Unity.2.1.505.0\lib\NET35\Microsoft.Practices.Unity.Configuration.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>True</Private>
@@ -138,6 +135,9 @@
     <Reference Include="System.Web.WebPages.Razor, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\AspNetWebPages.Core.2.0.20126.16343\lib\net40\System.Web.WebPages.Razor.dll</HintPath>
     </Reference>
+    <Reference Include="Unity.WebApi">
+      <HintPath>..\packages\Unity.WebAPI.0.9.0\lib\net40\Unity.WebApi.dll</HintPath>
+    </Reference>
     <Reference Include="WebActivator">
       <HintPath>..\packages\WebActivator.1.4.4\lib\net40\WebActivator.dll</HintPath>
     </Reference>
@@ -147,6 +147,7 @@
     <Compile Include="Authorization\DriverValidator.cs" />
     <Compile Include="Authorization\RequireBasicAuthenticationAttribute.cs" />
     <Compile Include="Authorization\SupressFormsAuthenticationRedirectModule.cs" />
+    <Compile Include="Bootstrapper.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\DriverController.cs" />
     <Compile Include="Controllers\PageController.cs" />
@@ -219,7 +220,9 @@
     <Content Include="Scripts\microsoft\upshot.knockout.extensions.js" />
     <Content Include="Scripts\microsoft\upshot.min.js" />
     <Content Include="Scripts\_references.js" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
@@ -261,6 +264,10 @@
     <ProjectReference Include="..\HC.TripData.Repository.Mongo\HC.TripData.Repository.Mongo.csproj">
       <Project>{B3FBE918-F26E-4EAE-B1FA-39EC94F59545}</Project>
       <Name>HC.TripData.Repository.Mongo</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\HC.WebApi.Helpers\HC.WebApi.Helpers.csproj">
+      <Project>{2B85921F-C98B-4F05-AB36-E34A82EDA7D6}</Project>
+      <Name>HC.WebApi.Helpers</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

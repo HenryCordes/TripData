@@ -10,14 +10,18 @@ using System.Web;
 using System.Web.Http.Controllers;
 using System.Web.Http.Filters;
 using System.Web.Http.Hosting;
+using System.Web.Mvc;
+using HC.Common.Cryptography;
+using HC.TripData.Repository.Mongo;
+using Microsoft.Practices.Unity;
 
 namespace HC.TripData.Web.Authorization
 {
     public class RequireBasicAuthenticationAttribute : AuthorizationFilterAttribute
     {
 
-        private IDriverValidator _driverValidator { get; set; }
-
+        private IDriverValidator _driverValidator { get; set;  }
+       
         private class Credentials
         {
             public string Email { get; set; }
@@ -33,6 +37,11 @@ namespace HC.TripData.Web.Authorization
                 actionContext.Response.Headers.WwwAuthenticate.Add(new AuthenticationHeaderValue("Basic"));//,"realm=" + Realm
                 return;
             }
+
+             // TODO: In future this needs to be done with IoC 
+             var encryptionHelper = new EncryptionHelper();
+             var driverRepo = new DriverRepository(encryptionHelper);
+             _driverValidator = new DriverValidator(driverRepo);
 
             var credentials = ExtractCredentials(actionContext.Request.Headers.Authorization);
             if (credentials != null && ValidateUser(credentials))

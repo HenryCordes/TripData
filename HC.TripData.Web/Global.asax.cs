@@ -1,19 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
 using System.Web;
 using System.Web.Http;
 using System.Security.Principal;
+using System.Web.Http.Common;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
-using Autofac;
-using Autofac.Integration.WebApi;
+
 using HC.Common.Cryptography;
 using HC.TripData.Repository.Interfaces;
 using HC.TripData.Repository.Mongo;
 using HC.TripData.Web.Authorization;
+using Microsoft.Practices.Unity;
 
 namespace HC.TripData.Web
 {
@@ -22,7 +24,7 @@ namespace HC.TripData.Web
 
     public class MvcApplication : System.Web.HttpApplication
     {
-        private static IContainer _container;
+        private static IUnityContainer _container;
 
         public static void RegisterGlobalFilters(GlobalFilterCollection filters)
         {
@@ -56,13 +58,15 @@ namespace HC.TripData.Web
         {
             AreaRegistration.RegisterAllAreas();
             RegisterGlobalFilters(GlobalFilters.Filters);
-            
-            var configuration = GlobalConfiguration.Configuration;
-            SetupIoCContainer(configuration);
-          //  ConfigureMessageHandlers(configuration);
-            
             RegisterRoutes(RouteTable.Routes);
             BundleTable.Bundles.RegisterTemplateBundles();
+     //       Bootstrapper.Initialise(_container);
+            _container = new UnityContainer();
+            _container.RegisterType<ITripRepository, TripRepository>()
+                .RegisterType<IDriverRepository, DriverRepository>()
+                .RegisterType<IEncryptionHelper, EncryptionHelper>()
+                .RegisterType<IDriverValidator, DriverValidator>();
+            ConfigureMessageHandlers(GlobalConfiguration.Configuration);
         }
 
         private static void ConfigureMessageHandlers(HttpConfiguration configuration)
@@ -71,25 +75,7 @@ namespace HC.TripData.Web
         }
 
 
-        private void SetupIoCContainer(HttpConfiguration configuration)
-        {
-            var builder = new ContainerBuilder();
-
-            // Configure the container with the integration implementations.
-            builder.ConfigureWebApi(configuration);
-            // Register API controllers using assembly scanning.
-            builder.RegisterApiControllers(Assembly.GetExecutingAssembly());
-
-            builder.RegisterType<TripRepository>().As<ITripRepository>();
-            builder.RegisterType<DriverRepository>().As<IDriverRepository>();
-            builder.RegisterType<EncryptionHelper>().As<IEncryptionHelper>();
-            builder.RegisterType<DriverValidator>().As<IDriverValidator>().PropertiesAutowired(); 
-
-            _container = builder.Build();
-            // Set the dependency resolver implementation.
-            var resolver = new AutofacWebApiDependencyResolver(_container);
-            configuration.ServiceResolver.SetResolver(resolver);
-        }
+   
 
 
 

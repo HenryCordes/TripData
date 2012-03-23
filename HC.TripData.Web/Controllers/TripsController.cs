@@ -11,7 +11,7 @@ using HC.TripData.Web.Authorization;
 
 namespace HC.TripData.Web.Controllers
 {
-    [RequireBasicAuthentication]
+   
     public class TripsController : ApiController
     {
 
@@ -23,7 +23,7 @@ namespace HC.TripData.Web.Controllers
         }
 
         /// GET /trips
-         
+          [Authorize]
         public List<Trip> GetTrips()
         {
             var trips = _tripRepository.GetTrips();
