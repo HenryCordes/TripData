@@ -38,7 +38,12 @@ namespace HC.TripData.Web.Authorization
             var credentials = ExtractCredentials(request.Headers.Authorization);
             if (credentials != null && ValidateUser(credentials))
             {
+                
                 var identity = new GenericIdentity(credentials.Email, "Basic");
+                if (request.Properties.ContainsKey(HttpPropertyKeys.UserPrincipalKey))
+                {
+                    request.Properties.Remove(HttpPropertyKeys.UserPrincipalKey);
+                }
                 request.Properties.Add(HttpPropertyKeys.UserPrincipalKey,
                                         new GenericPrincipal(identity, new string[0]));
  
