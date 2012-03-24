@@ -16,6 +16,7 @@ using HC.TripData.Repository.Interfaces;
 using HC.TripData.Repository.Mongo;
 using HC.TripData.Web.Authorization;
 using Microsoft.Practices.Unity;
+using Unity.WebApi;
 
 namespace HC.TripData.Web
 {
@@ -66,6 +67,8 @@ namespace HC.TripData.Web
                 .RegisterType<IDriverRepository, DriverRepository>()
                 .RegisterType<IEncryptionHelper, EncryptionHelper>()
                 .RegisterType<IDriverValidator, DriverValidator>();
+
+            GlobalConfiguration.Configuration.ServiceResolver.SetResolver(new UnityDependencyResolver(_container));
             ConfigureMessageHandlers(GlobalConfiguration.Configuration);
         }
 
