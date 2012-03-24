@@ -6,6 +6,7 @@ using System.Net.Http;
 using System.Web.Http;
 using HC.TripData.Domain;
 using HC.TripData.Repository.Interfaces;
+using HC.TripData.Web.Authorization;
 
 namespace HC.TripData.Web.Controllers
 {
@@ -28,11 +29,15 @@ namespace HC.TripData.Web.Controllers
         // GET /driver
         public IEnumerable<Driver> Get()
         {
-            return new List<Driver>();
+            var drivers = _driverRepository.GetDrivers();
+            if (drivers == null)
+                throw new HttpResponseException(HttpStatusCode.NotFound);
+
+            return drivers;
         }
 
         // GET /driver/5
-        //[Authorize(Roles = "Driver")]      
+        [RequireBasicAuthentication]      
         public Driver Get(string id)
         {
             var driver = _driverRepository.GetDriverById(id);
@@ -44,6 +49,7 @@ namespace HC.TripData.Web.Controllers
         }
 
         // POST /driver
+        [RequireBasicAuthentication]  
         public HttpResponseMessage<Driver> Post(Driver driver)
         {
 
@@ -64,9 +70,16 @@ namespace HC.TripData.Web.Controllers
 
 
         // DELETE /driver/5
-        public void Delete(int id)
+        [RequireBasicAuthentication]  
+        public HttpResponseMessage<Driver> Delete(string id)
         {
-            throw new HttpResponseException(HttpStatusCode.NotImplemented);
+            var driver = _driverRepository.DeleteDriver(id);
+
+            if (driver == null)
+                throw new HttpResponseException(HttpStatusCode.NotFound);
+
+            return new HttpResponseMessage<Driver>(driver, HttpStatusCode.Gone);
+
         }
     }
 }

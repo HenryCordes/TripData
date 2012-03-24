@@ -44,6 +44,7 @@ namespace HC.TripData.Web.Controllers
         }
 
         /// GET /driver/<driverId>/trips/
+        [RequireBasicAuthentication]  
         public List<Trip> GetTripsByDriver(string driverId)
         {
             var trips = _tripRepository.GetTrips().Where(t => t.DriverId.ToString() == driverId).ToList();
@@ -52,18 +53,21 @@ namespace HC.TripData.Web.Controllers
         }
 
         // POST /api/tripdata
+        [RequireBasicAuthentication]  
         public void Post(List<Trip> value)
         {
             throw new HttpResponseException(HttpStatusCode.NotImplemented);
         }
 
         // PUT /api/tripdata/5
+        [RequireBasicAuthentication]  
         public void Put(string id, string value)
         {
             throw new HttpResponseException(HttpStatusCode.NotImplemented);
         }
 
         // DELETE /api/tripdata/5
+        [RequireBasicAuthentication]  
         public void Delete(string id)
         {
             throw new HttpResponseException(HttpStatusCode.NotImplemented);

@@ -37,6 +37,12 @@ namespace HC.TripData.Repository.Mongo
         }
 
         #endregion
+
+        public IEnumerable<Driver> GetDrivers()
+        {
+            var repository = ResolveDriverRepository();
+            return repository.All();
+        }
     
         public Driver GetDriver(string emailaddres)
         {
@@ -53,7 +59,7 @@ namespace HC.TripData.Repository.Mongo
         public string CreateDriver(Driver driver)
         {
             var repository = ResolveDriverRepository();
-            if (!repository.Exists(d => d.Id == driver.Id))
+            if (!repository.Exists(d => d.Id == driver.Id || d.EmailAddress.ToLower() == driver.EmailAddress.ToLower()))
             {
                 driver.Salt = _encryptionHelper.CreateSalt();
                 driver.Password = _encryptionHelper.Encrypt(driver.Password, driver.Salt);
@@ -93,6 +99,16 @@ namespace HC.TripData.Repository.Mongo
 
         }
 
+
+        public Driver DeleteDriver(string id)
+        {
+            var repository = ResolveDriverRepository();
+            var driver = repository.GetSingle(d => d.Id == id);
+            repository.Delete(id);
+
+            return driver;
+        }
+
         #region Private methods
 
         private MongoRepository<Driver> ResolveDriverRepository()
@@ -101,6 +117,7 @@ namespace HC.TripData.Repository.Mongo
         }
 
         #endregion
+
     }
 
    

@@ -6,6 +6,7 @@ using System.Net.Http;
 using System.Web.Http;
 using HC.TripData.Domain;
 using HC.TripData.Repository.Interfaces;
+using HC.TripData.Web.Authorization;
 
 namespace HC.TripData.Web.Controllers
 {
@@ -81,6 +82,7 @@ namespace HC.TripData.Web.Controllers
         }
 
         // PUT /account/5
+        [RequireBasicAuthentication]  
         public HttpResponseMessage<Driver> Put(string id, Driver driver)
         {
            
@@ -100,6 +102,7 @@ namespace HC.TripData.Web.Controllers
         }
 
         // DELETE /account/5
+        [RequireBasicAuthentication]  
         public void Delete(int id)
         {
             throw new HttpResponseException(HttpStatusCode.NotImplemented);

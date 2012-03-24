@@ -69,7 +69,7 @@ namespace HC.TripData.Web
                 .RegisterType<IDriverValidator, DriverValidator>();
 
             GlobalConfiguration.Configuration.ServiceResolver.SetResolver(new UnityDependencyResolver(_container));
-            ConfigureMessageHandlers(GlobalConfiguration.Configuration);
+   //         ConfigureMessageHandlers(GlobalConfiguration.Configuration);
         }
 
         private static void ConfigureMessageHandlers(HttpConfiguration configuration)
