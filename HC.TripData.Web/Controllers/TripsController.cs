@@ -67,7 +67,7 @@ namespace HC.TripData.Web.Controllers
         }
 
         // DELETE /api/tripdata/5
-       // [RequireBasicAuthentication]  
+        [RequireBasicAuthentication]  
         public void Delete(string id)
         {
             throw new HttpResponseException(HttpStatusCode.NotImplemented);

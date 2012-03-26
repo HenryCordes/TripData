@@ -70,7 +70,7 @@ namespace HC.TripData.Web.Controllers
 
 
         // DELETE /driver/5
-        [RequireBasicAuthentication]  
+   //     [RequireBasicAuthentication]  
         public HttpResponseMessage<Driver> Delete(string id)
         {
             var driver = _driverRepository.DeleteDriver(id);
