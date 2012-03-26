@@ -40,7 +40,8 @@ namespace HC.TripData.Web.Controllers
         [RequireBasicAuthentication]      
         public Driver Get(string id)
         {
-            var driver = _driverRepository.GetDriverById(id);
+            var email = id;
+            var driver = _driverRepository.GetDriver(email);
 
             if (driver == null)
                 throw new HttpResponseException(HttpStatusCode.NotFound);

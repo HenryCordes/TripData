@@ -31,7 +31,8 @@ namespace HC.TripData.Web.Controllers
         // GET /account/[emailaddress]
         public Driver Get(string id)
         {
-            if (id == "999")
+            var email = id;
+            if (email == "999")
             {
                 return new Driver()
                            {
@@ -55,7 +56,7 @@ namespace HC.TripData.Web.Controllers
                                }
                            };
             }
-            var driver = _driverRepository.GetDriver(id);
+            var driver = _driverRepository.GetDriver(email);
 
             if (driver == null)
                 throw new HttpResponseException(HttpStatusCode.NotFound);

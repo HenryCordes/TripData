@@ -44,8 +44,8 @@ namespace HC.TripData.Web
 
             routes.MapHttpRoute(
                 name: "DriverSpecific",
-                routeTemplate: "driver/{driverId}/{controller}/{*id}",
-                defaults:new { controller="trip", driverId = "", id="" }
+                routeTemplate: "driver/{driverId}/trips/{id}",
+                defaults: new { controller = "trips", driverId = "", id = RouteParameter.Optional }
                 );
 
             routes.MapRoute(

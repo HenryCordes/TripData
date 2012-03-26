@@ -47,7 +47,7 @@ namespace HC.TripData.Repository.Mongo
         public Driver GetDriver(string emailaddres)
         {
             var repository = ResolveDriverRepository();
-            return repository.GetSingle(d => d.EmailAddress == emailaddres);
+            return repository.GetSingle(d => d.EmailAddress.ToLower() == emailaddres.ToLower());
         }
 
         public Driver GetDriverById(string id)

@@ -8,7 +8,7 @@ namespace HC.TripData.Repository.Interfaces
 {
     public interface IDriverRepository
     {
-        Driver GetDriver(string userName);
+        Driver GetDriver(string emailAddress);
         Driver GetDriverById(string id);
         string CreateDriver(Driver driver);
             string UpdateDriver(string id, Driver driver);

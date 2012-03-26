@@ -47,8 +47,11 @@ namespace HC.TripData.Web.Authorization
             if (credentials != null && ValidateUser(credentials))
             {
                 var identity = new GenericIdentity(credentials.Email, "Basic");
+                actionContext.Request.Properties.Remove(HttpPropertyKeys.UserPrincipalKey);
+               
                 actionContext.Request.Properties.Add(HttpPropertyKeys.UserPrincipalKey,
-                                       new GenericPrincipal(identity, new string[0]));
+                                                     new GenericPrincipal(identity, new string[0]));
+ 
                 return;
             }
             else

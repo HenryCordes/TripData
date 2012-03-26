@@ -26,9 +26,7 @@ namespace HC.TripData.Web.Controllers
           [Authorize]
         public List<Trip> GetTrips()
         {
-            var trips = _tripRepository.GetTrips();
-
-            return CheckIfTripsReturned(trips);
+            return _tripRepository.GetTrips();
         }
 
 
@@ -47,9 +45,7 @@ namespace HC.TripData.Web.Controllers
         [RequireBasicAuthentication]  
         public List<Trip> GetTripsByDriver(string driverId)
         {
-            var trips = _tripRepository.GetTrips().Where(t => t.DriverId.ToString() == driverId).ToList();
-
-            return CheckIfTripsReturned(trips);
+            return _tripRepository.GetTrips().Where(t => t.DriverId.ToString() == driverId).ToList();
         }
 
         // POST /api/tripdata
