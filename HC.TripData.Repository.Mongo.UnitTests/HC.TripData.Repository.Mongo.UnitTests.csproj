@@ -63,10 +63,15 @@
     </CodeAnalysisDependentAssemblyPaths>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="EncryptionHelperTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TripDataRepositoryTest.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\HC.Common\HC.Common.csproj">
+      <Project>{B0517494-BE77-4E25-BD07-0B60473A2DAA}</Project>
+      <Name>HC.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\HC.TripData.Domain\HC.TripData.Domain.csproj">
       <Project>{09A3E27B-6A6F-4828-AB76-C6E696751E6F}</Project>
       <Name>HC.TripData.Domain</Name>
