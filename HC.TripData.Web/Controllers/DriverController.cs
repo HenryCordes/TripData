@@ -51,16 +51,17 @@ namespace HC.TripData.Web.Controllers
 
         // POST /driver
         [RequireBasicAuthentication]  
-        public HttpResponseMessage<Driver> Post(Driver driver)
+        public HttpResponseMessage Post(Driver driver)
         {
 
             if (ModelState.IsValid)
             {
                 driver.Id = _driverRepository.UpdateDriver(driver.Id, driver);
 
-                var response = new HttpResponseMessage<Driver>(driver, HttpStatusCode.Created);
+              //  var response = new HttpResponseMessage<Driver>(driver, HttpStatusCode.Created);
+                var response = Request.CreateResponse<Driver>(HttpStatusCode.Created, driver);
 
-                string uri = Url.Route(null, new { id = driver.Id });
+                string uri = Url.Link(null, new { id = driver.Id });
                 response.Headers.Location = new Uri(Request.RequestUri, uri);
 
                 return response;
@@ -72,14 +73,12 @@ namespace HC.TripData.Web.Controllers
 
         // DELETE /driver/5
    //     [RequireBasicAuthentication]  
-        public HttpResponseMessage<Driver> Delete(string id)
+        public void Delete(string id)
         {
             var driver = _driverRepository.DeleteDriver(id);
 
             if (driver == null)
                 throw new HttpResponseException(HttpStatusCode.NotFound);
-
-            return new HttpResponseMessage<Driver>(driver, HttpStatusCode.Gone);
 
         }
     }

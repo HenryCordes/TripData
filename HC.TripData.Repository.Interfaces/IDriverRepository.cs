@@ -11,7 +11,7 @@ namespace HC.TripData.Repository.Interfaces
         Driver GetDriver(string emailAddress);
         Driver GetDriverById(string id);
         string CreateDriver(Driver driver);
-            string UpdateDriver(string id, Driver driver);
+        string UpdateDriver(string id, Driver driver);
         bool ValidateDriver(string emailaddress, string password);
         Driver DeleteDriver(string id);
 

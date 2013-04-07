@@ -5,11 +5,11 @@ using System.Globalization;
 using System.Linq;
 using System.Security.Principal;
 using System.Text;
-using DreamSongs.MongoRepository;
 using HC.Common.Cryptography;
 using HC.TripData.Domain;
 using HC.TripData.Repository.Interfaces;
 using Microsoft.Practices.Unity;
+using MongoRepository;
 
 namespace HC.TripData.Repository.Mongo
 {

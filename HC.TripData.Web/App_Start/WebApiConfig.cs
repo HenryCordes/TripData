@@ -9,11 +9,19 @@ namespace HC.TripData.Web
     {
         public static void Register(HttpConfiguration config)
         {
+
             config.Routes.MapHttpRoute(
                 name: "DefaultApi",
-                routeTemplate: "api/{controller}/{id}",
+                routeTemplate: "{controller}/{id}",
                 defaults: new { id = RouteParameter.Optional }
             );
+
+            config.Routes.MapHttpRoute(
+                name: "DriverSpecific",
+                routeTemplate: "driver/{driverId}/trips/{id}",
+                defaults: new { controller = "trips", driverId = "", id = RouteParameter.Optional }
+            );
+            
         }
     }
 }

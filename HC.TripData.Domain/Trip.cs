@@ -2,8 +2,8 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using DreamSongs.MongoRepository;
 using MongoDB.Bson;
+using MongoRepository;
 
 namespace HC.TripData.Domain
 {

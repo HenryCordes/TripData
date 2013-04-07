@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
-using DreamSongs.MongoRepository;
 using HC.TripData.Domain;
 using HC.TripData.Repository.Interfaces;
 using Microsoft.Practices.Unity;
+using MongoRepository;
 
 namespace HC.TripData.Repository.Mongo
 {

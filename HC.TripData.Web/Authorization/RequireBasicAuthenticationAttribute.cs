@@ -14,6 +14,8 @@ using System.Web.Mvc;
 using HC.Common.Cryptography;
 using HC.TripData.Repository.Mongo;
 using Microsoft.Practices.Unity;
+using System.Web.Http;
+using System.Threading;
 
 namespace HC.TripData.Web.Authorization
 {
@@ -46,19 +48,30 @@ namespace HC.TripData.Web.Authorization
             var credentials = ExtractCredentials(actionContext.Request.Headers.Authorization);
             if (credentials != null && ValidateUser(credentials))
             {
-                var identity = new GenericIdentity(credentials.Email, "Basic");
-                actionContext.Request.Properties.Remove(HttpPropertyKeys.UserPrincipalKey);
+              
+
+                var principal = new GenericPrincipal(new GenericIdentity(credentials.Email, "Basic"), System.Web.Security.Roles.GetRolesForUser(credentials.Email));
+                Thread.CurrentPrincipal = principal;
+                if (HttpContext.Current != null)
+                {
+                    HttpContext.Current.User = principal;
+                }
+                //actionContext.Request.Properties.Remove(HttpPropertyKeys.UserPrincipalKey);
                
-                actionContext.Request.Properties.Add(HttpPropertyKeys.UserPrincipalKey,
-                                                     new GenericPrincipal(identity, new string[0]));
+                //actionContext.Request.Properties.Add(HttpPropertyKeys.UserPrincipalKey,
+                //                                    principal);
  
                 return;
             }
             else
             {
-                actionContext.Response = new HttpResponseMessage(HttpStatusCode.Unauthorized);
-                actionContext.Response.Headers.WwwAuthenticate.Add(new AuthenticationHeaderValue("Basic"));//,"realm=" + Realm
-                return;
+                //actionContext.Response = new HttpResponseMessage(HttpStatusCode.Unauthorized);
+                //actionContext.Response.Headers.WwwAuthenticate.Add(new AuthenticationHeaderValue("Basic"));//,"realm=" + Realm
+
+                var challengeMessage = new System.Net.Http.HttpResponseMessage(System.Net.HttpStatusCode.Unauthorized);
+                challengeMessage.Headers.Add("WWW-Authenticate", "Basic");
+                throw new HttpResponseException(challengeMessage);
+             
             }
            
         }
