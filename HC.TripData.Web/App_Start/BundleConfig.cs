@@ -23,7 +23,30 @@ namespace HC.TripData.Web
             bundles.Add(new ScriptBundle("~/bundles/modernizr").Include(
                         "~/Scripts/modernizr-*"));
 
-            bundles.Add(new StyleBundle("~/Content/css").Include("~/Content/site.css"));
+//            bundles.Add(new StyleBundle("~/Content/css").Include("~/Content/site.css"));
+
+            bundles.Add(
+             new ScriptBundle("~/scripts/vendor")
+               .Include("~/scripts/jquery-{version}.js")
+               .Include("~/scripts/knockout-{version}.debug.js")
+               .Include("~/scripts/sammy-{version}.js")
+               .Include("~/scripts/toastr.js")
+               .Include("~/scripts/Q.js")
+               .Include("~/scripts/breeze.debug.js")
+               .Include("~/scripts/bootstrap.js")
+               .Include("~/scripts/moment.js")
+             );
+
+            bundles.Add(
+              new StyleBundle("~/Content/css")
+                .Include("~/Content/ie10mobile.css")
+                .Include("~/Content/bootstrap.css")
+                .Include("~/Content/bootstrap-responsive.css")
+                .Include("~/Content/durandal.css")
+                .Include("~/Content/toastr.css")
+                .Include("~/Content/app.css")
+       //         .Include("~/Content/site.css")
+              );
 
             bundles.Add(new StyleBundle("~/Content/themes/base/css").Include(
                         "~/Content/themes/base/jquery.ui.core.css",

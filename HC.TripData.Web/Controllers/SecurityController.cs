@@ -28,7 +28,7 @@ namespace HC.TripData.Web.Controllers
         #endregion
 
 
-        // GET /account/[emailaddress]
+        // GET /driver/[emailaddress]
         public Driver Get(string id)
         {
             var email = id;
@@ -64,7 +64,7 @@ namespace HC.TripData.Web.Controllers
             return driver; 
         }
 
-        // POST /account/
+        // POST /driver/
         public HttpResponseMessage Post(Driver driver)
         {
             if (ModelState.IsValid)
@@ -83,7 +83,7 @@ namespace HC.TripData.Web.Controllers
             throw new HttpResponseException(HttpStatusCode.BadRequest); 
         }
 
-        // PUT /account/5
+        // PUT /driver/5
         [RequireBasicAuthentication]  
         public HttpResponseMessage Put(string id, Driver driver)
         {
@@ -104,7 +104,7 @@ namespace HC.TripData.Web.Controllers
             throw new HttpResponseException(HttpStatusCode.BadRequest); 
         }
 
-        // DELETE /account/5
+        // DELETE /driver/5
         [RequireBasicAuthentication]  
         public void Delete(int id)
         {
