@@ -37,9 +37,10 @@ section.main {
 }
 
 .navbar .brand {
-    padding: 6px 30px 12px 30px;
+    /*padding: 6px 30px 12px 30px;*/
+    padding: 1px 28px 0px 27px;
     margin-bottom: -8px;
-    height: 48px;
+    height: 40px;
 }
 
 h2.page-title {
@@ -49,10 +50,10 @@ h2.page-title {
 .brand .title {
     float: left;
     font-family: "Segoe UI", Arial, Helvetica, sans-serif;
-    font-size: 145%;
+    font-size: 135%;
     font-weight: 900;
     letter-spacing: -2px;
-    margin: 2% 0;
+    margin: 0% 0;
     padding-left: 50px;
     -webkit-text-shadow: 2px 2px rgba(0, 0, 0, 0.15);
     text-shadow: 2px 2px rgba(0, 0, 0, 0.15);
@@ -62,11 +63,11 @@ h2.page-title {
     color: #0081C2;
 }
     span.title {
-        background: url(/content/images/tripdata_ss.png) no-repeat left center;
-        -moz-background-size: 45px;
-        -o-background-size: 45px;
-        -webkit-background-size: 45px;
-        background-size: 45px;
+        background: url(/content/images/tripdata_ss.png) no-repeat left 1px;
+        -moz-background-size: 38px;
+        -o-background-size: 38px;
+        -webkit-background-size: 38px;
+        background-size: 38px;
     }
 
 .page-splash
@@ -132,7 +133,8 @@ footer span {
 /* Boostrap overrides      */
 
 .navbar .btn, .navbar .btn-group {
-    margin-top: 16px;
+    /*margin-top: 16px;*/
+    margin-top: 6px;
 }
 
 .navbar-fixed-top .navbar-inner {
@@ -151,6 +153,15 @@ footer span {
     text-transform: uppercase;
 }
 
+/* bootstrap override*/
+.navbar .nav > li > a {
+    padding-top: 8px;
+    padding-bottom: 8px;
+}
+/* bootstrap override*/
+.navbar .divider-vertical {
+    margin: 0 -1px;
+}
 .loader .page-progress-bar {
     margin: 14px 0 0 0 ;
 }
