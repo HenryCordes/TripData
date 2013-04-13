@@ -31,9 +31,9 @@ namespace HC.TripData.Web.Controllers
 
 
         /// GET /trips/<id>
-        public Trip GetTrip(string id)
+        public Trip GetTrip(long id)
         {
-            var trip = _tripRepository.GetTrips().FirstOrDefault(t => t.Id == id);
+            var trip = _tripRepository.GetTrips().FirstOrDefault(t => t.TripId == id);
 
             if (trip == null)
                 throw new HttpResponseException(HttpStatusCode.NotFound);

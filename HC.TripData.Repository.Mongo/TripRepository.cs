@@ -39,10 +39,10 @@ namespace HC.TripData.Repository.Mongo
             return repository.All().ToList();
         }
 
-        public Trip GetTrip(string tripId)
+        public Trip GetTrip(long tripId)
         {
             var repository = ResolveTripRepository();
-            return repository.GetById(tripId);
+            return repository.GetById(tripId.ToString());
         }
 
          public void DeleteTrips()

@@ -9,11 +9,11 @@ namespace HC.TripData.Repository.Interfaces
     public interface IDriverRepository
     {
         Driver GetDriver(string emailAddress);
-        Driver GetDriverById(string id);
-        string CreateDriver(Driver driver);
-        string UpdateDriver(string id, Driver driver);
+        Driver GetDriverById(long id);
+        long CreateDriver(Driver driver);
+        long UpdateDriver(long id, Driver driver);
         bool ValidateDriver(string emailaddress, string password);
-        Driver DeleteDriver(string id);
+        Driver DeleteDriver(long id);
 
         IEnumerable<Driver> GetDrivers();
     }

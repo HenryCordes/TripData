@@ -37,7 +37,7 @@ namespace HC.TripData.Web.Controllers
         }
 
         // GET /driver/5
-        [RequireBasicAuthentication]      
+      //  [RequireBasicAuthentication]      
         public Driver Get(string id)
         {
             var email = id;
@@ -50,18 +50,18 @@ namespace HC.TripData.Web.Controllers
         }
 
         // POST /driver
-        [RequireBasicAuthentication]  
+    //    [RequireBasicAuthentication]  
         public HttpResponseMessage Post(Driver driver)
         {
 
             if (ModelState.IsValid)
             {
-                driver.Id = _driverRepository.UpdateDriver(driver.Id, driver);
+                driver.DriverId = _driverRepository.UpdateDriver(driver.DriverId, driver);
 
               //  var response = new HttpResponseMessage<Driver>(driver, HttpStatusCode.Created);
                 var response = Request.CreateResponse<Driver>(HttpStatusCode.Created, driver);
 
-                string uri = Url.Link(null, new { id = driver.Id });
+                string uri = Url.Link(null, new { id = driver.DriverId });
                 response.Headers.Location = new Uri(Request.RequestUri, uri);
 
                 return response;
@@ -73,7 +73,7 @@ namespace HC.TripData.Web.Controllers
 
         // DELETE /driver/5
    //     [RequireBasicAuthentication]  
-        public void Delete(string id)
+        public void Delete(long id)
         {
             var driver = _driverRepository.DeleteDriver(id);
 
@@ -81,5 +81,6 @@ namespace HC.TripData.Web.Controllers
                 throw new HttpResponseException(HttpStatusCode.NotFound);
 
         }
+
     }
 }

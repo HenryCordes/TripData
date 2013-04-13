@@ -85,7 +85,7 @@ namespace HC.TripData.Web.Controllers
 
         // PUT /driver/5
         [RequireBasicAuthentication]  
-        public HttpResponseMessage Put(string id, Driver driver)
+        public HttpResponseMessage Put(long id, Driver driver)
         {
            
             if (ModelState.IsValid)

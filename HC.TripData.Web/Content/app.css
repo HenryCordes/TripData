@@ -33,7 +33,7 @@ h1, h2, h3 {
 }
 
 section.main {
-    margin-top: 80px;
+    margin-top: 50px;
 }
 
 .navbar .brand {
@@ -44,7 +44,7 @@ section.main {
 }
 
 h2.page-title {
-    font-size: 32px;
+    font-size: 26px;
 }
 
 .brand .title {
@@ -130,11 +130,16 @@ footer span {
 }
 
 /***************************/
-/* Boostrap overrides      */
+/* Boostrap override      */
 
 .navbar .btn, .navbar .btn-group {
     /*margin-top: 16px;*/
     margin-top: 6px;
+}
+/***************************/
+/* Boostrap override      */
+[class^="icon-"], [class*=" icon-"] {
+    margin-top: 3px;
 }
 
 .navbar-fixed-top .navbar-inner {
@@ -146,7 +151,7 @@ footer span {
 }
 
 .navbar-fixed-bottom .navbar-inner {
-	padding: 6px;
+    padding: 6px;
 }
 
 .navbar {
@@ -172,6 +177,8 @@ footer span {
 .loader.active {
     visibility: visible;
 }
+
+legend { margin-bottom: 15px;padding-top: 10px;}
 
 .btn {
     text-transform: uppercase;
@@ -218,8 +225,8 @@ footer span {
         position: fixed;
     }
 
-	footer span {
-		padding: 10px 50px;
-		font-size: 14px;
-	}
+    footer span {
+        padding: 10px 50px;
+        font-size: 14px;
+    }
 }

@@ -8,6 +8,8 @@ namespace HC.TripData.Domain
 {
     public class Car
     {
+        [Key]
+        public long CarId { get; set; }
         [Required]
         public string LicensePlateNumber { get; set; }
         [Required]

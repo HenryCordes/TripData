@@ -7,8 +7,10 @@ using MongoRepository;
 
 namespace HC.TripData.Domain
 {
-    public class Trip: Entity
+    public class Trip
     {
+        [Key]
+        public long TripId { get; set; }
         public int StartMilage { get; set; }
         public int EndMilage { get; set; }
 
@@ -22,8 +24,8 @@ namespace HC.TripData.Domain
         public string Description { get; set; }
         public TripType TripType { get; set; }
 
-        public ObjectId DriverId { get; set; }
-        public ObjectId CarId { get; set; }
+        public long DriverId { get; set; }
+        public long CarId { get; set; }
     }
 
     public enum TripType

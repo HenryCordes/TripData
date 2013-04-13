@@ -2,7 +2,7 @@
     
     <h2 class="page-title" data-bind="text: title"></h2>
     
-    <fieldset>
+    <fieldset id="settings">
         
         <legend>Driver</legend>
 
@@ -10,19 +10,19 @@
             <div class="control-group">
                 <label class="control-label" for="LastName">Lastname</label>
                 <div class="controls">
-                    <input type="text" id="LastName" placeholder="Lastname" value="">
+                    <input type="text" id="LastName" placeholder="Lastname" data-bind="text: LastName">
                 </div>
             </div>
             <div class="control-group">
                 <label class="control-label" for="FirstName">Firstname</label>
                 <div class="controls">
-                    <input type="text" id="FirstName" placeholder="Firstname">
+                    <input type="text" id="FirstName" placeholder="Firstname" data-bind="text: FirstName">
                 </div>
             </div>
             <div class="control-group">
                 <label class="control-label" for="Email">Email</label>
                 <div class="controls">
-                    <input type="text" id="Email" placeholder="Email">
+                    <input type="text" id="Email" placeholder="Email" data-bind="text: Email">
                 </div>
             </div>
             <div class="control-group">
@@ -39,7 +39,7 @@
             </div>
             <div class="control-group">
                 <div class="controls">
-                    <button type="submit" class="btn">Save</button>
+                    <button type="submit" class="btn" data-bind="click: save">Save</button>
                 </div>
             </div>
         </form>

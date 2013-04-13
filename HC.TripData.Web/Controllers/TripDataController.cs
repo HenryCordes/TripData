@@ -5,7 +5,6 @@ using System.Web.Http;
 using System.Web.Mvc;
 using HC.TripData.Domain;
 using HC.TripData.Repository.Interfaces;
-using MongoDB.Bson;
 
 namespace HC.TripData.Web.Controllers
 {

@@ -50,22 +50,22 @@ namespace HC.TripData.Repository.Mongo
             return repository.GetSingle(d => d.EmailAddress.ToLower() == emailaddres.ToLower());
         }
 
-        public Driver GetDriverById(string id)
+        public Driver GetDriverById(long id)
         {
             var repository = ResolveDriverRepository();
-            return repository.GetById(id);
+            return repository.GetById(id.ToString());
         }
 
-        public string CreateDriver(Driver driver)
+        public long CreateDriver(Driver driver)
         {
             var repository = ResolveDriverRepository();
-            if (!repository.Exists(d => d.Id == driver.Id || d.EmailAddress.ToLower() == driver.EmailAddress.ToLower()))
+            if (!repository.Exists(d => d.DriverId == driver.DriverId || d.EmailAddress.ToLower() == driver.EmailAddress.ToLower()))
             {
                 driver.Salt = _encryptionHelper.CreateSalt();
                 driver.Password = _encryptionHelper.Encrypt(driver.Password, driver.Salt);
                 var newDriver = repository.Add(driver);
 
-                return newDriver.Id;     
+                return newDriver.DriverId;     
             }
             else
             {
@@ -73,13 +73,13 @@ namespace HC.TripData.Repository.Mongo
             }
         }
 
-        public string UpdateDriver(string id, Driver driver)
+        public long UpdateDriver(long id, Driver driver)
         {
             var repository = ResolveDriverRepository();
-            if (repository.Exists(d => d.Id == id))
+            if (repository.Exists(d => d.DriverId == id))
             {
                 repository.Update(driver);
-                return driver.Id;
+                return driver.DriverId;
             }
             else
             {
@@ -100,11 +100,11 @@ namespace HC.TripData.Repository.Mongo
         }
 
 
-        public Driver DeleteDriver(string id)
+        public Driver DeleteDriver(long id)
         {
             var repository = ResolveDriverRepository();
-            var driver = repository.GetSingle(d => d.Id == id);
-            repository.Delete(id);
+            var driver = repository.GetSingle(d => d.DriverId == id);
+            repository.Delete(id.ToString());
 
             return driver;
         }

@@ -7,8 +7,10 @@ using MongoRepository;
 
 namespace HC.TripData.Domain
 {
-    public class Driver : Entity
+    public class Driver 
     {
+        [Key]
+        public long DriverId { get; set; }
         [Required]
         public string LastName { get; set; }
         public string FirstName { get; set; }

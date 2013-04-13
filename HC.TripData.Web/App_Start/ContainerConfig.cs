@@ -1,7 +1,7 @@
 ﻿using HC.Common.Cryptography;
 using HC.Common.Resolver;
 using HC.TripData.Repository.Interfaces;
-using HC.TripData.Repository.Mongo;
+using HC.TripData.Repository.Sql;
 using HC.TripData.Web.Authorization;
 using Microsoft.Practices.Unity;
 using System;

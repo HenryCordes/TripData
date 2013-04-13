@@ -12,10 +12,10 @@ using System.Web.Http.Filters;
 using System.Web.Http.Hosting;
 using System.Web.Mvc;
 using HC.Common.Cryptography;
-using HC.TripData.Repository.Mongo;
 using Microsoft.Practices.Unity;
 using System.Web.Http;
 using System.Threading;
+using HC.TripData.Repository.Sql;
 
 namespace HC.TripData.Web.Authorization
 {
