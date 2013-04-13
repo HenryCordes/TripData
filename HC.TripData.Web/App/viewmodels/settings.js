@@ -24,7 +24,7 @@
 
         $.ajax({
             type: 'GET',
-            url: 'driver/',
+            url: 'api/driver/',
             contentType: 'application/json',
             dataType: 'json',
             data: data,

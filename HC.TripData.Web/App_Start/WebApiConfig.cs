@@ -12,13 +12,13 @@ namespace HC.TripData.Web
 
             config.Routes.MapHttpRoute(
                 name: "DefaultApi",
-                routeTemplate: "{controller}/{id}",
+                routeTemplate: "api/{controller}/{id}",
                 defaults: new { id = RouteParameter.Optional }
             );
 
             config.Routes.MapHttpRoute(
                 name: "DriverSpecific",
-                routeTemplate: "driver/{driverId}/trips/{id}",
+                routeTemplate: "api/driver/{driverId}/trips/{id}",
                 defaults: new { controller = "trips", driverId = "", id = RouteParameter.Optional }
             );
             
