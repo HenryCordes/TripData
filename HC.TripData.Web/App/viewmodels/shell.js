@@ -1,5 +1,5 @@
-﻿define(['durandal/system', 'durandal/plugins/router', 'services/logger'],
-    function (system, router, logger) {
+﻿define(['durandal/system', 'durandal/plugins/router', 'services/datacontext', 'services/logger', 'config'],
+    function (system, router, datacontext, logger, config) {
         var shell = {
             activate: activate,
             router: router
@@ -9,15 +9,19 @@
 
         //#region Internal Methods
         function activate() {
-            return boot();
+            return datacontext.primeData()
+                            .then(boot)
+                            .fail(failInit);
         }
 
         function boot() {
-            router.mapNav('home');
-            router.mapNav('details');
-            router.mapNav('settings');
+            router.map(config.routes);
             log('Trip Data Loaded!', null, true);
-            return router.activate('home');
+            return router.activate(config.startModule);
+        }
+        
+        function failInit() {
+            log('Could not load app', null, true);
         }
 
         function log(msg, data, showToast) {

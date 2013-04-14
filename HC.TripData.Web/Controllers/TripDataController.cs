@@ -2,114 +2,54 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
-using System.Web.Mvc;
+using Breeze.WebApi;
 using HC.TripData.Domain;
-using HC.TripData.Repository.Interfaces;
+
+using HC.TripData.Repository.Sql.Context;
+using Newtonsoft.Json.Linq;
 
 namespace HC.TripData.Web.Controllers
 {
-    public class TripDataController : Controller
+    [BreezeController]
+    public class TripDataController : ApiController
     {
+        readonly EFContextProvider<TripDataContext> _contextProvider = new EFContextProvider<TripDataContext>();
 
-        //private ITripDataRepository _tripDataRepository;
+        [HttpGet]
+        public string Metadata()
+        {
+            return _contextProvider.Metadata();
+        }
 
-        //public TripDataController(ITripDataRepository tripDataRepository)
-        //{
-        //    _tripDataRepository = tripDataRepository;
-        //}
+        [HttpPost]
+        public SaveResult SaveChanges(JObject saveBundle)
+        {
+            return _contextProvider.SaveChanges(saveBundle);
+        }
 
-        ////
-        //// GET: /Trip/
+        [HttpGet]
+        public object Lookups()
+        {
+            var cars = _contextProvider.Context.Cars;
+            return new { cars };
+        }
 
-        //public ActionResult Index()
-        //{
-        //    return View("List", _tripRepository.GetTrips());
-        //}
+        [HttpGet]
+        public IQueryable<Trip> Trips()
+        {
+            return _contextProvider.Context.Trips;
+        }
 
-        //////
-        ////// GET: /Trip/Details/5
+        [HttpGet]
+        public IQueryable<Driver> Drivers()
+        {
+            return _contextProvider.Context.Drivers;
+        }
 
-        //public ActionResult Details(string id)
-        //{
-        //    return View("Edit", _tripRepository.GetTrip(id));
-        //}
-
-        ////
-        //// GET: /Trip/Create
-
-        //public ActionResult Create()
-        //{
-        //    return View();
-        //}
-
-        ////
-        //// POST: /Trip/Create
-
-        //[System.Web.Mvc.HttpPost]
-        //public ActionResult Create(Trip trip)
-        //{
-        //    try
-        //    {
-
-        //        _tripRepository.AddTrips(new List<Trip>() { trip });
-        //        return RedirectToAction("Index");
-        //    }
-        //    catch
-        //    {
-        //        return View();
-        //    }
-        //}
-
-        //////
-        ////// GET: /Trip/Edit/5
-
-        //public ActionResult Edit(string id)
-        //{
-        //    return View(_tripRepository.GetTrip(id));
-        //}
-
-        ////
-        //// POST: /Trip/Edit/5
-
-        //[HttpPost]
-        //public ActionResult Edit(int id, FormCollection collection)
-        //{
-        //    try
-        //    {
-        //        // TODO: Add update logic here
-
-        //        return RedirectToAction("Index");
-        //    }
-        //    catch
-        //    {
-        //        return View();
-        //    }
-        //}
-
-        ////
-        //// GET: /Trip/Delete/5
-
-        //public ActionResult Delete(int id)
-        //{
-        //    return View();
-        //}
-
-        ////
-        //// POST: /Trip/Delete/5
-
-        //[HttpPost]
-        //public ActionResult Delete(int id, FormCollection collection)
-        //{
-        //    try
-        //    {
-        //        // TODO: Add delete logic here
-
-        //        return RedirectToAction("Index");
-        //    }
-        //    catch
-        //    {
-        //        return View();
-        //    }
-        //}
+        [HttpGet]
+        public IQueryable<Car> Cars()
+        {
+            return _contextProvider.Context.Cars;
+        }
     }
 }
