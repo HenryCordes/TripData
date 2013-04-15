@@ -179,9 +179,24 @@
 
         function configureBreezeManager() {
             breeze.NamingConvention.camelCase.setAsDefault();
+
+            setAntiForgeryTokenInHeaderForAjax();
             var mgr = new breeze.EntityManager(config.remoteServiceName);
             model.configureMetadataStore(mgr.metadataStore);
             return mgr;
+        }
+
+        function setAntiForgeryTokenInHeaderForAjax() {
+            var antiForgeryToken = $("#antiForgeryToken").val();
+            if (antiForgeryToken) {
+                // get the current default Breeze AJAX adapter & add header
+                var ajaxAdapter = breeze.config.getAdapterInstance("ajax");
+                ajaxAdapter.defaultSettings = {
+                    headers: {
+                        'RequestVerificationToken': antiForgeryToken
+                    },
+                };
+            }
         }
 
         function getLookups() {

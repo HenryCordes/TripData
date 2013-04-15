@@ -9,6 +9,7 @@ define(['durandal/app', 'durandal/viewLocator', 'durandal/system', 'durandal/plu
     system.debug(true);
 
     app.title = 'Trip Data';
+
     app.start().then(function () {
         toastr.options.positionClass = 'toast-bottom-right';
         toastr.options.backgroundpositionClass = 'toast-bottom-right';

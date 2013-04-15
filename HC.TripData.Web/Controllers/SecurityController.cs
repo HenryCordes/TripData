@@ -1,4 +1,5 @@
-﻿using HC.TripData.Domain;
+﻿using System.Web.Helpers;
+using HC.TripData.Domain;
 using HC.TripData.Repository.Interfaces;
 using HC.TripData.Web.Authorization;
 using System;
@@ -18,7 +19,7 @@ namespace HC.TripData.Web.Controllers
 
         #endregion
 
-            #region C'tor
+        #region C'tor
 
         public SecurityController(IDriverRepository driverRepository)
         {
@@ -27,6 +28,14 @@ namespace HC.TripData.Web.Controllers
 
         #endregion
 
+       [HttpGet]
+        public string GetTokens()
+        {
+            string cookieToken, formToken;
+            AntiForgery.GetTokens(null, out cookieToken, out formToken);
+
+            return cookieToken + ":" + formToken;                
+        } 
 
         // GET /driver/[emailaddress]
         public Driver Get(string id)

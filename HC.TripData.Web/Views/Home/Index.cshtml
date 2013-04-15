@@ -1,5 +1,13 @@
 ﻿@using System.Web
 @using System.Web.Optimization
+@functions{
+    public string GetAntiForgeryToken()
+    {
+        string cookieToken, formToken;
+        AntiForgery.GetTokens(null, out cookieToken, out formToken);
+        return cookieToken + ":" + formToken;                
+    }
+}
 <!DOCTYPE html>
 <html>
 <head>
@@ -23,6 +31,7 @@
 </head>
 <body>
     <div id="applicationHost">
+        <input id="antiForgeryToken" type="hidden" value="@GetAntiForgeryToken()" /> 
         @Html.Partial("_splash")
     </div>
 
