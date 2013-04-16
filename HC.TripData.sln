@@ -2,6 +2,9 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{A16A49E3-F5B5-4B37-B123-D515F7E35BFF}"
+	ProjectSection(SolutionItems) = preProject
+		nuget.config = nuget.config
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HC.TripData.Domain", "HC.TripData.Domain\HC.TripData.Domain.csproj", "{09A3E27B-6A6F-4828-AB76-C6E696751E6F}"
 EndProject

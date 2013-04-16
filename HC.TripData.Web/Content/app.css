@@ -216,17 +216,16 @@ legend { margin-bottom: 15px;padding-top: 10px;}
 /* End Boostrap overrides  */
 /***************************/
 
+.top-right { top: -44px;margin-right: 10px;z-index: 10001;}
+
 @media only screen and (max-width: 979px) {
-    .page-splash-message {
-        font-size: 150%;
-    }
-
-    .navbar-fixed-bottom {
-        position: fixed;
-    }
-
-    footer span {
-        padding: 10px 50px;
-        font-size: 14px;
-    }
+    section.main {  margin-top: 0px; }
+    .page-splash-message {font-size: 150%; }
+    .navbar-fixed-top {margin-bottom: 0px; }
+    .navbar-fixed-bottom { position: fixed;}
+    footer span { padding: 10px 25px;  font-size: 14px; }
+    .top-right {  display: none;}
+    .nav-collapse, .nav-collapse.collapse {  padding-top: 5px; }
 }
+
+
