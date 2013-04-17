@@ -32,7 +32,12 @@
 <body>
     <div id="applicationHost">
         <input id="antiForgeryToken" type="hidden" value="@GetAntiForgeryToken()" /> 
-        @Html.Partial("_splash")
+        
+        <div class="page-splash"></div>
+        <div class="page-splash-message">Trip Data</div>
+        <div class="progress progress-striped active page-progress-bar">
+            <div class="bar" style="width: 100%;"></div>
+        </div>
     </div>
 
     @Scripts.Render("~/scripts/vendor")
