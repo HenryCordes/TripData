@@ -10,9 +10,10 @@ namespace HC.TripData.Repository.Interfaces
     {
         Driver GetDriver(string emailAddress);
         Driver GetDriverById(long id);
-        long CreateDriver(Driver driver);
-        long UpdateDriver(long id, Driver driver);
-        bool ValidateDriver(string emailaddress, string password);
+        long CreateDriver(string emailAddress, string password);
+        long UpdateDriver(Driver driver);
+        Driver ValidateDriver(string emailaddress, string password);
+        AccessToken ValidateToken(long driverId, string token);
         Driver DeleteDriver(long id);
 
         IEnumerable<Driver> GetDrivers();

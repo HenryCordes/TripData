@@ -1,0 +1,73 @@
+﻿<section id="login-section">
+    <fieldset id="login">
+        <div data-bind="text: title" class="header"></div>
+        <form class="form-horizontal"> 
+            <div class="control-group">
+                <label class="control-label" for="Email">Email</label>
+                <div class="controls">
+                    <input type="text" id="Email" placeholder="Email" data-bind="value: email" />
+                </div>
+            </div>
+      
+            <div class="control-group">
+                <label class="control-label" for="Password">Password</label>
+                <div class="controls">
+                    <input type="password" id="Password" placeholder="Password" data-bind="value: password" />
+                </div>
+            </div>
+        
+            <div class="control-group">
+                <div class="controls">
+                    <input type="checkbox" id="rememberme" value="rememberme"/>
+                    <label class="checkbox-label" for="rememberme" class="checkbox" >Remember me</label>
+                </div>
+            </div>
+        
+            <div class="control-group">
+                <div class="controls">
+                    <button type="submit" class="btn" data-bind="click: login">Login</button>
+                </div>
+            </div>
+        </form>
+    </fieldset>
+    <div class="centered">
+        No Trip Data account? <a href="" data-bind="click: showRegister">Create an account</a>
+    </div>
+</section>
+
+<section id="register-section" style="display:none;">
+    <fieldset id="register">
+        <div data-bind="text: title" class="header"></div>
+        <form class="form-horizontal"> 
+            <div class="control-group">
+                <label class="control-label" for="RegisterEmail">Email</label>
+                <div class="controls">
+                    <input type="text" id="RegisterEmail" placeholder="Email" data-bind="value: email" />
+                </div>
+            </div>
+      
+            <div class="control-group">
+                <label class="control-label" for="RegisterPassword">Password</label>
+                <div class="controls">
+                    <input type="password" id="RegisterPassword" placeholder="Password" data-bind="value: password" />
+                </div>
+            </div>
+             <div class="control-group">
+                <label class="control-label" for="RegisterPasswordConfirm">Password confirmation</label>
+                <div class="controls">
+                    <input type="password" id="RegisterPasswordConfirm" placeholder="Password" data-bind="value: password2" />
+                </div>
+            </div>
+        
+        
+            <div class="control-group">
+                <div class="controls">
+                    <button type="submit" class="btn" data-bind="click: register">Register</button>
+                </div>
+            </div>
+        </form>
+    </fieldset>
+    <div class="centered">
+        Already have a Trip Data account? <a href="#/account/login" data-bind="click: showLogin">Login</a>
+    </div>
+</section>

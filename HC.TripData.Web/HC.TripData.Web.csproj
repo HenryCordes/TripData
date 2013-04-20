@@ -204,6 +204,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\DriverController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\SecurityController.cs" />
     <Compile Include="Controllers\TripDataController.cs" />
     <Compile Include="Controllers\TripsController.cs" />
@@ -213,6 +214,8 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountModels.cs" />
+    <Compile Include="Models\LogonRequestModel.cs" />
+    <Compile Include="Models\LogonResponseModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -239,14 +242,18 @@
     <Content Include="App\durandal\widget.js" />
     <Content Include="App\main-built.js" />
     <Content Include="App\main.js" />
+    <Content Include="App\services\authentication.js" />
+    <Content Include="App\services\cookie.js" />
     <Content Include="App\services\datacontext.js" />
     <Content Include="App\services\logger.js" />
     <Content Include="App\services\model.js" />
+    <Content Include="App\viewmodels\account\login.js" />
     <Content Include="App\viewmodels\ajaxlogin.js" />
     <Content Include="App\viewmodels\settings.js" />
     <Content Include="App\viewmodels\details.js" />
     <Content Include="App\viewmodels\home.js" />
     <Content Include="App\viewmodels\shell.js" />
+    <Content Include="App\views\account\login.html" />
     <Content Include="App\views\settings.html" />
     <Content Include="App\views\details.html" />
     <Content Include="App\views\footer.html" />
@@ -332,6 +339,7 @@
     <Content Include="App\services\breeze.partial-entities.js" />
     <None Include="Scripts\jquery-1.9.1.intellisense.js" />
     <None Include="Scripts\breeze.intellisense.js" />
+    <Content Include="Scripts\Base64.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\breeze.debug.js" />
@@ -348,8 +356,6 @@
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
-    <Content Include="Scripts\knockout-2.1.0.debug.js" />
-    <Content Include="Scripts\knockout-2.1.0.js" />
     <Content Include="Scripts\knockout-2.2.1.debug.js" />
     <Content Include="Scripts\knockout-2.2.1.js" />
     <Content Include="Scripts\knockout.mapping-latest.debug.js" />

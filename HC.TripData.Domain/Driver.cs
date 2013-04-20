@@ -20,6 +20,8 @@ namespace HC.TripData.Domain
         public string Password { get; set; }
         public string Salt { get; set; }
 
+        public AccessToken Token { get; set; }
+ 
         public List<Car> Cars { get; set; }
     }
 

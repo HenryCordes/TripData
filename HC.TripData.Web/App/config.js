@@ -16,6 +16,12 @@
         visible: true,
         caption: 'Home'
     }, {
+        url: 'login',
+        moduleId: 'viewmodels/account/login',
+        name: 'login',
+        visible: false,
+        caption: 'Login'
+    }, {
         url: 'settings',
         moduleId: 'viewmodels/settings',
         name: 'Settings',

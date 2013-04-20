@@ -1,4 +1,6 @@
-﻿using HC.Common.Cryptography;
+﻿using System.Globalization;
+using HC.Common.Cryptography;
+using HC.Common.Security;
 using HC.TripData.Domain;
 using HC.TripData.Repository.Interfaces;
 using HC.TripData.Repository.Sql.Context;
@@ -32,13 +34,18 @@ namespace HC.TripData.Repository.Sql
             return tripDataContext.Drivers.FirstOrDefault(d => d.DriverId == id);
         }
 
-        public long CreateDriver(Driver driver)
+        public long CreateDriver(string emailAddress, string password)
         {
-            var dbdriver = tripDataContext.Drivers.FirstOrDefault(d => d.DriverId == driver.DriverId || d.EmailAddress.ToLower() == driver.EmailAddress.ToLower());
+            var dbdriver = tripDataContext.Drivers.FirstOrDefault(d => d.EmailAddress.ToLower() == emailAddress.ToLower());
             if (dbdriver == null)
             {
-                driver.Salt = _encryptionHelper.CreateSalt();
-                driver.Password = _encryptionHelper.Encrypt(driver.Password, driver.Salt);
+                var salt = _encryptionHelper.CreateSalt();
+                var driver = new Driver()
+                    {
+                        EmailAddress = emailAddress.ToLower(),
+                        Salt = salt,
+                        Password = _encryptionHelper.Encrypt(password, salt)
+                    };
                 tripDataContext.Drivers.Add(driver);
                 tripDataContext.SaveChanges();
 
@@ -50,9 +57,9 @@ namespace HC.TripData.Repository.Sql
             }   
         }
 
-        public long UpdateDriver(long id, Driver driver)
+        public long UpdateDriver(Driver driver)
         {
-           var dbDriver = tripDataContext.Drivers.Single(d => d.DriverId == id);
+           var dbDriver = tripDataContext.Drivers.Single(d => d.DriverId == driver.DriverId);
            dbDriver = driver;
 
            tripDataContext.SaveChanges();
@@ -60,10 +67,25 @@ namespace HC.TripData.Repository.Sql
             return driver.DriverId;
         }
 
-        public bool ValidateDriver(string emailAddress, string password)
+        public Driver ValidateDriver(string emailAddress, string password)
         {
-            var driver = tripDataContext.Drivers.FirstOrDefault(d => d.EmailAddress == emailAddress && d.Password == password);
-            return driver != null;
+            var driver = tripDataContext.Drivers.FirstOrDefault(d => d.EmailAddress == emailAddress);
+            if (driver != null)
+            {
+                var saltedPassword = _encryptionHelper.Encrypt(password, driver.Salt);
+                if (string.Compare(driver.Password, saltedPassword, true, CultureInfo.InvariantCulture) == 0)
+                {
+                    return driver;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            else
+            {
+                return null;
+            }
         }
 
         public Driver DeleteDriver(long id)
@@ -75,6 +97,25 @@ namespace HC.TripData.Repository.Sql
         public IEnumerable<Driver> GetDrivers()
         {
             return tripDataContext.Drivers.ToList();
+        }
+
+
+        public AccessToken ValidateToken(long driverId, string token)
+        {
+            AccessToken accessToken = null;
+            var driver = tripDataContext.Drivers.First(d => d.DriverId == driverId);
+            if (driver != null)
+            {
+                if (string.Compare(driver.Token.Token, token, true, CultureInfo.InvariantCulture)== 0)
+                {
+                    if (driver.Token.ExpiresOn < DateTime.UtcNow)
+                    {
+                        accessToken = driver.Token;
+                    }
+                }
+            }
+
+            return accessToken;
         }
     }
 }

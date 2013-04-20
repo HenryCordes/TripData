@@ -28,14 +28,6 @@ namespace HC.TripData.Web.Controllers
 
         #endregion
 
-       [HttpGet]
-        public string GetTokens()
-        {
-            string cookieToken, formToken;
-            AntiForgery.GetTokens(null, out cookieToken, out formToken);
-
-            return cookieToken + ":" + formToken;                
-        } 
 
         // GET /driver/[emailaddress]
         public Driver Get(string id)
@@ -78,7 +70,7 @@ namespace HC.TripData.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                var newId = _driverRepository.CreateDriver(driver);
+                var newId = _driverRepository.CreateDriver(driver.EmailAddress, driver.Password);
 
               //  var response = new HttpResponseMessage<Driver>(driver, HttpStatusCode.Created);
 
@@ -94,17 +86,17 @@ namespace HC.TripData.Web.Controllers
 
         // PUT /driver/5
         [RequireBasicAuthentication]  
-        public HttpResponseMessage Put(long id, Driver driver)
+        public HttpResponseMessage Put(Driver driver)
         {
            
             if (ModelState.IsValid)
             {
-                _driverRepository.UpdateDriver(id, driver);
+                _driverRepository.UpdateDriver(driver);
 
                 //var response = new HttpResponseMessage<Driver>(driver, HttpStatusCode.Accepted);
                 var response = Request.CreateResponse<Driver>( HttpStatusCode.Accepted, driver);
 
-                string uri = Url.Route(null, new { id = id });
+                string uri = Url.Route(null, new { id = driver.DriverId });
                 response.Headers.Location = new Uri(Request.RequestUri, uri);
 
                 return response;

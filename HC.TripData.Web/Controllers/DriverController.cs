@@ -56,7 +56,7 @@ namespace HC.TripData.Web.Controllers
 
             if (ModelState.IsValid)
             {
-                driver.DriverId = _driverRepository.UpdateDriver(driver.DriverId, driver);
+                driver.DriverId = _driverRepository.UpdateDriver(driver);
 
               //  var response = new HttpResponseMessage<Driver>(driver, HttpStatusCode.Created);
                 var response = Request.CreateResponse<Driver>(HttpStatusCode.Created, driver);

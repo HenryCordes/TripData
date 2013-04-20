@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Transactions;
 using System.Web;
+using System.Web.Helpers;
 using System.Web.Mvc;
 using System.Web.Security;
 using DotNetOpenAuth.AspNet;
+using HC.Common.Security;
 using Microsoft.Web.WebPages.OAuth;
 using WebMatrix.WebData;
 using HC.TripData.Web.Filters;
@@ -45,6 +47,21 @@ namespace HC.TripData.Web.Controllers
             return View(model);
         }
 
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public JsonResult Validate(LoginModel model)
+        {
+            if (ModelState.IsValid && WebSecurity.Login(model.UserName, model.Password, persistCookie: model.RememberMe))
+            {
+                return Json(new {success=true, token = SecurityHelper.GetTokens()});
+            }
+
+            // If we got this far, something failed, redisplay form
+            ModelState.AddModelError("", "The user name or password provided is incorrect.");
+            return Json(new { success = false });
+        }
+       
         //
         // POST: /Account/LogOff
 

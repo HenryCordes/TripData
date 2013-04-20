@@ -23,9 +23,9 @@ namespace HC.TripData.Web.Authorization
 
         public bool Validate(string email, string password)
         {
-            if(_driverRepository.ValidateDriver(email, password))
+            var driver = _driverRepository.ValidateDriver(email, password);
+            if (driver != null)
             {
-                var driver = _driverRepository.GetDriver(email);
                 //IIdentity identity = new GenericIdentity(driver.EmailAddress, "Basic");
                 //var roles = new string[] { "Driver" };
                 //principal = new GenericPrincipal(identity, roles);

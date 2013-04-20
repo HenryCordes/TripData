@@ -213,10 +213,41 @@ legend { margin-bottom: 15px;padding-top: 10px;}
         background-color: #194D7B \9;
     }
 
+fieldset#login .form-horizontal .control-label, fieldset#register .form-horizontal .control-label{ float: none; width: auto;text-align: left;}
+fieldset#login .form-horizontal .controls, fieldset#register .form-horizontal .controls{ margin-left: 0px; }
+fieldset#login .form-horizontal .control-group, fieldset#register .form-horizontal .control-group { margin-bottom: 5px; }
+fieldset#login  input , fieldset#register input{ width: 95%; }
+fieldset#login  input[type="checkbox"], fieldset#register input[type="checkbox"] { width: auto; }
 /* End Boostrap overrides  */
 /***************************/
 
 .top-right { top: -44px;margin-right: 10px;z-index: 10001;}
+fieldset#login,
+fieldset#register{ 
+    width: 360px;
+    height: 260px; 
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 24px;
+    margin-bottom: 10px;
+    background-color: #fff; 
+    padding-top: 10px; 
+    padding-left: 14px; 
+    padding-right: 14px;
+    padding-bottom: 0;
+    box-shadow: 0 0 4px #666; -moz-box-shadow: 0 0 4px #666; -webkit-box-shadow: 0 0 4px #666;
+    display: block;
+}
+fieldset div.header {
+    padding-bottom: 6px;
+    height: 32px;
+    font-size: 1.3em;
+    border-bottom: 1px solid #ecedee;
+    margin-bottom: 6px;
+    font-weight: bold;
+}
+label.checkbox-label {display: inline-block;padding-bottom: 5px;}
+.centered{ width: 100%;text-align: center; margin-left: -46px; }
 
 @media only screen and (max-width: 979px) {
     section.main {  margin-top: 0px; }
