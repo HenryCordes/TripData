@@ -225,7 +225,6 @@ fieldset#login  input[type="checkbox"], fieldset#register input[type="checkbox"]
 fieldset#login,
 fieldset#register{ 
     width: 360px;
-    height: 260px; 
     margin-left: auto;
     margin-right: auto;
     margin-top: 24px;
@@ -238,6 +237,12 @@ fieldset#register{
     box-shadow: 0 0 4px #666; -moz-box-shadow: 0 0 4px #666; -webkit-box-shadow: 0 0 4px #666;
     display: block;
 }
+fieldset#login {
+    height: 260px;
+}
+fieldset#register {
+    height: 300px;
+}
 fieldset div.header {
     padding-bottom: 6px;
     height: 32px;
@@ -248,6 +253,8 @@ fieldset div.header {
 }
 label.checkbox-label {display: inline-block;padding-bottom: 5px;}
 .centered{ width: 100%;text-align: center; margin-left: -46px; }
+
+#register-button{ margin-top: 10px;}
 
 @media only screen and (max-width: 979px) {
     section.main {  margin-top: 0px; }

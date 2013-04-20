@@ -18,9 +18,15 @@
     }, {
         url: 'login',
         moduleId: 'viewmodels/account/login',
-        name: 'login',
+        name: 'Login',
         visible: false,
         caption: 'Login'
+    }, {
+        url: 'register',
+        moduleId: 'viewmodels/account/register',
+        name: 'Register',
+        visible: false,
+        caption: 'Register'
     }, {
         url: 'settings',
         moduleId: 'viewmodels/settings',

@@ -248,11 +248,13 @@
     <Content Include="App\services\logger.js" />
     <Content Include="App\services\model.js" />
     <Content Include="App\viewmodels\account\login.js" />
+    <Content Include="App\viewmodels\account\register.js" />
     <Content Include="App\viewmodels\ajaxlogin.js" />
     <Content Include="App\viewmodels\settings.js" />
     <Content Include="App\viewmodels\details.js" />
     <Content Include="App\viewmodels\home.js" />
     <Content Include="App\viewmodels\shell.js" />
+    <Content Include="App\views\account\register.html" />
     <Content Include="App\views\account\login.html" />
     <Content Include="App\views\settings.html" />
     <Content Include="App\views\details.html" />

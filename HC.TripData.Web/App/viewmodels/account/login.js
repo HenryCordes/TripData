@@ -5,9 +5,7 @@
         email: ko.observable(),
         password: ko.observable(),
         rememberme: ko.observable(),
-        login: login,
-        showRegister: showRegister,
-        showLogin: showLogin
+        login: login
     };
 
     return vm;
@@ -19,22 +17,7 @@
         authentication.login(logonModel, '');
     }
 
-    function showRegister() {
-        $("#login-section").hide("slide", function () {
-            $("#register-section").show("slide", function () {
-                $("#RegisterEmail").focus();
-            });
-        });
-    }
-    
-    function showLogin() {
-        $("#register-section").hide("slide", function () {
-            $("#login-section").show("slide", function () {
-                $("#Email").focus();
-            });
-        });
-    }
-    
+
     function activate() {
         logger.log('Login Activated', null, 'login', true);
         return true;
