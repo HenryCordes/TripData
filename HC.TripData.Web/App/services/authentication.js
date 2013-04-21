@@ -48,7 +48,7 @@
             data: userInfo,
             success: function (result) {
                 if (result.Success == true) {
-                    app.trigger('accesstoken:new', data.AccessToken);
+                    app.trigger('accesstoken:new', result.AccessToken);
                     router.navigateTo(successRoute);
                 } else {
                     alert('no-success');

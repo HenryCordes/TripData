@@ -70,9 +70,11 @@ namespace HC.TripData.Repository.Sql
 
         public Driver ValidateDriver(string emailAddress, string password)
         {
-            var driver = tripDataContext.Drivers.FirstOrDefault(d => d.EmailAddress == emailAddress);
+            var driver = tripDataContext.Drivers.Include("Token").FirstOrDefault(d => d.EmailAddress == emailAddress);
+            
             if (driver != null)
             {
+               
                 var saltedPassword = _encryptionHelper.Encrypt(password, driver.Salt);
                 if (string.Compare(driver.Password, saltedPassword, true, CultureInfo.InvariantCulture) == 0)
                 {

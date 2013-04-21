@@ -17,6 +17,7 @@ namespace HC.TripData.Repository.Sql.Context
         public DbSet<Car> Cars { get; set; }
         public DbSet<Driver> Drivers { get; set; }
         public DbSet<Trip> Trips { get; set; }
+        public DbSet<AccessToken> AccessTokens { get; set; }
 
         //protected override void OnModelCreating(DbModelBuilder modelBuilder)
         //{

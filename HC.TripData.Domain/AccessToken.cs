@@ -15,5 +15,6 @@ namespace HC.TripData.Domain
         public DateTime ExpiresOn { get; set; }
 
         public string Token { get; set; }
+
     }
 }
