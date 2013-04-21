@@ -57,7 +57,7 @@ namespace HC.TripData.Web.Controllers
                     return new LogonResponseModel()
                     {
                         Success = true,
-                        AccesToken = token.Token
+                        AccessToken = token.Token
                     };
                 }
                 
@@ -72,29 +72,27 @@ namespace HC.TripData.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                var driver = _driverRepository.ValidateDriver(logonModel.Email, logonModel.Password);
-                if (driver == null)
+                var token = new AccessToken()
+                {
+                    ExpiresOn = DateTime.UtcNow.AddDays(2),
+                    IssuedOn = DateTime.UtcNow,
+                    Token = SecurityHelper.CreateToken(15)
+                };
+
+                var driverId = _driverRepository.CreateDriver(logonModel.Email, logonModel.Password, token);
+                if (driverId > 0)
                 {
                     return new LogonResponseModel()
                     {
-                        Success = false
+                        Success = true,
+                        AccessToken = token.Token
                     };
                 }
                 else
                 {
-                    var token = new AccessToken()
+                     return new LogonResponseModel()
                     {
-                        ExpiresOn = DateTime.UtcNow.AddDays(2),
-                        IssuedOn = DateTime.UtcNow,
-                        Token = SecurityHelper.CreateToken(15)
-                    };
-                    driver.Token = token;
-                    _driverRepository.UpdateDriver(driver);
-
-                    return new LogonResponseModel()
-                    {
-                        Success = true,
-                        AccesToken = token.Token
+                        Success = false
                     };
                 }
 

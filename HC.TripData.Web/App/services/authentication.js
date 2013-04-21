@@ -22,55 +22,43 @@
         });
     }
     
-    function login (userInfo, navigateToUrl) {
-        //if (!this.canLogin()) {
-        //    return system.defer(function (dfd) {
-        //        dfd.reject();
-        //    }).promise();
-        //}
-        var jqxhr = $.post("/api/login", userInfo)
+    function login (userInfo, successRoute) {
+
+        var jqxhr = $.post("/api/security", userInfo)
             .done(function (data) {
                 if (data.Success == true) {
-                    alert(data.Token);
-                    if (!!navigateToUrl) {
-                        router.navigateTo(navigateToUrl);
-                    } else {
-                        return true;
-                    }
+                    app.trigger('accesstoken:new', data.AccessToken);
+                    router.navigateTo(successRoute);
                 } else {
-                    return data;
+                    alert('no-success');
                 }
             })
             .fail(function (data) {
-                return data;
+                alert('error' + data);
             });
 
         return jqxhr;
     }
     
-    function register(userInfo) {
-        //if (!this.canLogin()) {
-        //    return system.defer(function (dfd) {
-        //        dfd.reject();
-        //    }).promise();
-        //}
-        var jqxhr = $.put("/api/login", userInfo)
-            .done(function (data) {
-                if (data.Success == true) {
-                    alert(data.Token);
-                    if (!!navigateToUrl) {
-                        router.navigateTo(navigateToUrl);
-                    } else {
-                        return true;
-                    }
-                } else {
-                    return data;
-                }
-            })
-            .fail(function (data) {
-                return data;
-            });
+    function register(userInfo, successRoute) {
 
+        var jqxhr = $.ajax({
+            url: "/api/security",
+            type: 'PUT',
+            data: userInfo,
+            success: function (result) {
+                if (result.Success == true) {
+                    app.trigger('accesstoken:new', data.AccessToken);
+                    router.navigateTo(successRoute);
+                } else {
+                    alert('no-success');
+                }
+            },
+            error: (function (result) {
+                alert('error' + result);
+            })
+        });
+   
         return jqxhr;
     }
 

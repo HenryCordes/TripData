@@ -1,10 +1,12 @@
 ﻿define([
     'durandal/system',
+    'durandal/app',
     'services/model',
     'config',
     'services/logger',
-    'services/breeze.partial-entities'],
-    function (system, model, config, logger, partialMapper) {
+    'services/breeze.partial-entities',
+    'services/cookie'],
+    function (system, app, model, config, logger, partialMapper, cookie) {
         var EntityQuery = breeze.EntityQuery;
         var manager = configureBreezeManager();
         var orderBy = model.orderBy;
@@ -28,11 +30,11 @@
                 .fail(queryFailed);
 
             function querySucceeded(data) {
-                var list = partialMapper.mapDtosToEntities(
-                    manager, data.results, entityNames.driver, 'driverid');
-                if (driversObservable) {
-                    driversObservable(list);
-                }
+                //var list = partialMapper.mapDtosToEntities(
+                //    manager, data.results, entityNames.driver, 'driverid');
+                //if (driversObservable) {
+                //    driversObservable(list);
+                //}
                 log('Retrieved [Driver] from remote data source',
                     data, true);
             }
@@ -124,6 +126,11 @@
         manager.hasChangesChanged.subscribe(function (eventArgs) {
             hasChanges(eventArgs.hasChanges);
         });
+        
+        app.on('accesstoken:new').then(function (accessToken) {
+            setAccessTokenInHeaderForAjax(accessToken);
+            cookie.setCookie('tripdata-accesstoken', accessToken, 14);
+        });
 
         var datacontext = {
             createTrip: createTrip,
@@ -179,24 +186,19 @@
 
         function configureBreezeManager() {
             breeze.NamingConvention.camelCase.setAsDefault();
-
-            setAntiForgeryTokenInHeaderForAjax();
             var mgr = new breeze.EntityManager(config.remoteServiceName);
             model.configureMetadataStore(mgr.metadataStore);
             return mgr;
         }
 
-        function setAntiForgeryTokenInHeaderForAjax() {
-            var antiForgeryToken = $("#antiForgeryToken").val();
-            if (antiForgeryToken) {
-                // get the current default Breeze AJAX adapter & add header
-                var ajaxAdapter = breeze.config.getAdapterInstance("ajax");
-                ajaxAdapter.defaultSettings = {
-                    headers: {
-                        'RequestVerificationToken': antiForgeryToken
-                    },
-                };
-            }
+        function setAccessTokenInHeaderForAjax(accessToken) {
+            // get the current default Breeze AJAX adapter & add header
+            var ajaxAdapter = breeze.config.getAdapterInstance("ajax");
+            ajaxAdapter.defaultSettings = {
+                headers: {
+                    'X-TripData-AccessToken': accessToken
+                },
+            };
         }
 
         function getLookups() {
@@ -210,7 +212,6 @@
             model.createNullos(manager);
         }
 
-
         function log(msg, data, showToast) {
             logger.log(msg, data, system.getModuleId(datacontext), showToast);
         }
@@ -218,5 +219,6 @@
         function logError(msg, error) {
             logger.logError(msg, error, system.getModuleId(datacontext), true);
         }
+       
         //#endregion
     });

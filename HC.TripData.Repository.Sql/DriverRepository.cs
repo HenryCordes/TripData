@@ -34,7 +34,7 @@ namespace HC.TripData.Repository.Sql
             return tripDataContext.Drivers.FirstOrDefault(d => d.DriverId == id);
         }
 
-        public long CreateDriver(string emailAddress, string password)
+        public long CreateDriver(string emailAddress, string password, AccessToken accessToken)
         {
             var dbdriver = tripDataContext.Drivers.FirstOrDefault(d => d.EmailAddress.ToLower() == emailAddress.ToLower());
             if (dbdriver == null)
@@ -44,7 +44,8 @@ namespace HC.TripData.Repository.Sql
                     {
                         EmailAddress = emailAddress.ToLower(),
                         Salt = salt,
-                        Password = _encryptionHelper.Encrypt(password, salt)
+                        Password = _encryptionHelper.Encrypt(password, salt),
+                        Token = accessToken
                     };
                 tripDataContext.Drivers.Add(driver);
                 tripDataContext.SaveChanges();

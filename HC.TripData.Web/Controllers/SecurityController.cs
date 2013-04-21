@@ -1,4 +1,5 @@
 ﻿using System.Web.Helpers;
+using HC.Common.Security;
 using HC.TripData.Domain;
 using HC.TripData.Repository.Interfaces;
 using HC.TripData.Web.Authorization;
@@ -8,6 +9,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using HC.TripData.Web.Models;
 
 namespace HC.TripData.Web.Controllers
 {
@@ -15,7 +17,7 @@ namespace HC.TripData.Web.Controllers
     {
         #region Private Members
 
-        private IDriverRepository _driverRepository;
+        private readonly IDriverRepository _driverRepository;
 
         #endregion
 
@@ -28,88 +30,81 @@ namespace HC.TripData.Web.Controllers
 
         #endregion
 
-
-        // GET /driver/[emailaddress]
-        public Driver Get(string id)
-        {
-            var email = id;
-            if (email == "999")
-            {
-                return new Driver()
-                           {
-                               FirstName = "Joep",
-                               LastName = "Meloen",
-                               EmailAddress = "j.meloen@mel.on",
-                               Password = "12345",
-                               Cars = new List<Car>() { 
-                                            new Car() { 
-                                                    IsCurrentCar = true,
-                                                    LicensePlateNumber = "11-ABC-1",
-                                                    Make = "BMW",
-                                                    Model = "323i"
-                                            },
-                                            new Car() { 
-                                                    IsCurrentCar = false,
-                                                    LicensePlateNumber = "23-DFG-2",
-                                                    Make = "Volvo",
-                                                    Model = "V70"
-                                            }
-                               }
-                           };
-            }
-            var driver = _driverRepository.GetDriver(email);
-
-            if (driver == null)
-                throw new HttpResponseException(HttpStatusCode.NotFound);
-
-            return driver; 
-        }
-
-        // POST /driver/
-        public HttpResponseMessage Post(Driver driver)
+        [HttpPost]
+        [AllowAnonymous]
+        public LogonResponseModel Login(LogonRequestModel logonModel)
         {
             if (ModelState.IsValid)
             {
-                var newId = _driverRepository.CreateDriver(driver.EmailAddress, driver.Password);
+                var driver = _driverRepository.ValidateDriver(logonModel.Email, logonModel.Password);
+                if (driver == null)
+                {
+                    return GetLogonResponseModel(false);
+                }
+                else
+                {
+                    if (driver.Token != null)
+                    {
+                        SetToken(driver.Token);
+                    }
+                    else
+                    {
+                        var token = new AccessToken();
+                        SetToken(token);
+                        driver.Token = token;
+                    }       
+                    _driverRepository.UpdateDriver(driver);
 
-              //  var response = new HttpResponseMessage<Driver>(driver, HttpStatusCode.Created);
-
-                var response = Request.CreateResponse<Driver>(HttpStatusCode.Created, driver);
-                string uri = Url.Route(null, new { id = newId });
-                response.Headers.Location = new Uri(Request.RequestUri, uri);
-
-                return response;
+                    return GetLogonResponseModel(true, driver.Token.Token);
+                }
             }
 
-            throw new HttpResponseException(HttpStatusCode.BadRequest); 
+            throw new HttpResponseException(HttpStatusCode.BadRequest);
         }
 
-        // PUT /driver/5
-        [RequireBasicAuthentication]  
-        public HttpResponseMessage Put(Driver driver)
+
+        [HttpPut]
+        [AllowAnonymous]
+        public LogonResponseModel CreateAccount(LogonRequestModel logonModel)
         {
-           
             if (ModelState.IsValid)
             {
-                _driverRepository.UpdateDriver(driver);
+                var token = new AccessToken();
+                SetToken(token);
 
-                //var response = new HttpResponseMessage<Driver>(driver, HttpStatusCode.Accepted);
-                var response = Request.CreateResponse<Driver>( HttpStatusCode.Accepted, driver);
+                var driverId = _driverRepository.CreateDriver(logonModel.Email, logonModel.Password, token);
+                if (driverId > 0)
+                {
+                    return GetLogonResponseModel(true, token.Token);
+                }
+                else
+                {
+                    return GetLogonResponseModel(false);
+                }
 
-                string uri = Url.Route(null, new { id = driver.DriverId });
-                response.Headers.Location = new Uri(Request.RequestUri, uri);
-
-                return response;
             }
 
-            throw new HttpResponseException(HttpStatusCode.BadRequest); 
+            throw new HttpResponseException(HttpStatusCode.BadRequest);
         }
 
-        // DELETE /driver/5
-        [RequireBasicAuthentication]  
-        public void Delete(int id)
+        #region Helpers
+        
+        private void SetToken(AccessToken accessToken)
         {
-            throw new HttpResponseException(HttpStatusCode.NotImplemented);
+            accessToken.ExpiresOn = DateTime.UtcNow.AddDays(2);
+            accessToken.IssuedOn = DateTime.UtcNow;
+            accessToken.Token = SecurityHelper.CreateToken(15);
         }
+
+        private static LogonResponseModel GetLogonResponseModel(bool success, string token = null)
+        {
+            return new LogonResponseModel()
+            {
+                Success = success,
+                AccessToken = token
+            };
+        }
+
+        #endregion
     }
 }

@@ -12,9 +12,9 @@
     
    //#region Internal Methods
     function login() {
-        var logonModel = {'Email': vm.email(), 'Password': vm.password()};
-
-        authentication.login(logonModel, '');
+        var logonModel = {'Email': this.email(), 'Password': this.password()};
+        authentication.login(logonModel, '#/home');
+        this.password('');
     }
 
 

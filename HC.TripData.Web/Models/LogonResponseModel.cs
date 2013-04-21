@@ -8,6 +8,6 @@ namespace HC.TripData.Web.Models
     public class LogonResponseModel
     {
         public bool Success { get; set; }
-        public string AccesToken { get; set; }
+        public string AccessToken { get; set; }
     }
 }

@@ -9,7 +9,7 @@ namespace HC.TripData.Domain
     {
         [Key]
         public long DriverId { get; set; }
-        [Required]
+
         public string LastName { get; set; }
         public string FirstName { get; set; }
 

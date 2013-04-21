@@ -13,10 +13,11 @@
     //#region Internal Methods
     function register() {
         if (vm.password() === vm.password2()) {
-            var logonModel = { 'Email': vm.email(), 'Password': vm.password() };
-            authentication.register(logonModel, '');
+            var logonModel = { 'Email': this.email(), 'Password': this.password() };
+            authentication.register(logonModel, '#/home');
+            this.password('');
         } else {
-            //Show message not equal pass
+            alert('Passwords do not match');
         }
     }
 
