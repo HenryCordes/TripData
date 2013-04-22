@@ -32,7 +32,7 @@ namespace HC.TripData.Web
                .Include("~/scripts/sammy-{version}.js")
                .Include("~/scripts/toastr.js")
                .Include("~/scripts/Q.js")
-               .Include("~/scripts/breeze.debug.js")
+               .Include("~/scripts/breeze.min.js")
                .Include("~/scripts/bootstrap.js")
                .Include("~/scripts/moment.js")
              );
