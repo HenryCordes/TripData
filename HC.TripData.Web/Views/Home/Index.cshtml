@@ -1,13 +1,5 @@
 ﻿@using System.Web
 @using System.Web.Optimization
-@functions{
-    public string GetAntiForgeryToken()
-    {
-        string cookieToken, formToken;
-        AntiForgery.GetTokens(null, out cookieToken, out formToken);
-        return cookieToken + ":" + formToken;                
-    }
-}
 <!DOCTYPE html>
 <html>
 <head>
@@ -31,8 +23,6 @@
 </head>
 <body>
     <div id="applicationHost">
-        <input id="antiForgeryToken" type="hidden" value="@GetAntiForgeryToken()" /> 
-        
         <div class="page-splash"></div>
         <div class="page-splash-message">Trip Data</div>
         <div class="progress progress-striped active page-progress-bar">
