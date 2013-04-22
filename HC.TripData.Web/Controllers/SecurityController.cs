@@ -9,6 +9,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using HC.TripData.Web.Helpers;
 using HC.TripData.Web.Models;
 
 namespace HC.TripData.Web.Controllers
@@ -32,79 +33,33 @@ namespace HC.TripData.Web.Controllers
 
         [HttpPost]
         [AllowAnonymous]
-        public LogonResponseModel Login(LogonRequestModel logonModel)
+        public LogonResponseModel Token(string id)
         {
-            if (ModelState.IsValid)
+            var tokenArray =id.Split('|');
+            if (tokenArray.Length != 2)
             {
-                var driver = _driverRepository.ValidateDriver(logonModel.Email, logonModel.Password);
-                if (driver == null)
+                throw new HttpResponseException(HttpStatusCode.BadRequest);
+            }
+
+            var driverId = long.Parse(tokenArray[1]);
+            var accessToken = _driverRepository.ValidateToken(driverId, tokenArray[0]);
+            if (accessToken != null)
+            {
+                if (accessToken.ExpiresOn < DateTime.UtcNow.AddHours(8))
                 {
-                    return GetLogonResponseModel(false);
-                }
-                else
-                {
-                    if (driver.Token != null)
-                    {
-                        SetToken(driver.Token);
-                    }
-                    else
-                    {
-                        var token = new AccessToken();
-                        SetToken(token);
-                        driver.Token = token;
-                    }       
+                    var driver = _driverRepository.GetDriverById(driverId);
+                    var newToken = string.Format("{0}|{1}", driver.Token.Token, driverId);
+                    driver.Token.Token = newToken;
                     _driverRepository.UpdateDriver(driver);
-
-                    return GetLogonResponseModel(true, driver.Token.Token);
+                    accessToken.Token = newToken;
                 }
+                return AccountHelper.GetLogonResponseModel(true, accessToken.Token);
+            }
+            else
+            {
+                return AccountHelper.GetLogonResponseModel(false);
             }
 
-            throw new HttpResponseException(HttpStatusCode.BadRequest);
         }
-
-
-        [HttpPut]
-        [AllowAnonymous]
-        public LogonResponseModel CreateAccount(LogonRequestModel logonModel)
-        {
-            if (ModelState.IsValid)
-            {
-                var token = new AccessToken();
-                SetToken(token);
-
-                var driverId = _driverRepository.CreateDriver(logonModel.Email, logonModel.Password, token);
-                if (driverId > 0)
-                {
-                    return GetLogonResponseModel(true, token.Token);
-                }
-                else
-                {
-                    return GetLogonResponseModel(false);
-                }
-
-            }
-
-            throw new HttpResponseException(HttpStatusCode.BadRequest);
-        }
-
-        #region Helpers
-        
-        private void SetToken(AccessToken accessToken)
-        {
-            accessToken.ExpiresOn = DateTime.UtcNow.AddDays(2);
-            accessToken.IssuedOn = DateTime.UtcNow;
-            accessToken.Token = SecurityHelper.CreateToken(15);
-        }
-
-        private static LogonResponseModel GetLogonResponseModel(bool success, string token = null)
-        {
-            return new LogonResponseModel()
-            {
-                Success = success,
-                AccessToken = token
-            };
-        }
-
-        #endregion
     }
 }
