@@ -68,22 +68,22 @@ namespace HC.TripData.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                var token = new AccessToken();
-                AccountHelper.SetToken(token);
-
-                var driverId = _driverRepository.CreateDriver(logonModel.Email, logonModel.Password, token);
+                var driverId = _driverRepository.CreateDriver(logonModel.Email, logonModel.Password);
                 if (driverId > 0)
                 {
                     var driver = _driverRepository.GetDriverById(driverId);
-                    driver.Token.Token = string.Format("{0}|{1}", driver.Token.Token, driverId);
+                    if (driver.Token == null)
+                    {
+                        driver.Token = new AccessToken();
+                    }
+                    AccountHelper.SetToken(driver.Token, driverId);
                     _driverRepository.UpdateDriver(driver);
-                    return AccountHelper.GetLogonResponseModel(true, token.Token);
+                    return AccountHelper.GetLogonResponseModel(true, driver.Token.Token);
                 }
                 else
                 {
                     return AccountHelper.GetLogonResponseModel(false);
                 }
-
             }
 
             throw new HttpResponseException(HttpStatusCode.BadRequest);

@@ -11,6 +11,7 @@ using System.Net.Http;
 using System.Web.Http;
 using HC.TripData.Web.Helpers;
 using HC.TripData.Web.Models;
+using TokenValidness = HC.TripData.Repository.Models.TokenValidness;
 
 namespace HC.TripData.Web.Controllers
 {
@@ -33,33 +34,42 @@ namespace HC.TripData.Web.Controllers
 
         [HttpPost]
         [AllowAnonymous]
-        public LogonResponseModel Token(string id)
+        public LogonResponseModel Token(AccessToken token)
         {
-            var tokenArray =id.Split('|');
+            if (token == null)
+                return AccountHelper.GetLogonResponseModel(false);
+
+            var tokenArray =token.Token.Split('|');
             if (tokenArray.Length != 2)
             {
-                throw new HttpResponseException(HttpStatusCode.BadRequest);
-            }
-
-            var driverId = long.Parse(tokenArray[1]);
-            var accessToken = _driverRepository.ValidateToken(driverId, tokenArray[0]);
-            if (accessToken != null)
-            {
-                if (accessToken.ExpiresOn < DateTime.UtcNow.AddHours(8))
-                {
-                    var driver = _driverRepository.GetDriverById(driverId);
-                    var newToken = string.Format("{0}|{1}", driver.Token.Token, driverId);
-                    driver.Token.Token = newToken;
-                    _driverRepository.UpdateDriver(driver);
-                    accessToken.Token = newToken;
-                }
-                return AccountHelper.GetLogonResponseModel(true, accessToken.Token);
-            }
-            else
-            {
                 return AccountHelper.GetLogonResponseModel(false);
+            //    throw new HttpResponseException(HttpStatusCode.BadRequest);
             }
 
+            LogonResponseModel logonResponse;
+            var driverId = long.Parse(tokenArray[1]);
+            var response = _driverRepository.ValidateToken(driverId, token.Token);
+
+            switch (response.Validness)
+            {
+                case TokenValidness.Valid:
+                    logonResponse = AccountHelper.GetLogonResponseModel(true, token.Token);
+                    break;
+                case TokenValidness.Expired:
+                    var driver = _driverRepository.GetDriverById(driverId);
+                    AccountHelper.SetToken(driver.Token, driverId);
+                    _driverRepository.UpdateDriver(driver);
+                    logonResponse = AccountHelper.GetLogonResponseModel(true, driver.Token.Token);
+                    break;
+                case TokenValidness.Invalid:
+                    logonResponse = AccountHelper.GetLogonResponseModel(false);
+                    break;
+                default:
+                    logonResponse = AccountHelper.GetLogonResponseModel(false);
+                    break;
+            }
+
+            return logonResponse;
         }
     }
 }

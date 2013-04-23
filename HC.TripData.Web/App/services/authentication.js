@@ -29,16 +29,16 @@
         function login (userInfo, successRoute) {
 
             var jqxhr = $.post("/api/account", userInfo)
-                .done(function (data) {
-                    if (data.Success == true) {
-                        app.trigger('accesstoken:new', data.AccessToken);
+                .done(function (result) {
+                    if (result.Success == true) {
+                        processAccessToken(result.AccessToken);
                         router.navigateTo(successRoute);
                     } else {
                         alert('no-success');
                     }
                 })
-                .fail(function (data) {
-                    alert('error' + data);
+                .fail(function (result) {
+                    alert('error' + result);
                 });
 
             return jqxhr;
@@ -52,7 +52,7 @@
                 data: userInfo,
                 success: function (result) {
                     if (result.Success == true) {
-                        app.trigger('accesstoken:new', result.AccessToken);
+                        processAccessToken(result.AccessToken);
                         router.navigateTo(successRoute);
                     } else {
                         alert('no-success');
@@ -67,17 +67,17 @@
         }
 
         function checkAccess(succesCallback) {
-            var data = { 'token': cookie.getCookie('tripdata-accesstoken') };
+            var accessToken = { 'Token': cookie.getCookie('tripdata-accesstoken') };
   
             
             var jqxhr = $.ajax({
                 url: "/api/security",
                 type: 'POST',
-                data: data,
+                data: accessToken,
                 success: function (result) {
                     if (result.Success == true) {
                         if (result.AccessToken != accessToken) {
-                            app.trigger('accesstoken:new', result.AccessToken);
+                            processAccessToken(result.AccessToken);
                         }
                         succesCallback;
                     } else {
@@ -86,11 +86,17 @@
                 },
                 error: (function (result) {
                     alert('error' + result);
+                    log('error checkAccess!', null, true);
                     router.navigateTo('#/account/login');
                 })
             });
 
             return jqxhr;
+        }
+        
+        function processAccessToken(accessToken) {
+            app.trigger('accesstoken:new', accessToken);
+            cookie.setCookie('tripdata-accesstoken', accessToken, 14);
         }
 });
 

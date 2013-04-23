@@ -11,19 +11,11 @@ namespace HC.TripData.Web.Helpers
     public class AccountHelper
     {
 
-        public static void SetToken(AccessToken accessToken, long driverId = 0)
+        public static void SetToken(AccessToken accessToken, long driverId)
         {
             accessToken.ExpiresOn = DateTime.UtcNow.AddDays(2);
             accessToken.IssuedOn = DateTime.UtcNow;
-
-            if (driverId == 0)
-            {
-              accessToken.Token =  SecurityHelper.CreateToken(15);
-            }
-            else
-            {
-                 accessToken.Token = string.Format("{0}|{1}", SecurityHelper.CreateToken(15), driverId);
-            }
+            accessToken.Token = string.Format("{0}|{1}", SecurityHelper.CreateToken(15), driverId);
         }
 
         public static LogonResponseModel GetLogonResponseModel(bool success, string token = null)

@@ -129,7 +129,6 @@
         
         app.on('accesstoken:new').then(function (accessToken) {
             setAccessTokenInHeaderForAjax(accessToken);
-            cookie.setCookie('tripdata-accesstoken', accessToken, 14);
         });
 
         var datacontext = {
@@ -188,6 +187,12 @@
             breeze.NamingConvention.camelCase.setAsDefault();
             var mgr = new breeze.EntityManager(config.remoteServiceName);
             model.configureMetadataStore(mgr.metadataStore);
+
+            var accessToken = cookie.getCookie('tripdata-accesstoken');
+            if (accessToken != undefined && accessToken != '') {
+                setAccessTokenInHeaderForAjax(accessToken);
+            }
+
             return mgr;
         }
 

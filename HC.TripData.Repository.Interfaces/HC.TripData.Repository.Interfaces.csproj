@@ -55,6 +55,7 @@
     <Compile Include="IDriverRepository.cs" />
     <Compile Include="ITripRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Models\ValidateTokenResponse.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\HC.TripData.Domain\HC.TripData.Domain.csproj">

@@ -216,6 +216,7 @@
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Models\LogonRequestModel.cs" />
     <Compile Include="Models\LogonResponseModel.cs" />
+    <Compile Include="Models\ValidateTokenResponse.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

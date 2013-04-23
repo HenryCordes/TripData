@@ -1,22 +1,22 @@
-﻿define(['durandal/system', 'durandal/plugins/router', 'services/datacontext', 'services/logger', 'services/authentication', 'config'],
-    function (system, router, datacontext, logger, authentication, config) {
+﻿define(['durandal/system',  'durandal/plugins/router', 'services/datacontext', 'services/logger', 'services/authentication', 'config'],
+    function (system,  router, datacontext, logger, authentication, config) {
         var shell = {
             activate: activate,
             router: router
         };
         
         return shell;
-
+        
         //#region Internal Methods
         function activate() {
-            return boot().fail(failInit);
-          //  then(boot).fail(failInit);
+            return boot().then(checkAccess).fail(failInit);
         }
         
         function checkAccess() {
-            return true;
-          //  return authentication.checkAccess(function () { router.activate(config.startModule); });
-
+            log('checkAccess executed!', null, true);
+            return authentication.checkAccess(function() {
+                 router.navigateTo(config.startModule);
+            });
         }
 
         function boot() {
