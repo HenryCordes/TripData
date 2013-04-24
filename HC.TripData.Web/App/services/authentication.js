@@ -68,7 +68,6 @@
 
         function checkAccess(succesCallback) {
             var accessToken = { 'Token': cookie.getCookie('tripdata-accesstoken') };
-  
             
             var jqxhr = $.ajax({
                 url: "/api/security",
@@ -81,6 +80,7 @@
                         }
                         succesCallback;
                     } else {
+ 
                         router.navigateTo('#/account/login');
                     }
                 },

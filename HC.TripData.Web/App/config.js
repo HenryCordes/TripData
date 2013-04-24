@@ -61,7 +61,7 @@
     //}
     ];
 
-    var startModule = 'login';
+    var startModule = 'home';
 
     return {
         debugEnabled: ko.observable(true),

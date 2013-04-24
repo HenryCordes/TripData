@@ -48,19 +48,18 @@ h2.page-title {
 }
 
 .brand .title {
-    float: left;
-    font-family: "Segoe UI", Arial, Helvetica, sans-serif;
-    font-size: 135%;
+    font-family: "Segoe UI",Arial,Helvetica,sans-serif;
+    font-size: 26px;
     font-weight: 900;
     letter-spacing: -2px;
-    margin: 0% 0;
     padding-left: 50px;
-    -webkit-text-shadow: 2px 2px rgba(0, 0, 0, 0.15);
-    text-shadow: 2px 2px rgba(0, 0, 0, 0.15);
-    text-transform: uppercase;
+    -webkit-text-shadow: 2px 2px rgba(0,0,0,.15);
+    text-shadow: 2px 2px rgba(0,0,0,.15);
     text-transform: initial;
     text-decoration: none;
-    color: #0081C2;
+    color: #0081c2;
+    height: 40px;
+    display: inline-block;
 }
     span.title {
         background: url(/content/images/tripdata_ss.png) no-repeat left 1px;
@@ -160,8 +159,11 @@ footer span {
 
 /* bootstrap override*/
 .navbar .nav > li > a {
-    padding-top: 8px;
-    padding-bottom: 8px;
+    /*padding-top: 8px;
+    padding-bottom: 8px;*/
+    padding-top: 11px;
+    padding-bottom: 5px;
+    height: 24px;
 }
 /* bootstrap override*/
 .navbar .divider-vertical {
@@ -221,7 +223,7 @@ fieldset#login  input[type="checkbox"], fieldset#register input[type="checkbox"]
 /* End Boostrap overrides  */
 /***************************/
 
-.top-right { top: -44px;margin-right: 10px;z-index: 10001;}
+.top-right { top: -45px;margin-right: 10px;z-index: 10001;}
 fieldset#login,
 fieldset#register{ 
     width: 360px;
@@ -256,14 +258,35 @@ label.checkbox-label {display: inline-block;padding-bottom: 5px;}
 
 #register-button{ margin-top: 10px;}
 
+.teaser{text-shadow: 0 1px 1px #fff;}
+
 @media only screen and (max-width: 979px) {
-    section.main {  margin-top: 0px; }
+    body { padding-right: 5px; padding-left: 5px; }
+    section.main {  margin: 0px; }
     .page-splash-message {font-size: 150%; }
     .navbar-fixed-top {margin-bottom: 0px; }
     .navbar-fixed-bottom { position: fixed;}
     footer span { padding: 10px 25px;  font-size: 14px; }
     .top-right {  display: none;}
     .nav-collapse, .nav-collapse.collapse {  padding-top: 5px; }
+
+    fieldset#login,
+    fieldset#register {
+        width: 280px;
+        margin-top: 14px;
+        padding-top: 5px;
+        padding-left: 12px;
+        padding-right: 12px;
+    }
+
+    label.checkbox-label { top: 4px; position: relative; }
+    .centered { margin-left: 0px; }
+    .teaser{ font-size: 15px; }
+    .pull-left { margin-right: 0; padding-right: 0; padding-left: 12px}
+    .pull-right { margin-left: 0; padding-left: 0;padding-right: 12px;}
+    .navbar-fixed-bottom { margin-right: 0; margin-left: 0; }
+    .navbar-fixed-top { margin-right: -5px; margin-left: -5px; }
+
 }
 
 
