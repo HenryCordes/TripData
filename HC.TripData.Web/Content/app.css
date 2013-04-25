@@ -159,10 +159,8 @@ footer span {
 
 /* bootstrap override*/
 .navbar .nav > li > a {
-    /*padding-top: 8px;
-    padding-bottom: 8px;*/
-    padding-top: 11px;
-    padding-bottom: 5px;
+    padding-top: 8px;
+    padding-bottom: 8px;
     height: 24px;
 }
 /* bootstrap override*/

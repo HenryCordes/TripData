@@ -16,5 +16,3 @@
 
     //#endregion
 });
-
-ko.applyBindings();

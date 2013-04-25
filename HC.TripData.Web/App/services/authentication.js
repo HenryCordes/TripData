@@ -4,17 +4,20 @@
     'services/logger',
     'durandal/plugins/router',
     'services/cookie'],
-    function (system, app, logger, router, cookie){
-    
+    function (system, app, logger, router, cookie) {
+        
+        var userInfoKey = 'userinfo';
+        
         var authentication = {
             login: login,
             register: register,
+            logout: logout,
             checkAccess: checkAccess,
             handleUnauthorizedAjaxRequests: handleUnauthorizedAjaxRequests
         };
 
         return authentication;
-    
+        
         function  handleUnauthorizedAjaxRequests (callback) {
             if (!callback) {
                 return;
@@ -28,65 +31,87 @@
     
         function login (userInfo, successRoute) {
 
-            var jqxhr = $.post("/api/account", userInfo)
+            var jqxhr = $.post('/api/account', userInfo)
                 .done(function (result) {
-                    if (result.Success == true) {
-                        processAccessToken(result.AccessToken);
+                    if (result.Success === true) {
+                        storeInLocalStorage(userInfoKey, userInfo);
+                        processAccessToken();
                         router.navigateTo(successRoute);
                     } else {
-                        alert('no-success');
+                        logger.log('no-success', null, true);
                     }
                 })
                 .fail(function (result) {
-                    alert('error' + result);
+                    logger.log('error login! ' + result, null, true);
                 });
 
             return jqxhr;
         }
     
         function register(userInfo, successRoute) {
-
+            
             var jqxhr = $.ajax({
-                url: "/api/account",
+                url: '/api/account',
                 type: 'PUT',
                 data: userInfo,
                 success: function (result) {
-                    if (result.Success == true) {
-                        processAccessToken(result.AccessToken);
+                    if (result.Success === true) {
+                        storeInLocalStorage(userInfoKey, userInfo);
+                        processAccessToken();
                         router.navigateTo(successRoute);
                     } else {
-                        alert('no-success');
+                        logger.log('no-success', null, true);
                     }
                 },
                 error: (function (result) {
-                    alert('error' + result);
+                    logger.log('error register! ' + result, null, true);
                 })
             });
    
             return jqxhr;
         }
 
-        function checkAccess(succesCallback) {
+        function checkAccess(succesCallback, noAccessCallback) {
             var accessToken = { 'Token': cookie.getCookie('tripdata-accesstoken') };
             
             var jqxhr = $.ajax({
-                url: "/api/security",
+                url: '/api/security',
                 type: 'POST',
                 data: accessToken,
                 success: function (result) {
-                    if (result.Success == true) {
-                        if (result.AccessToken != accessToken) {
-                            processAccessToken(result.AccessToken);
-                        }
+                    if (result.Success === true) {
+                        processAccessToken();
                         succesCallback;
                     } else {
- 
+                        noAccessCallback;
+                    }
+                },
+                error: (function (result) {
+                    logger.log('error checkAccess! ' + result, null, true);
+                    noAccessCallback;
+                })
+            });
+
+            return jqxhr;
+        }
+        
+        function logout() {
+            
+            var accessToken = { 'Token': cookie.getCookie('tripdata-accesstoken') };
+            var jqxhr = $.ajax({
+                url: '/api/security',
+                type: 'DELETE',
+                data: accessToken,
+                success: function (result) {  
+                    if (result.Success === true) {
+                        processAccessToken();
+                        router.navigateTo('#/account/login');
+                    } else {
                         router.navigateTo('#/account/login');
                     }
                 },
                 error: (function (result) {
-                    alert('error' + result);
-                    log('error checkAccess!', null, true);
+                    logger.log('error logout! ' + result, null, true);
                     router.navigateTo('#/account/login');
                 })
             });
@@ -94,9 +119,12 @@
             return jqxhr;
         }
         
-        function processAccessToken(accessToken) {
-            app.trigger('accesstoken:new', accessToken);
-            cookie.setCookie('tripdata-accesstoken', accessToken, 14);
+        function processAccessToken() {
+            app.trigger('accesstoken:new');
+        }
+        
+        function storeInLocalStorage(key, data) {
+            window.localStorage.setItem(key, data);
         }
 });
 

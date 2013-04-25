@@ -127,8 +127,8 @@
             hasChanges(eventArgs.hasChanges);
         });
         
-        app.on('accesstoken:new').then(function (accessToken) {
-            setAccessTokenInHeaderForAjax(accessToken);
+        app.on('accesstoken:new').then(function () {
+            setAccessTokensInHeaderForAjax();
         });
 
         var datacontext = {
@@ -187,23 +187,31 @@
             breeze.NamingConvention.camelCase.setAsDefault();
             var mgr = new breeze.EntityManager(config.remoteServiceName);
             model.configureMetadataStore(mgr.metadataStore);
-
-            var accessToken = cookie.getCookie('tripdata-accesstoken');
-            if (accessToken != undefined && accessToken != '') {
-                setAccessTokenInHeaderForAjax(accessToken);
-            }
-
+            setAccessTokensInHeaderForAjax();
+            
             return mgr;
         }
 
-        function setAccessTokenInHeaderForAjax(accessToken) {
-            // get the current default Breeze AJAX adapter & add header
+        function setAccessTokensInHeaderForAjax() {
+            var requestVerificationToken = getCookieValue('__RequestVerificationToken');
+            var accessToken = getCookieValue('tripdata-accesstoken');
+            
             var ajaxAdapter = breeze.config.getAdapterInstance("ajax");
             ajaxAdapter.defaultSettings = {
                 headers: {
-                    'X-TripData-AccessToken': accessToken
+                    'X-TripData-AccessToken': accessToken,
+                    'X-TripData-RequestVerificationToken': requestVerificationToken,
                 },
             };
+        }
+        
+        function getCookieValue(name) {
+            var requestVerificationToken = cookie.getCookie(name);
+            if (requestVerificationToken == undefined) {
+                requestVerificationToken = '';
+            }
+
+            return requestVerificationToken;
         }
 
         function getLookups() {

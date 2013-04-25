@@ -10,20 +10,21 @@ namespace HC.TripData.Web.Helpers
 {
     public class AccountHelper
     {
+        private const int TokenLength = 35;
 
         public static void SetToken(AccessToken accessToken, long driverId)
         {
             accessToken.ExpiresOn = DateTime.UtcNow.AddDays(2);
             accessToken.IssuedOn = DateTime.UtcNow;
-            accessToken.Token = string.Format("{0}|{1}", SecurityHelper.CreateToken(15), driverId);
+            accessToken.Token = string.Format("{0}|{1}", SecurityHelper.CreateToken(TokenLength), driverId);
         }
 
         public static LogonResponseModel GetLogonResponseModel(bool success, string token = null)
         {
             return new LogonResponseModel()
             {
-                Success = success,
-                AccessToken = token
+                Success = success//,
+              //  AccessToken = token
             };
         }
     }
