@@ -2,7 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Web.Http;
+using HC.Common.Security;
 using HC.TripData.Domain;
 using HC.TripData.Repository.Interfaces;
 using HC.TripData.Web.Helpers;
@@ -31,14 +34,14 @@ namespace HC.TripData.Web.Controllers
 
         [HttpPost]
         [AllowAnonymous]
-        public LogonResponseModel Login(LogonRequestModel logonModel)
+        public HttpResponseMessage Login(LogonRequestModel logonModel)
         {
             if (ModelState.IsValid)
             {
                 var driver = _driverRepository.ValidateDriver(logonModel.Email, logonModel.Password);
                 if (driver == null)
                 {
-                    return AccountHelper.GetLogonResponseModel(false);
+                    return Request.CreateResponse<LogonResponseModel>(HttpStatusCode.OK, AccountHelper.GetLogonResponseModel(false));
                 }
                 else
                 {
@@ -54,7 +57,15 @@ namespace HC.TripData.Web.Controllers
                     }
                     _driverRepository.UpdateDriver(driver);
 
-                    return AccountHelper.GetLogonResponseModel(true, driver.Token.Token);
+                    var responseMessage = Request.CreateResponse<LogonResponseModel>(HttpStatusCode.OK, AccountHelper.GetLogonResponseModel(true, driver.Token.Token));
+
+                    var cookie = new CookieHeaderValue(SecurityHelper.AccessTokenCookieName, driver.Token.Token);
+                    cookie.Expires = DateTimeOffset.Now.AddDays(14);
+                    cookie.Path = "/";
+
+                    responseMessage.Headers.AddCookies(new CookieHeaderValue[] { cookie });
+
+                    return responseMessage;
                 }
             }
 
@@ -64,7 +75,7 @@ namespace HC.TripData.Web.Controllers
 
         [HttpPut]
         [AllowAnonymous]
-        public LogonResponseModel CreateAccount(LogonRequestModel logonModel)
+        public HttpResponseMessage CreateAccount(LogonRequestModel logonModel)
         {
             if (ModelState.IsValid)
             {
@@ -78,15 +89,23 @@ namespace HC.TripData.Web.Controllers
                     }
                     AccountHelper.SetToken(driver.Token, driverId);
                     _driverRepository.UpdateDriver(driver);
-                    return AccountHelper.GetLogonResponseModel(true, driver.Token.Token);
+
+                    var responseMessage = Request.CreateResponse<LogonResponseModel>(HttpStatusCode.OK, AccountHelper.GetLogonResponseModel(true, driver.Token.Token));
+                    var cookie = new CookieHeaderValue(SecurityHelper.AccessTokenCookieName, driver.Token.Token);
+                    cookie.Expires = DateTimeOffset.Now.AddDays(14);
+                    cookie.Path = "/";
+
+                    responseMessage.Headers.AddCookies(new CookieHeaderValue[] { cookie });
+
+                    return responseMessage;
                 }
                 else
                 {
-                    return AccountHelper.GetLogonResponseModel(false);
+                    return Request.CreateResponse<LogonResponseModel>(HttpStatusCode.OK, AccountHelper.GetLogonResponseModel(false));
                 }
             }
 
-            throw new HttpResponseException(HttpStatusCode.BadRequest);
+            return Request.CreateResponse<LogonResponseModel>(HttpStatusCode.BadRequest, AccountHelper.GetLogonResponseModel(false));
         }
     }
 }

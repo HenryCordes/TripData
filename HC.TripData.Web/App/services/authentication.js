@@ -34,11 +34,12 @@
             var jqxhr = $.post('/api/account', userInfo)
                 .done(function (result) {
                     if (result.Success === true) {
+                        logger.log('login sucess ', null, true);
                         storeInLocalStorage(userInfoKey, userInfo);
                         processAccessToken();
                         router.navigateTo(successRoute);
                     } else {
-                        logger.log('no-success', null, true);
+                        logger.log('login no-success', null, true);
                     }
                 })
                 .fail(function (result) {
@@ -71,7 +72,7 @@
             return jqxhr;
         }
 
-        function checkAccess(succesCallback, noAccessCallback) {
+        function checkAccess(successRoute, noAccessroute) {
             var accessToken = { 'Token': cookie.getCookie('tripdata-accesstoken') };
             
             var jqxhr = $.ajax({
@@ -80,15 +81,17 @@
                 data: accessToken,
                 success: function (result) {
                     if (result.Success === true) {
-                        processAccessToken();
-                        succesCallback;
+                        logger.log('checkAccess sucess ', null, true);
+                        router.navigateTo(successRoute);
+               //         processAccessToken();
                     } else {
-                        noAccessCallback;
+                        logger.log('checkAccess no-sucess ', null, true);
+                        router.navigateTo(noAccessroute);
                     }
                 },
                 error: (function (result) {
                     logger.log('error checkAccess! ' + result, null, true);
-                    noAccessCallback;
+                    router.navigateTo(noAccessroute);
                 })
             });
 

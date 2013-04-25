@@ -28,5 +28,7 @@ namespace HC.Common.Security
 
             return new string(chars);
         }
+
+        public const string AccessTokenCookieName = "tripdata-accesstoken";
     }
 }

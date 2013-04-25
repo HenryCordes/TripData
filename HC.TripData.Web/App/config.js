@@ -47,11 +47,6 @@
         caption: 'Drivers'
     }
     //    , {
-    //    url: 'sessiondetail/:id',
-    //    moduleId: 'viewmodels/sessiondetail',
-    //    name: 'Edit Session',
-    //    visible: false
-    //}, {
     //    url: 'sessionadd',
     //    moduleId: 'viewmodels/sessionadd',
     //    name: 'Add Session',
