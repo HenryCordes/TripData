@@ -16,13 +16,13 @@
         visible: true,
         caption: 'Home'
     }, {
-        url: 'login',
+        url: 'account/login',
         moduleId: 'viewmodels/account/login',
         name: 'Login',
         visible: false,
         caption: 'Login'
     }, {
-        url: 'register',
+        url: 'account/register',
         moduleId: 'viewmodels/account/register',
         name: 'Register',
         visible: false,
