@@ -1,0 +1,54 @@
+﻿<section>
+    
+    <h2 class="page-title" data-bind="text: title"></h2>
+    
+    <fieldset id="trip">
+        
+        <legend>Trip</legend>
+
+        <form class="form-horizontal">
+            <div class="control-group">
+                <label class="control-label" for="StartMilage">StartMilage</label>
+                <div class="controls">
+                    <input type="text" id="StartMilage" placeholder="Start milage" data-bind="text: StartMilage">
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="EndMilage">EndMilage</label>
+                <div class="controls">
+                    <input type="text" id="EndMilage" placeholder="End milage" data-bind="text: EndMilage">
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="PlaceOfDeparture">PlaceOfDeparture</label>
+                <div class="controls">
+                    <input type="text" id="PlaceOfDeparture" placeholder="Place of departure" data-bind="text: PlaceOfDeparture">
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="Destination">Destination</label>
+                <div class="controls">
+                    <input type="text" id="Destination" placeholder="Destination" data-bind="text: Destination">
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="Description">Description</label>
+                <div class="controls">
+                    <input type="text" id="Description" placeholder="Description" data-bind="text: Description">
+                </div>
+            </div>
+           <!-- <div class="control-group">
+                <label class="control-label" for="TripType">Trip type</label>
+                <div class="controls">
+                    <select id="TripType" data-bind="options: tripTypes, optionsText: 'TripType', value: selectedTripType, optionsCaption: 'Choose...'"></select>
+                </div>
+            </div>-->
+            <div class="control-group">
+                <div class="controls">
+                    <button type="submit" class="btn" data-bind="click: save">Save</button>
+                </div>
+            </div>
+        </form>
+    </fieldset>
+
+</section>

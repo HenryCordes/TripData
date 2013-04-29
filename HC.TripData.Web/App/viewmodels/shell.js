@@ -9,12 +9,12 @@
         
         //#region Internal Methods
         function activate() {
-            return boot().then(checkAccess).fail(failInit);
+            return datacontext.primeData().then(boot).then(checkAccess).fail(failInit);
         }
         
         function checkAccess() {
             log('checkAccess executed!', null, true);
-            return authentication.checkAccess('#/home', '#/account/login');
+            return authentication.checkAccess('#/trip', '#/account/login');
         }
 
         function boot() {

@@ -10,11 +10,11 @@
     var remoteServiceName = 'api/tripdata';
 
     var routes = [{
-        url: 'home',
-        moduleId: 'viewmodels/home',
-        name: 'Home',
+        url: 'trip',
+        moduleId: 'viewmodels/trip',
+        name: 'Enter trip',
         visible: true,
-        caption: 'Home'
+        caption: 'Trip'
     }, {
         url: 'account/login',
         moduleId: 'viewmodels/account/login',
@@ -56,7 +56,7 @@
     //}
     ];
 
-    var startModule = 'home';
+    var startModule = 'trip';
 
     return {
         debugEnabled: ko.observable(true),

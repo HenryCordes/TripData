@@ -1,6 +1,5 @@
 ﻿define(['config', 'durandal/system', 'services/logger'],
     function (config, system, logger) {
-        var imageSettings = config.imageSettings;
         var nulloDate = new Date(1900, 0, 1);
         var referenceCheckValidator;
         var Validator = breeze.Validator;
@@ -16,28 +15,17 @@
         };
 
         var model = {
-            applyTripValidators: applyTripValidators,
             configureMetadataStore: configureMetadataStore,
-            createNullos: createNullos,
             entityNames: entityNames,
-            orderBy: orderBy
+            orderBy: orderBy,
+            createNullos: createNullos,
+            applySessionValidators: applySessionValidators
         };
 
         return model;
 
         //#region Internal Methods
-        function configureMetadataStore(metadataStore) {
-            metadataStore.registerEntityTypeCtor(
-                'Car', function () { this.isPartial = false; }, carInitializer);
-            metadataStore.registerEntityTypeCtor(
-                'Trip', function () { this.isPartial = false; }, tripInitializer);
-            metadataStore.registerEntityTypeCtor(
-                'Driver', null, driverInitializer);
-
-            referenceCheckValidator = createReferenceCheckValidator();
-            Validator.register(referenceCheckValidator);
-            log('Validators registered');
-        }
+        
 
         function createReferenceCheckValidator() {
             var name = 'realReferenceObject';
@@ -51,67 +39,56 @@
             }
         }
 
-        function applyTripValidators(metadataStore) {
-            var types = ['car', 'trip', 'driver'];
-            types.forEach(addValidator);
-            log('Validators applied', types);
+        function applySessionValidators(metadataStore) {
+            //var types = ['trip', 'car', 'driver'];
+            //types.forEach(addValidator);
+            //log('Validators applied', types);
 
-            function addValidator(propertyName) {
-                var tripType = metadataStore.getEntityType('Trip');
-                tripType.getProperty(propertyName)
-                    .validators.push(referenceCheckValidator);
-            }
+            //function addValidator(propertyName) {
+            //    var sessionType = metadataStore.getEntityType('Trip');
+            //    sessionType.getProperty(propertyName)
+            //        .validators.push(referenceCheckValidator);
+            //}
         }
-
+        
         function createNullos(manager) {
             var unchanged = breeze.EntityState.Unchanged;
 
             createNullo(entityNames.car);
-            createNullo(entityNames.trip, { datetime: nulloDate, isSessionSlot: true });
-            createNullo(entityNames.driver, { firstName: ' [Select a person]' });
-  
+            createNullo(entityNames.trip, { startMilage: 0, endMilage: 0, dateTime: nulloDate});
+            createNullo(entityNames.driver);
 
             function createNullo(entityName, values) {
-                var initialValues = values
-                    || { name: ' [Select a ' + entityName.toLowerCase() + ']' };
+                var initialValues = values;
+              //      || { name: ' [Select a ' + entityName.toLowerCase() + ']' };
                 return manager.createEntity(entityName, initialValues, unchanged);
             }
 
         }
+        function configureMetadataStore(metadataStore) {
+            metadataStore.registerEntityTypeCtor('Car',null);
+            metadataStore.registerEntityTypeCtor('Trip', null, tripInitializer);
+            metadataStore.registerEntityTypeCtor('Driver', null);
+            
+            referenceCheckValidator = createReferenceCheckValidator();
+            Validator.register(referenceCheckValidator);
+        }
+        
 
         function tripInitializer(trip) {
-            //trip.tagsFormatted = ko.computed({
-            //    read: function () {
-            //        var text = trip.tags();
-            //        return text ? text.replace(/\|/g, ', ') : text;
-            //    },
-            //    write: function (value) {
-            //        trip.tags(value.replace(/\, /g, '|'));
-            //    }
-            //});
-        }
-
-        function driverInitializer(driver) {
-            driver.fullName = ko.computed(function () {
-                var fn = driver.firstName();
-                var ln = driver.lastName();
-                return ln ? fn + ' ' + ln : fn;
-            });
-        }
-
-        function carInitializer(car) {
-            //car.name = ko.computed(function () {
-            //    var start = car.start();
-            //    var value = ((start - nulloDate) === 0) ?
-            //        ' [Select a timeslot]' :
-            //        (start && moment.utc(start).isValid()) ?
-            //            moment.utc(start).format('ddd hh:mm a') : '[Unknown]';
-            //    return value;
-            //});
+           // trip.tripId = ko.observable();
+            //trip.startMilage = ko.observable();
+            //trip.endMilage = ko.observable();
+          //  trip.datetime = ko.observable(new Date());
+            //trip.placeOfDeparture = ko.observable();
+            //trip.destination = ko.observable();
+            //trip.description = ko.observable();
+          //  trip.tripType = ko.observable(1);
+            //trip.driverId = ko.observable();
+            //trip.carId = ko.observable();
         }
 
  
-
         function log(msg, data, showToast) {
             logger.log(msg, data, system.getModuleId(model), showToast);
         }

@@ -9,36 +9,7 @@
     function (system, app, model, config, logger, partialMapper, cookie) {
         var EntityQuery = breeze.EntityQuery;
         var manager = configureBreezeManager();
-        var orderBy = model.orderBy;
         var entityNames = model.entityNames;
-
-        var getDriverPartials = function (driversObservable, forceRemote) {
-
-            if (!forceRemote) {
-                var p = getLocal('Drivers', orderBy.driver);
-                if (p.length > 0) {
-                    driversObservable(p);
-                    return Q.resolve();
-                }
-            }
-
-            var query = EntityQuery.from('Drivers');
-               // .orderBy(orderBy.driver);
-
-            return manager.executeQuery(query)
-                .then(querySucceeded)
-                .fail(queryFailed);
-
-            function querySucceeded(data) {
-                //var list = partialMapper.mapDtosToEntities(
-                //    manager, data.results, entityNames.driver, 'driverid');
-                //if (driversObservable) {
-                //    driversObservable(list);
-                //}
-                log('Retrieved [Driver] from remote data source',
-                    data, true);
-            }
-        };
 
       
         var getTripById = function (tripId, tripObservable) {
@@ -53,23 +24,8 @@
             // 2nd - Refresh the entity from remote store (if needed)
             function fetchSucceeded(data) {
                 var s = data.entity;
-                return s.isPartial() ? refreshTrip(s) : tripObservable(s);
-            }
-
-            function refreshTrip(session) {
-                return EntityQuery.fromEntities(session)
-                    .using(manager).execute()
-                    .then(querySucceeded)
-                    .fail(queryFailed);
-            }
-
-            function querySucceeded(data) {
-                var s = data.results[0];
-                s.isPartial(false);
-                log('Retrieved [Trip] from remote data source', s, true);
                 return tripObservable(s);
             }
-
         };
 
         var cancelChanges = function () {
@@ -94,32 +50,29 @@
             }
         };
 
+
+        var createTrip = function () {
+            return manager.createEntity(entityNames.trip);
+        };
+        
         var primeData = function () {
-            var promise = Q.all([
-              //  getLookups(),
-                getDriverPartials(null, true)]);
-               // .then(applyValidators);
+            var promise = Q.all([getLookups()]).then(applyValidators);
 
             return promise.then(success);
 
             function success() {
-                //datacontext.lookups = {
-                //    trips: getLocal('Trips', 'datetime', true),
-                //    cars: getLocal('Cars', 'carId', true),
-                //    driver: getLocal('Drivers', orderBy.driver, true)
-                //};
+                datacontext.lookups = {
+                    cars: getLocal('Cars', 'model', true)
+                };
                 log('Primed data', datacontext.lookups);
             }
 
             function applyValidators() {
-                model.applyTripsValidators(manager.metadataStore);
+                model.applySessionValidators(manager.metadataStore);
             }
 
         };
 
-        var createTrip = function () {
-            return manager.createEntity(entityNames.session);
-        };
 
         var hasChanges = ko.observable(false);
 
@@ -133,17 +86,18 @@
 
         var datacontext = {
             createTrip: createTrip,
-            getDriverPartials: getDriverPartials,
             hasChanges: hasChanges,
             getTripById: getTripById,
-            primeData: primeData,
             cancelChanges: cancelChanges,
-            saveChanges: saveChanges
+            saveChanges: saveChanges,
+            primeData: primeData
         };
 
         return datacontext;
 
         //#region Internal methods        
+
+       
 
         function getLocal(resource, ordering, includeNullos) {
             var query = EntityQuery.from(resource)
