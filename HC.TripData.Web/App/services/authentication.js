@@ -72,7 +72,7 @@
             return jqxhr;
         }
 
-        function checkAccess(successRoute, noAccessroute) {
+        function checkAccess(successCallback, noAccessCallback) {
             var accessToken = { 'Token': cookie.getCookie('tripdata-accesstoken') };
             
             var jqxhr = $.ajax({
@@ -81,21 +81,24 @@
                 data: accessToken,
                 success: function (result) {
                     if (result.Success === true) {
-                        logger.log('checkAccess sucess ', null, true);
-                        router.navigateTo(successRoute);
-               //         processAccessToken();
+                        logger.log('checkAccess success ', null, true);
+                //        router.navigateTo(successRoute);
+                        //         processAccessToken();
+                        successCallback();
                     } else {
-                        logger.log('checkAccess no-sucess ', null, true);
-                        router.navigateTo(noAccessroute);
+                        logger.log('checkAccess no-success ', null, true);
+                    //    router.navigateTo(noAccessroute);
+                        noAccessCallback();
                     }
                 },
                 error: (function (result) {
-                    logger.log('error checkAccess! ' + result, null, true);
-                    router.navigateTo(noAccessroute);
+                    logger.log('checkAccess error! ' + result, null, true);
+                    //  router.navigateTo(noAccessroute);
+                    noAccessCallback();
                 })
             });
 
-            return jqxhr;
+           // return jqxhr;
         }
         
         function logout() {

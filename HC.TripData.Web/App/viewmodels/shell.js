@@ -14,13 +14,17 @@
         
         function checkAccess() {
             log('checkAccess executed!', null, true);
-            return authentication.checkAccess('#/trip', '#/account/login');
+            return authentication.checkAccess(function () {
+                return router.activate('trip');
+            }, function () {
+                return router.activate('account/login');
+            });
         }
 
         function boot() {
             router.map(config.routes);
             log('Trip Data Loaded!', null, true);
-           return router.activate(config.startModule);
+        //  return router.activate(config.startModule);  
         }
         
         function failInit() {

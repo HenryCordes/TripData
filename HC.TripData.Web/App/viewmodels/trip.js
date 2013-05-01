@@ -2,6 +2,7 @@
     var vm = {
         activate: activate,
         trip: ko.observable(),
+        save: save,
         title: 'Trip'
     };
 
@@ -13,5 +14,10 @@
         logger.log('Trip Activated', null, 'trip', true);
         return true;
     }
-    //#endregion
+
+    function save() {
+        dataContext.saveChanges();
+    }
+
+//#endregion
 });
