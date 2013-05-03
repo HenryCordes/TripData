@@ -70,16 +70,16 @@
             metadataStore.registerEntityTypeCtor('Trip', null, tripInitializer);
             metadataStore.registerEntityTypeCtor('Driver', null);
             
-            referenceCheckValidator = createReferenceCheckValidator();
-            Validator.register(referenceCheckValidator);
+       //     referenceCheckValidator = createReferenceCheckValidator();
+      //      Validator.register(referenceCheckValidator);
         }
         
 
         function tripInitializer(trip) {
            // trip.tripId = ko.observable();
-            //trip.startMilage = ko.observable();
-            //trip.endMilage = ko.observable();
-          //  trip.datetime = ko.observable(new Date());
+            //trip.startMilage = ko.observable(1);
+           // trip.endMilage = ko.observable(100);
+            //trip.datetime = ko.observable(new Date());
             //trip.placeOfDeparture = ko.observable();
             //trip.destination = ko.observable();
             //trip.description = ko.observable();

@@ -1,23 +1,49 @@
-﻿define(['services/logger', 'services/datacontext'], function (logger, dataContext) {
+﻿define(['services/logger', 'services/datacontext', 'durandal/plugins/router'],
+    function (logger, datacontext, router) {
+
+        var isSaving = ko.observable(false),
+            trip = ko.observable(),
+           // cars = ko.observableArray(),
+
+            activate = function() {
+                trip(datacontext.createTrip());
+                logger.log('Trip Activated', null, 'trip', true);
+                return true;
+            },
+            cancel = function (complete) {
+                router.navigateBack();
+            },
+            hasChanges = ko.computed(function () {
+                return datacontext.hasChanges();
+            }),
+            canSave = ko.computed(function () {
+                return hasChanges() && !isSaving();
+            }),
+            save = function() {
+                isSaving(true);
+                datacontext.saveChanges()
+                    .then(goToEditView).fin(complete);
+
+                function goToEditView(result) {
+                    router.replaceLocation('#/trip/' + trip().id());
+                }
+
+                function complete() {
+                    isSaving(false);
+                }
+        };
+
+    
+
     var vm = {
         activate: activate,
-        trip: ko.observable(),
+        canSave: canSave,
+        cancel: cancel,
+        hasChanges: hasChanges,
+        trip: trip,
         save: save,
         title: 'Trip'
     };
 
     return vm;
-
-    //#region Internal Methods
-    function activate() {
-        vm.trip = dataContext.createTrip();
-        logger.log('Trip Activated', null, 'trip', true);
-        return true;
-    }
-
-    function save() {
-        dataContext.saveChanges();
-    }
-
-//#endregion
 });
