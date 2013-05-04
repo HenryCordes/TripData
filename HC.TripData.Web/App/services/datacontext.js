@@ -52,10 +52,10 @@
 
 
         var createTrip = function () {
-           // return manager.createEntity(entityNames.trip);
-            var newTrip = manager.createEntity(entityNames.trip);
-            manager.addEntity(newTrip);
-            return newTrip;
+            return manager.createEntity(entityNames.trip);
+         //   var newTrip = manager.createEntity(entityNames.trip);
+         //   manager.addEntity(newTrip);
+         //   return newTrip;
         };
         
         var primeData = function () {

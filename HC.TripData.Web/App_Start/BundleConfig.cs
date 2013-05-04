@@ -39,6 +39,7 @@ namespace HC.TripData.Web
                .Include("~/scripts/breeze.debug.js")
                .Include("~/scripts/bootstrap.js")
                .Include("~/scripts/moment.js")
+               .Include("~/scripts/amplify.js")
              );
 
             bundles.Add(

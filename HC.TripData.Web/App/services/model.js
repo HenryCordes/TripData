@@ -76,14 +76,24 @@
         
 
         function tripInitializer(trip) {
-           // trip.tripId = ko.observable();
+            
+            var lastentry = amplify.store('lastEntry');
+        
+            if (lastentry.endMilage) {
+                trip.startMilage = ko.observable(lastentry.endMilage);
+            }
+            if (lastentry.destination) {
+                trip.placeOfDeparture = ko.observable(lastentry.destination);
+            }
+
+            // trip.tripId = ko.observable();
             //trip.startMilage = ko.observable(1);
-           // trip.endMilage = ko.observable(100);
+            // trip.endMilage = ko.observable(100);
             //trip.datetime = ko.observable(new Date());
             //trip.placeOfDeparture = ko.observable();
             //trip.destination = ko.observable();
             //trip.description = ko.observable();
-          //  trip.tripType = ko.observable(1);
+            //  trip.tripType = ko.observable(1);
             //trip.driverId = ko.observable();
             //trip.carId = ko.observable();
         }

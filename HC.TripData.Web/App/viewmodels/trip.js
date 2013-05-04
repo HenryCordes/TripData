@@ -19,12 +19,18 @@
             canSave = ko.computed(function () {
                 return hasChanges() && !isSaving();
             }),
-            save = function() {
+            save = function () {
+                
+
                 isSaving(true);
                 datacontext.saveChanges()
                     .then(goToEditView).fin(complete);
 
-                function goToEditView(result) {
+                function goToEditView() {
+                    amplify.store('lastEntry', {
+                        endMilage: trip().endMilage(),
+                        destination: trip().destination()
+                    });
                     router.replaceLocation('#/trip/' + trip().id());
                 }
 
