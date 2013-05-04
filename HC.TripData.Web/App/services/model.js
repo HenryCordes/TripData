@@ -76,19 +76,20 @@
         
 
         function tripInitializer(trip) {
-            
+            trip.startMilage = ko.observable(undefined);
+            trip.endMilage = ko.observable(undefined);
             var lastentry = amplify.store('lastEntry');
-        
-            if (lastentry.endMilage) {
-                trip.startMilage = ko.observable(lastentry.endMilage);
-            }
-            if (lastentry.destination) {
-                trip.placeOfDeparture = ko.observable(lastentry.destination);
+            if (lastentry) {
+                if (lastentry.endMilage) {
+                    trip.startMilage = ko.observable(lastentry.endMilage);
+                }
+                if (lastentry.destination) {
+                    trip.placeOfDeparture = ko.observable(lastentry.destination);
+                }
             }
 
             // trip.tripId = ko.observable();
-            //trip.startMilage = ko.observable(1);
-            // trip.endMilage = ko.observable(100);
+           
             //trip.datetime = ko.observable(new Date());
             //trip.placeOfDeparture = ko.observable();
             //trip.destination = ko.observable();
