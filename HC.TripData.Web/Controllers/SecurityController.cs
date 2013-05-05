@@ -54,7 +54,7 @@ namespace HC.TripData.Web.Controllers
             switch (response.Validness)
             {
                 case TokenValidness.Valid:
-                    logonResponse = AccountHelper.GetLogonResponseModel(true, token.Token);
+                    logonResponse = AccountHelper.GetLogonResponseModel(true, token.Token, driverId, response.DriverEmail);
                     tokenValue = token.Token;
                     break;
                 case TokenValidness.Expired:
@@ -62,7 +62,7 @@ namespace HC.TripData.Web.Controllers
                     AccountHelper.SetToken(driver.Token, driverId);
                     _driverRepository.UpdateDriver(driver);
                     tokenValue = driver.Token.Token;
-                    logonResponse = AccountHelper.GetLogonResponseModel(true, driver.Token.Token);
+                    logonResponse = AccountHelper.GetLogonResponseModel(true, driver.Token.Token, driverId, response.DriverEmail);
                     break;
                 case TokenValidness.Invalid:
                     logonResponse = AccountHelper.GetLogonResponseModel(false);
@@ -74,9 +74,11 @@ namespace HC.TripData.Web.Controllers
        
             var responseMessage = Request.CreateResponse<LogonResponseModel>(HttpStatusCode.OK, logonResponse);
 
-            var cookie = new CookieHeaderValue(SecurityHelper.AccessTokenCookieName, tokenValue);
-            cookie.Expires = DateTimeOffset.Now.AddDays(14);
-            cookie.Path = "/";
+            var cookie = new CookieHeaderValue(SecurityHelper.AccessTokenCookieName, tokenValue)
+                {
+                    Expires = DateTimeOffset.Now.AddDays(14),
+                    Path = "/"
+                };
 
             responseMessage.Headers.AddCookies(new CookieHeaderValue[] { cookie });
 

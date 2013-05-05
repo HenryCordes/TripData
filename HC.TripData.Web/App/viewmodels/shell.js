@@ -14,7 +14,11 @@
         
         function checkAccess() {
             log('checkAccess executed!', null, true);
-            return authentication.checkAccess(function () {
+            return authentication.checkAccess(function (result) {
+                amplify.store('driver', {
+                    id: result.driverId,
+                    email: result.driverEmail
+                }); 
                 return router.activate('trip');
             }, function () {
                 return router.activate('account/login');

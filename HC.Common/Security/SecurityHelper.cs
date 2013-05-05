@@ -2,7 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
+using System.Web;
 using System.Web.Helpers;
+using HC.TripData.Domain;
 
 namespace HC.Common.Security
 {
@@ -30,5 +33,22 @@ namespace HC.Common.Security
         }
 
         public const string AccessTokenCookieName = "tripdata-accesstoken";
+
+        public static void SetUseronThread(Driver driver)
+        {
+            var principal = GetDriverPrincipal(driver);
+
+            //  Principal needs to be set on both Thread.CurrentPrincipal and HttpContext.Current.User
+            //  http://stackoverflow.com/questions/12028604/how-can-i-safely-set-the-user-principal-in-a-custom-webapi-httpmessagehandler
+            Thread.CurrentPrincipal = principal;
+            if (HttpContext.Current != null)
+            {
+                HttpContext.Current.User = principal;
+            }
+        }
+        public static BasePrincipal GetDriverPrincipal(Driver driver)
+        {
+            return new DriverPrincipal(driver, "Basic authentication", true);
+        }
     }
 }

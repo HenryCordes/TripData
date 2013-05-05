@@ -42,28 +42,28 @@ namespace HC.TripData.Web.Controllers
         }
 
         /// GET /driver/<driverId>/trips/
-        [RequireBasicAuthentication]  
+        [RequireApiKeyAuthentication]  
         public List<Trip> GetTripsByDriver(string driverId)
         {
             return _tripRepository.GetTrips().Where(t => t.DriverId.ToString() == driverId).ToList();
         }
 
         // POST /api/tripdata
-        [RequireBasicAuthentication]  
+        [RequireApiKeyAuthentication]  
         public void Post(List<Trip> value)
         {
             throw new HttpResponseException(HttpStatusCode.NotImplemented);
         }
 
         // PUT /api/tripdata/5
-        [RequireBasicAuthentication]  
+        [RequireApiKeyAuthentication]  
         public void Put(string id, string value)
         {
             throw new HttpResponseException(HttpStatusCode.NotImplemented);
         }
 
         // DELETE /api/tripdata/5
-        [RequireBasicAuthentication]  
+        [RequireApiKeyAuthentication]  
         public void Delete(string id)
         {
             throw new HttpResponseException(HttpStatusCode.NotImplemented);

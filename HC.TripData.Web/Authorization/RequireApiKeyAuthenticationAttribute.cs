@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -13,6 +14,7 @@ using System.Web.Http.Hosting;
 using System.Web.Mvc;
 using HC.Common.Cryptography;
 using HC.Common.Security;
+using HC.TripData.Domain;
 using HC.TripData.Repository.Interfaces;
 using HC.TripData.Web.Helpers;
 using HC.TripData.Web.Models;
@@ -25,24 +27,17 @@ using TokenValidness = HC.TripData.Repository.Models.TokenValidness;
 
 namespace HC.TripData.Web.Authorization
 {
-    public class RequireBasicAuthenticationAttribute : AuthorizationFilterAttribute
+    public class RequireApiKeyAuthenticationAttribute : AuthorizationFilterAttribute
     {
 
-
-        public IDriverRepository _driverRepository {
+        public IDriverRepository DriverRepository {
             get { return ContainerConfig.Resolve(typeof(IDriverRepository)) as IDriverRepository; }
         }
        
-        private class Credentials
-        {
-            public string Email { get; set; }
-            public string Password { get; set; }
-        }
-
-         public override void OnAuthorization(HttpActionContext actionContext)
+        public override void OnAuthorization(HttpActionContext actionContext)
         {
             var valid = false;
-            LogonResponseModel logonResponse = AccountHelper.GetLogonResponseModel(false);
+            var logonResponse = AccountHelper.GetLogonResponseModel(false);
             var tokenValue = "";
 
             try
@@ -56,21 +51,25 @@ namespace HC.TripData.Web.Authorization
                     {
 
                         var driverId = long.Parse(tokenArray[1]);
-                        var response = _driverRepository.ValidateToken(driverId, accessToken);
+                        var response = DriverRepository.ValidateToken(driverId, accessToken);
                         switch (response.Validness)
                         {
                             case TokenValidness.Valid:
-                                logonResponse = AccountHelper.GetLogonResponseModel(true, accessToken);
+                                logonResponse = AccountHelper.GetLogonResponseModel(true, accessToken, driverId,
+                                                                                    response.DriverEmail);
                                 tokenValue = accessToken;
                                 valid = true;
+                                SecurityHelper.SetUseronThread(response.Driver);
                                 break;
                             case TokenValidness.Expired:
-                                var driver = _driverRepository.GetDriverById(driverId);
+                                var driver = DriverRepository.GetDriverById(driverId);
                                 AccountHelper.SetToken(driver.Token, driverId);
-                                _driverRepository.UpdateDriver(driver);
+                                DriverRepository.UpdateDriver(driver);
                                 tokenValue = driver.Token.Token;
-                                logonResponse = AccountHelper.GetLogonResponseModel(true, driver.Token.Token);
+                                logonResponse = AccountHelper.GetLogonResponseModel(true, driver.Token.Token, driverId,
+                                                                                    response.DriverEmail);
                                 valid = true;
+                                SecurityHelper.SetUseronThread(driver);
                                 break;
                             case TokenValidness.Invalid:
                                 break;
@@ -80,21 +79,25 @@ namespace HC.TripData.Web.Authorization
                     }
                 }
             }
-            catch
+            catch (ArgumentNullException argEx)
             {
-
+                Trace.Write(argEx.Message + Environment.NewLine + argEx.StackTrace);
             }
-
+            catch (IndexOutOfRangeException indEx)
+            {
+                Trace.Write(indEx.Message + Environment.NewLine + indEx.StackTrace);
+            }
 
             if (!valid)
             {
                // const string jsonResult =
                //     @"{""result"":{""success"":false,""message"":""Invalid Authorization Key"",""location"":""/api/Security""}}";
-         
 
-                var cookie = new CookieHeaderValue(SecurityHelper.AccessTokenCookieName, tokenValue);
-                cookie.Expires = DateTimeOffset.Now.AddDays(14);
-                cookie.Path = "/";
+                var cookie = new CookieHeaderValue(SecurityHelper.AccessTokenCookieName, tokenValue)
+                    {
+                        Expires = DateTimeOffset.Now.AddDays(14),
+                        Path = "/"
+                    };
 
                 dynamic result = JsonConvert.SerializeObject(logonResponse);
                 var message = new HttpResponseMessage(HttpStatusCode.Forbidden)
@@ -106,6 +109,7 @@ namespace HC.TripData.Web.Authorization
             }
         }
 
+       
     
     }
 }

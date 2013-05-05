@@ -45,6 +45,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Web.Http, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Web.WebPages, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Xml.Linq" />
@@ -59,10 +60,19 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Resolver\UnityDependencyResolver.cs" />
     <Compile Include="Resolver\UnityDependencyScope.cs" />
+    <Compile Include="Security\BasePrincipal.cs" />
+    <Compile Include="Security\DriverPrincipal.cs" />
+    <Compile Include="Security\Identity.cs" />
     <Compile Include="Security\SecurityHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\HC.TripData.Domain\HC.TripData.Domain.csproj">
+      <Project>{09a3e27b-6a6f-4828-ab76-c6e696751e6f}</Project>
+      <Name>HC.TripData.Domain</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />

@@ -111,6 +111,8 @@ namespace HC.TripData.Repository.Sql
             var driver = tripDataContext.Drivers.Include("Token").First(d => d.DriverId == driverId);
             if (driver != null)
             {
+                response.Driver = driver;
+                response.DriverEmail = driver.EmailAddress;   
                 if (string.Compare(driver.Token.Token, token, true, CultureInfo.InvariantCulture)== 0)
                 {
                     if (driver.Token.ExpiresOn > DateTime.UtcNow)

@@ -56,8 +56,8 @@ namespace HC.TripData.Web.Controllers
                         driver.Token = token;
                     }
                     _driverRepository.UpdateDriver(driver);
-
-                    var responseMessage = Request.CreateResponse<LogonResponseModel>(HttpStatusCode.OK, AccountHelper.GetLogonResponseModel(true, driver.Token.Token));
+                    var responseMessage = Request.CreateResponse<LogonResponseModel>(HttpStatusCode.OK, AccountHelper.GetLogonResponseModel(true, driver.Token.Token, driver.DriverId, driver.EmailAddress));
+                    SecurityHelper.SetUseronThread(driver);
 
                     var cookie = new CookieHeaderValue(SecurityHelper.AccessTokenCookieName, driver.Token.Token);
                     cookie.Expires = DateTimeOffset.Now.AddDays(14);
@@ -89,8 +89,9 @@ namespace HC.TripData.Web.Controllers
                     }
                     AccountHelper.SetToken(driver.Token, driverId);
                     _driverRepository.UpdateDriver(driver);
+                    var responseMessage = Request.CreateResponse<LogonResponseModel>(HttpStatusCode.OK, AccountHelper.GetLogonResponseModel(true, driver.Token.Token, driver.DriverId, driver.EmailAddress));
+                    SecurityHelper.SetUseronThread(driver);
 
-                    var responseMessage = Request.CreateResponse<LogonResponseModel>(HttpStatusCode.OK, AccountHelper.GetLogonResponseModel(true, driver.Token.Token));
                     var cookie = new CookieHeaderValue(SecurityHelper.AccessTokenCookieName, driver.Token.Token);
                     cookie.Expires = DateTimeOffset.Now.AddDays(14);
                     cookie.Path = "/";

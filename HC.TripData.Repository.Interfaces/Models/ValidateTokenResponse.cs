@@ -17,5 +17,7 @@ namespace HC.TripData.Repository.Models
     {
         public AccessToken AccessToken { get; set; }
         public TokenValidness Validness { get; set; }
+        public string DriverEmail { get; set; }
+        public Driver Driver { get; set; }
     }
 }

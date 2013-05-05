@@ -23,7 +23,7 @@ namespace HC.TripData.Web.Controllers
         }
 
         [HttpPost]
-        [RequireBasicAuthentication]    
+        [RequireApiKeyAuthentication]    
         public SaveResult SaveChanges(JObject saveBundle)
         {
             return _repository.SaveChanges(saveBundle);
