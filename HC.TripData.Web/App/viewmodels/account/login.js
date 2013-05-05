@@ -13,7 +13,7 @@
    //#region Internal Methods
     function login() {
         var logonModel = {'Email': this.email(), 'Password': this.password()};
-        authentication.login(logonModel, '#/home');
+        authentication.login(logonModel, '#/trip');
         this.password('');
     }
 

@@ -28,4 +28,4 @@ define(['durandal/app', 'durandal/viewLocator', 'durandal/system', 'durandal/plu
         //Show the app by setting the root view model for our application.
         app.setRoot('viewmodels/shell', 'entrance');
     });
-});
+ });

@@ -29,5 +29,10 @@ namespace HC.TripData.Web
 
         //   System.Web.Mvc.DependencyResolver.SetResolver(new UnityDependencyResolver(_container));
         }
+
+        public static object Resolve(Type type)
+        {
+            return _container.Resolve(type);
+        }
     }
 }

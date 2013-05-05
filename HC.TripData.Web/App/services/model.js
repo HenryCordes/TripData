@@ -76,8 +76,8 @@
         
 
         function tripInitializer(trip) {
-            trip.startMilage = ko.observable(undefined);
-            trip.endMilage = ko.observable(undefined);
+        //    trip.startMilage = ko.observable(undefined);
+        //    trip.endMilage = ko.observable(undefined);
             var lastentry = amplify.store('lastEntry');
             if (lastentry) {
                 if (lastentry.endMilage) {

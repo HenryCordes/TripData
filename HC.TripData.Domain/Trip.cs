@@ -9,8 +9,9 @@ namespace HC.TripData.Domain
     {
         [Key]
         public long TripId { get; set; }
-        public int StartMilage { get; set; }
-        public int EndMilage { get; set; }
+
+        public int? StartMilage { get; set; }
+        public int? EndMilage { get; set; }
 
         [DataType(DataType.Date)]
         public DateTime DateTime  { get; set; }

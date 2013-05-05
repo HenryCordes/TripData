@@ -12,17 +12,26 @@ using System.Web.Http.Filters;
 using System.Web.Http.Hosting;
 using System.Web.Mvc;
 using HC.Common.Cryptography;
+using HC.Common.Security;
+using HC.TripData.Repository.Interfaces;
+using HC.TripData.Web.Helpers;
+using HC.TripData.Web.Models;
 using Microsoft.Practices.Unity;
 using System.Web.Http;
 using System.Threading;
 using HC.TripData.Repository.Sql;
+using Newtonsoft.Json;
+using TokenValidness = HC.TripData.Repository.Models.TokenValidness;
 
 namespace HC.TripData.Web.Authorization
 {
     public class RequireBasicAuthenticationAttribute : AuthorizationFilterAttribute
     {
 
-        private IDriverValidator _driverValidator { get; set;  }
+
+        public IDriverRepository _driverRepository {
+            get { return ContainerConfig.Resolve(typeof(IDriverRepository)) as IDriverRepository; }
+        }
        
         private class Credentials
         {
@@ -32,75 +41,71 @@ namespace HC.TripData.Web.Authorization
 
          public override void OnAuthorization(HttpActionContext actionContext)
         {
-            if (actionContext.Request.Headers.Authorization == null ||
-                actionContext.Request.Headers.Authorization.Scheme != "Basic")
+            var valid = false;
+            LogonResponseModel logonResponse = AccountHelper.GetLogonResponseModel(false);
+            var tokenValue = "";
+
+            try
             {
-                actionContext.Response = new HttpResponseMessage(HttpStatusCode.Unauthorized);
-                actionContext.Response.Headers.WwwAuthenticate.Add(new AuthenticationHeaderValue("Basic"));//,"realm=" + Realm
-                return;
-            }
-
-             // TODO: In future this needs to be done with IoC 
-             var encryptionHelper = new EncryptionHelper();
-             var driverRepo = new DriverRepository(encryptionHelper);
-             _driverValidator = new DriverValidator(driverRepo);
-
-            var credentials = ExtractCredentials(actionContext.Request.Headers.Authorization);
-            if (credentials != null && ValidateUser(credentials))
-            {
-              
-
-                var principal = new GenericPrincipal(new GenericIdentity(credentials.Email, "Basic"), System.Web.Security.Roles.GetRolesForUser(credentials.Email));
-                Thread.CurrentPrincipal = principal;
-                if (HttpContext.Current != null)
+                var header = actionContext.Request.Headers.Single(x => x.Key == "X-TripData-AccessToken");
+                var accessToken = header.Value.First();
+                if (accessToken != null)
                 {
-                    HttpContext.Current.User = principal;
-                }
-                //actionContext.Request.Properties.Remove(HttpPropertyKeys.UserPrincipalKey);
-               
-                //actionContext.Request.Properties.Add(HttpPropertyKeys.UserPrincipalKey,
-                //                                    principal);
- 
-                return;
-            }
-            else
-            {
-                //actionContext.Response = new HttpResponseMessage(HttpStatusCode.Unauthorized);
-                //actionContext.Response.Headers.WwwAuthenticate.Add(new AuthenticationHeaderValue("Basic"));//,"realm=" + Realm
+                    var tokenArray = accessToken.Split('|');
+                    if (tokenArray.Length == 2)
+                    {
 
-                var challengeMessage = new System.Net.Http.HttpResponseMessage(System.Net.HttpStatusCode.Unauthorized);
-                challengeMessage.Headers.Add("WWW-Authenticate", "Basic");
-                throw new HttpResponseException(challengeMessage);
-             
+                        var driverId = long.Parse(tokenArray[1]);
+                        var response = _driverRepository.ValidateToken(driverId, accessToken);
+                        switch (response.Validness)
+                        {
+                            case TokenValidness.Valid:
+                                logonResponse = AccountHelper.GetLogonResponseModel(true, accessToken);
+                                tokenValue = accessToken;
+                                valid = true;
+                                break;
+                            case TokenValidness.Expired:
+                                var driver = _driverRepository.GetDriverById(driverId);
+                                AccountHelper.SetToken(driver.Token, driverId);
+                                _driverRepository.UpdateDriver(driver);
+                                tokenValue = driver.Token.Token;
+                                logonResponse = AccountHelper.GetLogonResponseModel(true, driver.Token.Token);
+                                valid = true;
+                                break;
+                            case TokenValidness.Invalid:
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                }
             }
-           
+            catch
+            {
+
+            }
+
+
+            if (!valid)
+            {
+               // const string jsonResult =
+               //     @"{""result"":{""success"":false,""message"":""Invalid Authorization Key"",""location"":""/api/Security""}}";
+         
+
+                var cookie = new CookieHeaderValue(SecurityHelper.AccessTokenCookieName, tokenValue);
+                cookie.Expires = DateTimeOffset.Now.AddDays(14);
+                cookie.Path = "/";
+
+                dynamic result = JsonConvert.SerializeObject(logonResponse);
+                var message = new HttpResponseMessage(HttpStatusCode.Forbidden)
+                {
+                    Content = result
+                };
+                message.Headers.AddCookies(new CookieHeaderValue[] { cookie });
+                actionContext.Response = message;
+            }
         }
 
-         private bool ValidateUser(Credentials credentials)
-         {
-             return _driverValidator.Validate(credentials.Email, credentials.Password);
-         }
-
-         private Credentials ExtractCredentials(AuthenticationHeaderValue authHeader)
-         {
-             try
-             {
-                 if (authHeader == null || authHeader.Scheme != "Basic")
-                 {
-                     return null;
-                 }
-
-
-                 var encodedUserPass = authHeader.Parameter.Trim();
-                 var encoding = Encoding.GetEncoding("iso-8859-1");
-                 var userPass = encoding.GetString(Convert.FromBase64String(encodedUserPass));
-                 var parts = userPass.Split(":".ToCharArray());
-                 return new Credentials { Email = parts[0], Password = parts[1] };
-             }
-             catch (Exception ex)
-             {
-                 return null;
-             }
-         }
+    
     }
 }

@@ -6,6 +6,7 @@ using Breeze.WebApi;
 using HC.TripData.Domain;
 
 using HC.TripData.Repository.Sql.Context;
+using HC.TripData.Web.Authorization;
 using Newtonsoft.Json.Linq;
 
 namespace HC.TripData.Web.Controllers
@@ -22,6 +23,7 @@ namespace HC.TripData.Web.Controllers
         }
 
         [HttpPost]
+        [RequireBasicAuthentication]    
         public SaveResult SaveChanges(JObject saveBundle)
         {
             return _repository.SaveChanges(saveBundle);
