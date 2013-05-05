@@ -71,7 +71,7 @@
             metadataStore.registerEntityTypeCtor('Driver', null);
             
        //     referenceCheckValidator = createReferenceCheckValidator();
-      //      Validator.register(referenceCheckValidator);
+      //      Validator.register(referenceCheckValidator); 
         }
         
 
