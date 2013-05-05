@@ -20,7 +20,6 @@
                 return hasChanges() && !isSaving();
             }),
             save = function () {
-                
 
                 isSaving(true);
                 datacontext.saveChanges()
@@ -31,7 +30,7 @@
                         endMilage: trip().endMilage(),
                         destination: trip().destination()
                     });
-                    router.replaceLocation('#/trip/' + trip().id());
+                    activate();
                 }
 
                 function complete() {

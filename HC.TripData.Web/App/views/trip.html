@@ -7,21 +7,21 @@
         <legend>Trip</legend>
 
         <form class="form-horizontal" >
-            <div data-bind="with: trip">
-                <div class="control-group">
-                    <label class="control-label" for="StartMilage">StartMilage</label>
+            <div class="trip" data-bind="with: trip">
+                <div class="control-group left">
+                    <label class="control-label" for="StartMilage">Start milage</label>
                     <div class="controls">
                         <input type="text" id="StartMilage" placeholder="Start milage" data-bind="value: startMilage" />
                     </div>
                 </div>
-                <div class="control-group">
-                    <label class="control-label" for="EndMilage">EndMilage</label>
+                <div class="control-group right">
+                    <label class="control-label" for="EndMilage">End milage</label>
                     <div class="controls">
                         <input type="text" id="EndMilage" placeholder="End milage" data-bind="value: endMilage" />
                     </div>
                 </div>
                 <div class="control-group">
-                    <label class="control-label" for="PlaceOfDeparture">PlaceOfDeparture</label>
+                    <label class="control-label" for="PlaceOfDeparture">Place of departure</label>
                     <div class="controls">
                         <input type="text" id="PlaceOfDeparture" placeholder="Place of departure" data-bind="value: placeOfDeparture" />
                     </div>
