@@ -16,8 +16,8 @@
             log('checkAccess executed!', null, true);
             return authentication.checkAccess(function (result) {
                 amplify.store('driver', {
-                    id: result.driverId,
-                    email: result.driverEmail
+                    id: result.DriverId,
+                    email: result.DriverEmail
                 }); 
                 return router.activate('trip');
             }, function () {

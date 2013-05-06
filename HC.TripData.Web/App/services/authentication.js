@@ -80,7 +80,7 @@
                 success: function (result) {
                     if (result.Success === true) {
                         logger.log('checkAccess success ', null, true);
-                        successCallback();
+                        successCallback(result);
                     } else {
                         logger.log('checkAccess no-success ', null, true);
                         noAccessCallback();

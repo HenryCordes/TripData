@@ -32,6 +32,16 @@ h1, h2, h3 {
     color: #777;
 }
 
+
+#applicationHost {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    overflow: hidden;
+}
+
 section.main {
     margin-top: 50px;
 }
