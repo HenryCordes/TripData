@@ -11,13 +11,13 @@
                 <div class="control-group left">
                     <label class="control-label" for="StartMilage">Start milage</label>
                     <div class="controls">
-                        <input type="text" id="StartMilage" placeholder="Start milage" data-bind="value: startMilage" />
+                        <input type="number" id="StartMilage" placeholder="Start milage" data-bind="value: startMilage" />
                     </div>
                 </div>
                 <div class="control-group right">
                     <label class="control-label" for="EndMilage">End milage</label>
                     <div class="controls">
-                        <input type="text" id="EndMilage" placeholder="End milage" data-bind="value: endMilage" />
+                        <input type="number" id="EndMilage" placeholder="End milage" data-bind="value: endMilage" />
                     </div>
                 </div>
                 <div class="control-group">
@@ -36,6 +36,18 @@
                     <label class="control-label" for="Description">Description</label>
                     <div class="controls">
                         <input type="text" id="Description" placeholder="Description" data-bind="value: description" />
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label" for="Description">Date</label>
+                    <div class="controls">
+                        <input type="text" id="DateTime" placeholder="Date" data-bind="value: dateTime" />
+                    </div>
+                </div>
+                <div class="controls">
+                    <div class="btn-group">
+                        <button class="btn" data-bind="click: function () { tripType(0) }, css: { active: tripType() == 0 }" value="0">Business</button>
+                        <button class="btn" data-bind="click: function () { tripType(1) }, css: { active: tripType() == 1 }" value="1">Private</button>
                     </div>
                 </div>
             <!-- <div class="control-group">

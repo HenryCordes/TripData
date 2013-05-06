@@ -89,8 +89,9 @@
 
             trip.datetime = ko.observable(new Date());
             //trip.tripType = ko.observable(1);
-            trip.driverId = ko.observable();
-            trip.carId = ko.observable();
+            var driver = amplify.store('driver');
+            trip.driverId = ko.observable(driver.id);
+       //     trip.carId = ko.observable();
         }
 
  

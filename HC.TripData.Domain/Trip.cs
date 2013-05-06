@@ -24,13 +24,13 @@ namespace HC.TripData.Domain
         public TripType TripType { get; set; }
 
         public long DriverId { get; set; }
-        public long CarId { get; set; }
+        public long? CarId { get; set; }
     }
 
     public enum TripType
     {
-        Business,
-        Private
+        Business = 0,
+        Private = 1
     }
 
 }

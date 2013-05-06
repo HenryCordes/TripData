@@ -32,6 +32,13 @@ h1, h2, h3 {
     color: #777;
 }
 
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    /* display: none; <- Crashes Chrome on hover */
+    -webkit-appearance: none;
+    margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
+    display: none;
+}
 
 #applicationHost {
     position: absolute;
@@ -277,15 +284,36 @@ label.checkbox-label {display: inline-block;padding-bottom: 5px;}
 #register-button{ margin-top: 10px;}
 
 .teaser{text-shadow: 0 1px 1px #fff;}
-
 @media only screen and (max-width: 979px) {
+    .top-right { display: none;}
+    h2.page-title { display: none; }
+    .navbar-fixed-top {margin-bottom: 0;}
+    .nav-collapse, .nav-collapse.collapse { padding-top: 6px; }
+    section.main {margin-top: 0;}
+
+    .form-horizontal .trip { width: 465px; }
+    .form-horizontal .control-group { margin-bottom: 4px;}
+
+
+    .form-horizontal .control-group.right .controls input, textarea, .uneditable-input,
+    .form-horizontal .control-group.left .controls input, textarea, .uneditable-input {
+      width: 104px;
+    }
+    
+   .form-horizontal .control-label { width: 160px;}
+    .navbar-fixed-bottom { position: fixed;}
+     footer span { padding: 0; font-size: 16px;}
+     .navbar-fixed-top, .navbar-fixed-bottom, .navbar-static-top {margin-right: 0;margin-left: 0;
+}
+}
+@media only screen and (max-width: 480px) {
     body { padding-right: 5px; padding-left: 5px; }
+    #applicationHost { padding-left: 5px; }
     section.main {  margin: 0px; }
     .page-splash-message {font-size: 150%; }
     .navbar-fixed-top {margin-bottom: 0px; }
-    .navbar-fixed-bottom { position: fixed;}
     footer span { padding: 10px 25px;  font-size: 14px; }
-    .top-right {  display: none;}
+   
     .nav-collapse, .nav-collapse.collapse {  padding-top: 5px; }
 
     fieldset#login,
@@ -304,22 +332,16 @@ label.checkbox-label {display: inline-block;padding-bottom: 5px;}
     .pull-right { margin-left: 0; padding-left: 0;padding-right: 12px;}
     .navbar-fixed-bottom { margin-right: 0; margin-left: 0; }
     .navbar-fixed-top { margin-right: -5px; margin-left: -5px; }
-    .form-horizontal .trip { width: 310px; }
-    .form-horizontal .control-group { margin-bottom: 4px;}
 
+
+    .form-horizontal .trip { width: 310px; }
     .form-horizontal  .control-group.left {float: left;width: 50%;}
     .form-horizontal  .control-group.right {float: right;width: 50%;}
     .form-horizontal  .control-group.left .control-label { text-align: left; float: left;}
     .form-horizontal .control-group.right .control-label { text-align: left;text-align: left;width: 118px;float: right;}
-    .form-horizontal .control-group.right .controls input, textarea, .uneditable-input,
-    .form-horizontal .control-group.left .controls input, textarea, .uneditable-input {
-      width: 104px;
-    }
-    input#EndMilage { float: right;margin-right: 2px;}
-   .form-horizontal .control-label { width: 160px;}
-
     input, textarea, .uneditable-input { width: 292px; }
-    h2.page-title { display: none; }
+    input#EndMilage { float: right;margin-right: 2px;}
+    
     legend { margin-bottom: 3px; padding-top: 2px; }
     .navbar-fixed-bottom .navbar-inner { padding: 0px; }
     .navbar-inner { min-height: 0px; }
