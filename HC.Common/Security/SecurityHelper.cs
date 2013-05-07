@@ -46,9 +46,24 @@ namespace HC.Common.Security
                 HttpContext.Current.User = principal;
             }
         }
+
         public static BasePrincipal GetDriverPrincipal(Driver driver)
         {
             return new DriverPrincipal(driver, "Basic authentication", true);
+        }
+
+        public static DriverPrincipal GetLoggedOnDriver()
+        {
+            if (HttpContext.Current.User is DriverPrincipal)
+            {
+                return HttpContext.Current.User as DriverPrincipal;
+            }
+            if (Thread.CurrentPrincipal is DriverPrincipal)
+            {
+               return  Thread.CurrentPrincipal as DriverPrincipal;
+            }
+
+            return null;
         }
     }
 }

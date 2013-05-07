@@ -21,7 +21,7 @@
                         email: result.DriverEmail
                     });
                 }
-                return router.activate('trip');
+                return router.activate(config.startModule);
             }, function () {
                 return router.activate('account/login');
             });

@@ -108,7 +108,7 @@ namespace HC.TripData.Repository.Sql
         {
             var response = new ValidateTokenResponse() {Validness = TokenValidness.Invalid};
             AccessToken accessToken = null;
-            var driver = tripDataContext.Drivers.Include("Token").First(d => d.DriverId == driverId);
+            var driver = tripDataContext.Drivers.Include("Token").FirstOrDefault(d => d.DriverId == driverId);
             if (driver != null)
             {
                 response.Driver = driver;

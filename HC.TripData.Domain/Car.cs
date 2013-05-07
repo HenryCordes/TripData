@@ -17,5 +17,8 @@ namespace HC.TripData.Domain
         [Required]
         public string Model { get; set; }
         public bool IsCurrentCar { get; set; }
+
+        public Driver Driver { get; set; }
+        public long DriverId { get; set; }
     }
 }

@@ -1,4 +1,4 @@
-﻿define(['services/logger', 'services/authentication'], function (logger, authentication) {
+﻿define(['services/logger', 'services/authentication', 'config'], function (logger, authentication, config) {
     var vm = {
         activate: activate,
         title: 'Register',
@@ -14,7 +14,7 @@
     function register() {
         if (vm.password() === vm.password2()) {
             var logonModel = { 'Email': this.email(), 'Password': this.password() };
-            authentication.register(logonModel, '#/home');
+            authentication.register(logonModel, '#/' + config.startModule);
             this.password('');
         } else {
             alert('Passwords do not match');

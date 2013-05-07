@@ -6,7 +6,7 @@
             setCookie: setCookie
         };
 
-        return cookiehelper;
+        
         
         if (typeof String.prototype.trimLeft !== "function") {
             String.prototype.trimLeft = function () {
@@ -26,7 +26,10 @@
                 return a;
             };
         }
-     
+        
+        return cookiehelper;
+        
+
         function getCookie(name) {
                 return getCookies()[name];
         }

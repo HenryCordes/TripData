@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
 using Breeze.WebApi;
+using HC.Common.Security;
 using HC.TripData.Domain;
 
 using HC.TripData.Repository.Sql.Context;
@@ -32,7 +33,8 @@ namespace HC.TripData.Web.Controllers
         [HttpGet]
         public object Lookups()
         {
-            var cars = _repository.Context.Cars;
+            var driver = SecurityHelper.GetLoggedOnDriver();
+            var cars = _repository.Context.Cars; // Drivers.Include("Car").Where(d => d.DriverId);
             return new { cars };
         }
 

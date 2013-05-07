@@ -23,7 +23,10 @@ namespace HC.TripData.Domain
         public string Description { get; set; }
         public TripType TripType { get; set; }
 
+        public Driver Driver { get; set; }
         public long DriverId { get; set; }
+
+
         public long? CarId { get; set; }
     }
 
