@@ -87,22 +87,12 @@
                 }
             }
            
-            trip.dateTime = ko.observable(getToday());
+            trip.dateTime = ko.observable(new Date());
             var driver = amplify.store('driver');
             if (driver) {
                 trip.driverId = ko.observable(driver.id);
             }
         }
-
-       function getToday() {
-           var date = new Date();
-           var currentDay = new String(date.getDate());
-           if (currentDay.length === 1) currentDay = '0' + currentDay;
-           var currentMonth = new String(date.getMonth() + 1); //Months are zero based
-           if (currentMonth.length === 1) currentMonth = '0' + currentMonth;
-           var currentYear = new String(date.getFullYear());
-           return currentYear + '-' + currentMonth + '-' + currentDay;
-       }
  
         function log(msg, data, showToast) {
             logger.log(msg, data, system.getModuleId(model), showToast);

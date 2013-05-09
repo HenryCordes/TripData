@@ -29,3 +29,14 @@ define(['durandal/app', 'durandal/viewLocator', 'durandal/system', 'durandal/plu
         app.setRoot('viewmodels/shell', 'entrance');
     });
  });
+
+
+ko.bindingHandlers.dateString = {
+    update: function(element, valueAccessor, allBindingsAccessor, viewModel) {
+        var value = valueAccessor(),
+        allBindings = allBindingsAccessor();
+        var valueUnwrapped = ko.utils.unwrapObservable(value);
+        var pattern = allBindings.datePattern || 'YYYY-MM-DD';
+        $(element).val(moment(valueUnwrapped).format(pattern));
+    }
+}
