@@ -53,9 +53,6 @@
 
         var createTrip = function () {
             return manager.createEntity(entityNames.trip);
-         //   var newTrip = manager.createEntity(entityNames.trip);
-         //   manager.addEntity(newTrip);
-         //   return newTrip;
         };
         
         var primeData = function () {
@@ -64,6 +61,7 @@
             return promise.then(success);
 
             function success() {
+                
                 datacontext.lookups = {
                     cars: getLocal('Cars', 'model', true)
                 };
@@ -76,7 +74,10 @@
 
         };
 
-
+        var fetchMetadata = function() {
+            manager.fetchMetadata();
+        };
+        
         var hasChanges = ko.observable(false);
 
         manager.hasChangesChanged.subscribe(function (eventArgs) {
@@ -93,7 +94,8 @@
             getTripById: getTripById,
             cancelChanges: cancelChanges,
             saveChanges: saveChanges,
-            primeData: primeData
+            primeData: primeData,
+            fetchMetadata:fetchMetadata
         };
 
         return datacontext;
