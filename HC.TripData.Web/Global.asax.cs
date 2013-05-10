@@ -7,6 +7,7 @@ using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
+using Thinktecture.IdentityModel.Http.Cors.Mvc;
 
 namespace HC.TripData.Web
 {
@@ -25,6 +26,9 @@ namespace HC.TripData.Web
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             AuthConfig.RegisterAuth();
+            CorsConfig.RegisterCors(MvcCorsConfiguration.Configuration);
         }
+
+        
     }
 }

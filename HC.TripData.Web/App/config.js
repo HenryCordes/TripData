@@ -7,7 +7,9 @@
         unknownDriverImageSource: 'unknown_person.jpg'
     };
 
-    var remoteServiceName = 'api/tripdata';
+    //var remoteServiceUrl = 'http://tripdata.apphb.com';
+    var remoteServiceUrl = 'http://10.211.55.3';
+    var remoteServiceName = remoteServiceUrl + '/api/tripdata';
 
     var routes = [{
         url: 'trip',
@@ -45,16 +47,7 @@
         name: 'Drivers',
         visible: true,
         caption: 'Drivers'
-    }
-    //    , {
-    //    url: 'sessionadd',
-    //    moduleId: 'viewmodels/sessionadd',
-    //    name: 'Add Session',
-    //    visible: false,
-    //    caption: '<i class="icon-plus"></i> Add Session',
-    //    settings: { admin: true }
-    //}
-    ];
+    }];
 
     var startModule = 'trip';
 

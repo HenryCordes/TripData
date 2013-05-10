@@ -3,8 +3,9 @@
     'durandal/app',
     'services/logger',
     'durandal/plugins/router',
-    'services/cookie'],
-    function (system, app, logger, router, cookie) {
+    'services/cookie',
+    'config'],
+    function (system, app, logger, router, cookie, config) {
 
         var authentication = {
             login: login,
@@ -29,7 +30,7 @@
     
         function login (userInfo, successRoute) {
 
-            var jqxhr = $.post('/api/account', userInfo)
+            var jqxhr = $.post(config.remoteServiceUrl + '/api/account', userInfo)
                 .done(function (result) {
                     if (result.Success === true) {
                         logger.log('login sucess ', null, true);
@@ -50,7 +51,7 @@
         function register(userInfo, successRoute) {
             
             var jqxhr = $.ajax({
-                url: '/api/account',
+                url: config.remoteServiceUrl + '/api/account',
                 type: 'PUT',
                 data: userInfo,
                 success: function (result) {
@@ -74,7 +75,7 @@
             var accessToken = { 'Token': cookie.getCookie('tripdata-accesstoken') };
             
              $.ajax({
-                url: '/api/security',
+                url: config.remoteServiceUrl + '/api/security',
                 type: 'POST',
                 data: accessToken,
                 success: function (result) {
@@ -97,7 +98,7 @@
         function logout() {      
             var accessToken = { 'Token': cookie.getCookie('tripdata-accesstoken') };
             var jqxhr = $.ajax({
-                url: '/api/security',
+                url: config.remoteServiceUrl +'/api/security',
                 type: 'DELETE',
                 data: accessToken,
                 success: function (result) {  
