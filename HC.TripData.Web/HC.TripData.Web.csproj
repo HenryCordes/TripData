@@ -250,12 +250,13 @@
     <Content Include="App\main.js" />
     <Content Include="App\services\authentication.js" />
     <Content Include="App\services\cookie.js" />
+    <Content Include="App\services\alert.js" />
+    <Content Include="App\services\localdatastore.js" />
     <Content Include="App\services\datacontext.js" />
     <Content Include="App\services\logger.js" />
     <Content Include="App\services\model.js" />
     <Content Include="App\viewmodels\account\login.js" />
     <Content Include="App\viewmodels\account\register.js" />
-    <Content Include="App\viewmodels\ajaxlogin.js" />
     <Content Include="App\viewmodels\trip.js" />
     <Content Include="App\views\trip.html" />
     <Content Include="App\viewmodels\settings.js" />

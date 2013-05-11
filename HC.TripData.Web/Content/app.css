@@ -79,7 +79,7 @@ h2.page-title {
     display: inline-block;
 }
     span.title {
-        background: url(images/tripdata_ss.png) no-repeat left 1px;
+        background: url(../content/images/tripdata_ss.png) no-repeat left 1px;
         -moz-background-size: 38px;
         -o-background-size: 38px;
         -webkit-background-size: 38px;

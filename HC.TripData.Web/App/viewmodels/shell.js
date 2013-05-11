@@ -1,5 +1,17 @@
-﻿define(['durandal/system',  'durandal/plugins/router', 'services/datacontext', 'services/logger', 'services/authentication', 'config'],
-    function (system,  router, datacontext, logger, authentication, config) {
+﻿define(['durandal/system',
+        'durandal/plugins/router',
+        'services/datacontext',
+        'services/localdatastore',
+        'services/logger',
+        'services/authentication',
+        'config'],
+    function (system,
+              router,
+              datacontext,
+              localdatastore,
+              logger,
+              authentication,
+              config) {
         var shell = {
             activate: activate,
             router: router
@@ -11,7 +23,6 @@
         function activate() {
             return checkAccess().fail(failInit);
         }
-        
         
         function failInit() {
             log('Could not load app', null, true);
@@ -25,25 +36,32 @@
 
             function checkToken(localDriver) {
                 if (localDriver === null) {
-                    return authentication.checkAccess(function(result) {
-                        if (result) {
-                            amplify.store('driver', {
-                                id: result.DriverId,
-                                email: result.DriverEmail
-                            });
-                            return result;
-                        }
-                        return null;
-                    });
+                    log('CheckToken has NO driver ', null, true);
+                    return authentication.checkAccess(
+                        function (result) {
+                            if (result) {
+                                localdatastore.storeDriver(result);
+                                return result;
+                            } else {
+                                return null;
+                            }
+                        },
+                        function() {
+                            return null;
+                        });
+                } else {
+                    log('CheckToken has driver id: ' + localDriver.id, null, true);
+                    return localDriver;
                 }
-                return localDriver;
             }
 
             function getLoggedInDriver() {
-                var driver = amplify.store('driver');
+                var driver = localdatastore.getDriver();
                 if (driver && driver.id > 0) {
+                    log('Logged in driver id: ' + driver.id, null, true);
                     return driver;
                 } else {
+                    log('Logged in driver NULL', null, true);
                     return null;
                 }
             }
@@ -68,28 +86,8 @@
             }
         }
 
-
         function log(msg, data, showToast) {
             logger.log(msg, data, system.getModuleId(shell), showToast);
         }
-        
-        //function checkAccessorg() {
-        //    log('checkAccess executed!', null, true);
-        //    var driver = amplify.store('driver');
-        //    if (driver && driver.id > 0) {
-        //        return router.activate(config.startModule);
-        //    }
-        //    return authentication.checkAccess(function (result) {
-        //        if (result) {
-        //            amplify.store('driver', {
-        //                id: result.DriverId,
-        //                email: result.DriverEmail
-        //            });
-        //        }
-        //        return result; //router.activate(config.startModule);
-        //    }, function () {
-        //        return null; // router.activate('account/login');
-        //    });
-        //}
         //#endregion
     });

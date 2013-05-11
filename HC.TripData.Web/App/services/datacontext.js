@@ -5,8 +5,9 @@
     'config',
     'services/logger',
     'services/breeze.partial-entities',
-    'services/cookie'],
-    function (system, app, model, config, logger, partialMapper, cookie) {
+    'services/cookie',
+    'services/localdatastore'],
+    function (system, app, model, config, logger, partialMapper, cookie, localdatastore) {
         var EntityQuery = breeze.EntityQuery;
         var manager = configureBreezeManager();
         var entityNames = model.entityNames;
@@ -55,27 +56,9 @@
             return manager.createEntity(entityNames.trip);
         };
         
-        var primeData = function () {
-            var promise = Q.all([getLookups()]).then(applyValidators);
-
-            return promise.then(success);
-
-            function success() {
-                
-                datacontext.lookups = {
-                    cars: getLocal('Cars', 'model', true)
-                };
-                log('Primed data', datacontext.lookups);
-            }
-
-            function applyValidators() {
-                model.applySessionValidators(manager.metadataStore);
-            }
-
-        };
-
-        var fetchMetadata = function() {
-            manager.fetchMetadata();
+     
+        var fetchMetadata = function () {
+            manager.metadataStore.importMetadata(JSON.stringify(getMetaData()));
         };
         
         var hasChanges = ko.observable(false);
@@ -94,16 +77,12 @@
             getTripById: getTripById,
             cancelChanges: cancelChanges,
             saveChanges: saveChanges,
-            primeData: primeData,
             fetchMetadata:fetchMetadata
         };
 
         return datacontext;
 
         //#region Internal methods        
-
-       
-
         function getLocal(resource, ordering, includeNullos) {
             var query = EntityQuery.from(resource)
                 .orderBy(ordering);
@@ -153,7 +132,11 @@
 
         function setAccessTokensInHeaderForAjax() {
             var requestVerificationToken = getCookieValue('__RequestVerificationToken');
-            var accessToken = getCookieValue('tripdata-accesstoken');
+            var driver = localdatastore.getDriver();
+            var accessToken = '';// getCookieValue('tripdata-accesstoken');
+            if (driver && driver.identifier) {
+                accessToken = driver.identifier;
+            }
             
             var ajaxAdapter = breeze.config.getAdapterInstance("ajax");
             ajaxAdapter.defaultSettings = {
@@ -192,5 +175,630 @@
             logger.logError(msg, error, system.getModuleId(datacontext), true);
         }
        
+        function getMetaData() {
+            return {
+                "namingConvention": "camelCase",
+                "localQueryComparisonOptions": "caseInsensitiveSQL",
+                "dataServices": [
+                    {
+                        "serviceName": "http://tripdata.apphb.com/api/tripdata/",
+                        "adapterName": null,
+                        "hasServerMetadata": true
+                    }
+                ],
+                "_resourceEntityTypeMap": {
+                    "Cars": "Car:#HC.TripData.Domain",
+                    "Drivers": "Driver:#HC.TripData.Domain",
+                    "AccessTokens": "AccessToken:#HC.TripData.Domain",
+                    "Trips": "Trip:#HC.TripData.Domain"
+                },
+                "_entityTypeResourceMap": {
+                    "Car:#HC.TripData.Domain": "Cars",
+                    "Driver:#HC.TripData.Domain": "Drivers",
+                    "AccessToken:#HC.TripData.Domain": "AccessTokens",
+                    "Trip:#HC.TripData.Domain": "Trips"
+                },
+                "_structuralTypeMap": {
+                    "Car:#HC.TripData.Domain": {
+                        "name": "Car:#HC.TripData.Domain",
+                        "shortName": "Car",
+                        "namespace": "HC.TripData.Domain",
+                        "defaultResourceName": "Cars",
+                        "dataProperties": [
+                            {
+                                "name": "carId",
+                                "nameOnServer": "CarId",
+                                "dataType": "Int64",
+                                "isNullable": false,
+                                "maxLength": null,
+                                "defaultValue": 0,
+                                "validators": [
+                                    {
+                                        "validatorName": "required"
+                                    },
+                                    {
+                                        "validatorName": "integer"
+                                    }
+                                ],
+                                "isPartOfKey": true
+                            },
+                            {
+                                "name": "licensePlateNumber",
+                                "nameOnServer": "LicensePlateNumber",
+                                "dataType": "String",
+                                "isNullable": false,
+                                "maxLength": null,
+                                "fixedLength": false,
+                                "defaultValue": "",
+                                "validators": [
+                                    {
+                                        "validatorName": "required"
+                                    },
+                                    {
+                                        "validatorName": "string"
+                                    }
+                                ],
+                                "isPartOfKey": false
+                            },
+                            {
+                                "name": "make",
+                                "nameOnServer": "Make",
+                                "dataType": "String",
+                                "isNullable": false,
+                                "maxLength": null,
+                                "fixedLength": false,
+                                "defaultValue": "",
+                                "validators": [
+                                    {
+                                        "validatorName": "required"
+                                    },
+                                    {
+                                        "validatorName": "string"
+                                    }
+                                ],
+                                "isPartOfKey": false
+                            },
+                            {
+                                "name": "model",
+                                "nameOnServer": "Model",
+                                "dataType": "String",
+                                "isNullable": false,
+                                "maxLength": null,
+                                "fixedLength": false,
+                                "defaultValue": "",
+                                "validators": [
+                                    {
+                                        "validatorName": "required"
+                                    },
+                                    {
+                                        "validatorName": "string"
+                                    }
+                                ],
+                                "isPartOfKey": false
+                            },
+                            {
+                                "name": "isCurrentCar",
+                                "nameOnServer": "IsCurrentCar",
+                                "dataType": "Boolean",
+                                "isNullable": false,
+                                "maxLength": null,
+                                "defaultValue": false,
+                                "validators": [
+                                    {
+                                        "validatorName": "required"
+                                    },
+                                    {
+                                        "validatorName": "bool"
+                                    }
+                                ],
+                                "isPartOfKey": false
+                            },
+                            {
+                                "name": "driverId",
+                                "nameOnServer": "DriverId",
+                                "dataType": "Int64",
+                                "isNullable": false,
+                                "maxLength": null,
+                                "defaultValue": 0,
+                                "validators": [
+                                    {
+                                        "validatorName": "required"
+                                    },
+                                    {
+                                        "validatorName": "integer"
+                                    }
+                                ],
+                                "isPartOfKey": false
+                            }
+                        ],
+                        "navigationProperties": [
+                            {
+                                "name": "driver",
+                                "nameOnServer": "Driver",
+                                "entityTypeName": "Driver:#HC.TripData.Domain",
+                                "isScalar": true,
+                                "associationName": "Driver_Cars",
+                                "foreignKeyNames": [
+                                    "driverId"
+                                ],
+                                "foreignKeyNamesOnServer": [
+                                    "DriverId"
+                                ],
+                                "validators": []
+                            }
+                        ],
+                        "autoGeneratedKeyType": "Identity",
+                        "validators": []
+                    },
+                    "Driver:#HC.TripData.Domain": {
+                        "name": "Driver:#HC.TripData.Domain",
+                        "shortName": "Driver",
+                        "namespace": "HC.TripData.Domain",
+                        "defaultResourceName": "Drivers",
+                        "dataProperties": [
+                            {
+                                "name": "driverId",
+                                "nameOnServer": "DriverId",
+                                "dataType": "Int64",
+                                "isNullable": false,
+                                "maxLength": null,
+                                "defaultValue": 0,
+                                "validators": [
+                                    {
+                                        "validatorName": "required"
+                                    },
+                                    {
+                                        "validatorName": "integer"
+                                    }
+                                ],
+                                "isPartOfKey": true
+                            },
+                            {
+                                "name": "lastName",
+                                "nameOnServer": "LastName",
+                                "dataType": "String",
+                                "isNullable": true,
+                                "maxLength": null,
+                                "fixedLength": false,
+                                "defaultValue": null,
+                                "validators": [
+                                    {
+                                        "validatorName": "string"
+                                    }
+                                ],
+                                "isPartOfKey": false
+                            },
+                            {
+                                "name": "firstName",
+                                "nameOnServer": "FirstName",
+                                "dataType": "String",
+                                "isNullable": true,
+                                "maxLength": null,
+                                "fixedLength": false,
+                                "defaultValue": null,
+                                "validators": [
+                                    {
+                                        "validatorName": "string"
+                                    }
+                                ],
+                                "isPartOfKey": false
+                            },
+                            {
+                                "name": "emailAddress",
+                                "nameOnServer": "EmailAddress",
+                                "dataType": "String",
+                                "isNullable": false,
+                                "maxLength": null,
+                                "fixedLength": false,
+                                "defaultValue": "",
+                                "validators": [
+                                    {
+                                        "validatorName": "required"
+                                    },
+                                    {
+                                        "validatorName": "string"
+                                    }
+                                ],
+                                "isPartOfKey": false
+                            },
+                            {
+                                "name": "password",
+                                "nameOnServer": "Password",
+                                "dataType": "String",
+                                "isNullable": false,
+                                "maxLength": null,
+                                "fixedLength": false,
+                                "defaultValue": "",
+                                "validators": [
+                                    {
+                                        "validatorName": "required"
+                                    },
+                                    {
+                                        "validatorName": "string"
+                                    }
+                                ],
+                                "isPartOfKey": false
+                            },
+                            {
+                                "name": "salt",
+                                "nameOnServer": "Salt",
+                                "dataType": "String",
+                                "isNullable": true,
+                                "maxLength": null,
+                                "fixedLength": false,
+                                "defaultValue": null,
+                                "validators": [
+                                    {
+                                        "validatorName": "string"
+                                    }
+                                ],
+                                "isPartOfKey": false
+                            }
+                        ],
+                        "navigationProperties": [
+                            {
+                                "name": "token",
+                                "nameOnServer": "Token",
+                                "entityTypeName": "AccessToken:#HC.TripData.Domain",
+                                "isScalar": true,
+                                "associationName": "Driver_Token",
+                                "foreignKeyNames": [],
+                                "foreignKeyNamesOnServer": [],
+                                "validators": []
+                            },
+                            {
+                                "name": "cars",
+                                "nameOnServer": "Cars",
+                                "entityTypeName": "Car:#HC.TripData.Domain",
+                                "isScalar": false,
+                                "associationName": "Driver_Cars",
+                                "foreignKeyNames": [],
+                                "foreignKeyNamesOnServer": [],
+                                "validators": []
+                            }
+                        ],
+                        "autoGeneratedKeyType": "Identity",
+                        "validators": []
+                    },
+                    "AccessToken:#HC.TripData.Domain": {
+                        "name": "AccessToken:#HC.TripData.Domain",
+                        "shortName": "AccessToken",
+                        "namespace": "HC.TripData.Domain",
+                        "defaultResourceName": "AccessTokens",
+                        "dataProperties": [
+                            {
+                                "name": "accessTokenId",
+                                "nameOnServer": "AccessTokenId",
+                                "dataType": "Int64",
+                                "isNullable": false,
+                                "maxLength": null,
+                                "defaultValue": 0,
+                                "validators": [
+                                    {
+                                        "validatorName": "required"
+                                    },
+                                    {
+                                        "validatorName": "integer"
+                                    }
+                                ],
+                                "isPartOfKey": true
+                            },
+                            {
+                                "name": "issuedOn",
+                                "nameOnServer": "IssuedOn",
+                                "dataType": "DateTime",
+                                "isNullable": false,
+                                "maxLength": null,
+                                "defaultValue": "1899-12-31T23:00:00.000Z",
+                                "validators": [
+                                    {
+                                        "validatorName": "required"
+                                    },
+                                    {
+                                        "validatorName": "date"
+                                    }
+                                ],
+                                "isPartOfKey": false
+                            },
+                            {
+                                "name": "expiresOn",
+                                "nameOnServer": "ExpiresOn",
+                                "dataType": "DateTime",
+                                "isNullable": false,
+                                "maxLength": null,
+                                "defaultValue": "1899-12-31T23:00:00.000Z",
+                                "validators": [
+                                    {
+                                        "validatorName": "required"
+                                    },
+                                    {
+                                        "validatorName": "date"
+                                    }
+                                ],
+                                "isPartOfKey": false
+                            },
+                            {
+                                "name": "token",
+                                "nameOnServer": "Token",
+                                "dataType": "String",
+                                "isNullable": true,
+                                "maxLength": null,
+                                "fixedLength": false,
+                                "defaultValue": null,
+                                "validators": [
+                                    {
+                                        "validatorName": "string"
+                                    }
+                                ],
+                                "isPartOfKey": false
+                            }
+                        ],
+                        "navigationProperties": [],
+                        "autoGeneratedKeyType": "Identity",
+                        "validators": []
+                    },
+                    "Trip:#HC.TripData.Domain": {
+                        "name": "Trip:#HC.TripData.Domain",
+                        "shortName": "Trip",
+                        "namespace": "HC.TripData.Domain",
+                        "defaultResourceName": "Trips",
+                        "dataProperties": [
+                            {
+                                "name": "tripId",
+                                "nameOnServer": "TripId",
+                                "dataType": "Int64",
+                                "isNullable": false,
+                                "maxLength": null,
+                                "defaultValue": 0,
+                                "validators": [
+                                    {
+                                        "validatorName": "required"
+                                    },
+                                    {
+                                        "validatorName": "integer"
+                                    }
+                                ],
+                                "isPartOfKey": true
+                            },
+                            {
+                                "name": "startMilage",
+                                "nameOnServer": "StartMilage",
+                                "dataType": "Int32",
+                                "isNullable": true,
+                                "maxLength": null,
+                                "defaultValue": null,
+                                "validators": [
+                                    {
+                                        "validatorName": "int32"
+                                    }
+                                ],
+                                "isPartOfKey": false
+                            },
+                            {
+                                "name": "endMilage",
+                                "nameOnServer": "EndMilage",
+                                "dataType": "Int32",
+                                "isNullable": true,
+                                "maxLength": null,
+                                "defaultValue": null,
+                                "validators": [
+                                    {
+                                        "validatorName": "int32"
+                                    }
+                                ],
+                                "isPartOfKey": false
+                            },
+                            {
+                                "name": "dateTime",
+                                "nameOnServer": "DateTime",
+                                "dataType": "DateTime",
+                                "isNullable": false,
+                                "maxLength": null,
+                                "defaultValue": "1899-12-31T23:00:00.000Z",
+                                "validators": [
+                                    {
+                                        "validatorName": "required"
+                                    },
+                                    {
+                                        "validatorName": "date"
+                                    }
+                                ],
+                                "isPartOfKey": false
+                            },
+                            {
+                                "name": "placeOfDeparture",
+                                "nameOnServer": "PlaceOfDeparture",
+                                "dataType": "String",
+                                "isNullable": true,
+                                "maxLength": null,
+                                "fixedLength": false,
+                                "defaultValue": null,
+                                "validators": [
+                                    {
+                                        "validatorName": "string"
+                                    }
+                                ],
+                                "isPartOfKey": false
+                            },
+                            {
+                                "name": "destination",
+                                "nameOnServer": "Destination",
+                                "dataType": "String",
+                                "isNullable": true,
+                                "maxLength": null,
+                                "fixedLength": false,
+                                "defaultValue": null,
+                                "validators": [
+                                    {
+                                        "validatorName": "string"
+                                    }
+                                ],
+                                "isPartOfKey": false
+                            },
+                            {
+                                "name": "departureZipCode",
+                                "nameOnServer": "DepartureZipCode",
+                                "dataType": "String",
+                                "isNullable": true,
+                                "maxLength": null,
+                                "fixedLength": false,
+                                "defaultValue": null,
+                                "validators": [
+                                    {
+                                        "validatorName": "string"
+                                    }
+                                ],
+                                "isPartOfKey": false
+                            },
+                            {
+                                "name": "destinationZipCode",
+                                "nameOnServer": "DestinationZipCode",
+                                "dataType": "String",
+                                "isNullable": true,
+                                "maxLength": null,
+                                "fixedLength": false,
+                                "defaultValue": null,
+                                "validators": [
+                                    {
+                                        "validatorName": "string"
+                                    }
+                                ],
+                                "isPartOfKey": false
+                            },
+                            {
+                                "name": "description",
+                                "nameOnServer": "Description",
+                                "dataType": "String",
+                                "isNullable": true,
+                                "maxLength": null,
+                                "fixedLength": false,
+                                "defaultValue": null,
+                                "validators": [
+                                    {
+                                        "validatorName": "string"
+                                    }
+                                ],
+                                "isPartOfKey": false
+                            },
+                            {
+                                "name": "tripType",
+                                "nameOnServer": "TripType",
+                                "dataType": "Int32",
+                                "isNullable": false,
+                                "maxLength": null,
+                                "defaultValue": 0,
+                                "validators": [
+                                    {
+                                        "validatorName": "required"
+                                    },
+                                    {
+                                        "validatorName": "int32"
+                                    }
+                                ],
+                                "isPartOfKey": false
+                            },
+                            {
+                                "name": "driverId",
+                                "nameOnServer": "DriverId",
+                                "dataType": "Int64",
+                                "isNullable": false,
+                                "maxLength": null,
+                                "defaultValue": 0,
+                                "validators": [
+                                    {
+                                        "validatorName": "required"
+                                    },
+                                    {
+                                        "validatorName": "integer"
+                                    }
+                                ],
+                                "isPartOfKey": false
+                            },
+                            {
+                                "name": "carId",
+                                "nameOnServer": "CarId",
+                                "dataType": "Int64",
+                                "isNullable": true,
+                                "maxLength": null,
+                                "defaultValue": null,
+                                "validators": [
+                                    {
+                                        "validatorName": "integer"
+                                    }
+                                ],
+                                "isPartOfKey": false
+                            }
+                        ],
+                        "navigationProperties": [
+                            {
+                                "name": "driver",
+                                "nameOnServer": "Driver",
+                                "entityTypeName": "Driver:#HC.TripData.Domain",
+                                "isScalar": true,
+                                "associationName": "Trip_Driver",
+                                "foreignKeyNames": [
+                                    "driverId"
+                                ],
+                                "foreignKeyNamesOnServer": [
+                                    "DriverId"
+                                ],
+                                "validators": []
+                            }
+                        ],
+                        "autoGeneratedKeyType": "Identity",
+                        "validators": []
+                    }
+                },
+                "_shortNameMap": {
+                    "Car": "Car:#HC.TripData.Domain",
+                    "Driver": "Driver:#HC.TripData.Domain",
+                    "AccessToken": "AccessToken:#HC.TripData.Domain",
+                    "Trip": "Trip:#HC.TripData.Domain"
+                },
+                "_id": 0,
+                "_typeRegistry": {},
+                "_incompleteTypeMap": {
+                    "Driver:#HC.TripData.Domain": {
+                        "Driver_Token": {
+                            "name": "token",
+                            "nameOnServer": "Token",
+                            "entityTypeName": "AccessToken:#HC.TripData.Domain",
+                            "isScalar": true,
+                            "associationName": "Driver_Token",
+                            "foreignKeyNames": [],
+                            "foreignKeyNamesOnServer": [],
+                            "validators": []
+                        }
+                    },
+                    "AccessToken:#HC.TripData.Domain": {},
+                    "Trip:#HC.TripData.Domain": {
+                        "Trip_Driver": {
+                            "name": "driver",
+                            "nameOnServer": "Driver",
+                            "entityTypeName": "Driver:#HC.TripData.Domain",
+                            "isScalar": true,
+                            "associationName": "Trip_Driver",
+                            "foreignKeyNames": [
+                                "driverId"
+                            ],
+                            "foreignKeyNamesOnServer": [
+                                "DriverId"
+                            ],
+                            "validators": []
+                        }
+                    }
+                }
+            };
+        }
+        
+
+     //   var orgfetchMetadata = function () {
+            //  meta = manager.fetchMetadata();
+            //setTimeout(function() {
+            //    var metadataAsString = manager.metadataStore.exportMetadata();
+            //    window.localStorage.setItem("metadata", metadataAsString);
+            //}, 1000);
+            //return meta;
+      //  };
         //#endregion
     });

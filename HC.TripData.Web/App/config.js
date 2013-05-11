@@ -7,9 +7,9 @@
         unknownDriverImageSource: 'unknown_person.jpg'
     };
 
-  //  var remoteServiceUrl = 'http://tripdata.apphb.com';
+    var remoteServiceUrl = 'http://tripdata.apphb.com';
   //  var remoteServiceUrl = 'http://10.211.55.3';
-    var remoteServiceUrl = '';
+   // var remoteServiceUrl = '';
     var remoteServiceName = remoteServiceUrl + '/api/tripdata';
 
     var routes = [{
@@ -56,6 +56,7 @@
         debugEnabled: ko.observable(true),
         imageSettings: imageSettings,
         remoteServiceName: remoteServiceName,
+        remoteServiceUrl:remoteServiceUrl,
         routes: routes,
         startModule: startModule
     };
