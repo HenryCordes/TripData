@@ -26,7 +26,8 @@
                     .then(getLoggedInDriver)
                     .then(checkToken)
                     .then(boot)
-                    .fail(failInit);
+                    .fail(failInit)
+                    .fin(adjustBrowserBar);
 
             function checkToken(localDriver) {
                 if (localDriver === null) {
@@ -69,16 +70,6 @@
                 router.map(config.routes);
                 //We need a timeout here, otherwise the metadata is not ready at the moment of initializing the trip viewmodel
                 setTimeout(function () {
-                    if (/mobi/i.test(navigator.userAgent)) {
-                        if (("standalone" in window.navigator) && !window.navigator.standalone) {
-                            if (!pageYOffset) {
-                                alert('yes');
-                                var body = document.getElementById('content');
-                                body.clientHeight = body.clientHeight + 64;
-                                window.scrollTo(0, 0);
-                            }
-                        }
-                    }
                     if (driver) {
                         log('Router.activate ' + config.startModule);
                         return router.activate(config.startModule);
@@ -89,6 +80,21 @@
                     
                   
                 }, 700);
+            }
+            
+            function adjustBrowserBar() {
+                if (/mobi/i.test(navigator.userAgent)) {
+                    if (("standalone" in window.navigator) && !window.navigator.standalone) {
+                        if (!pageYOffset) {
+                            alert('yes');
+                            var body = document.getElementById('content');
+                            alert(body.clientHeight);
+                            body.clientHeight = body.clientHeight + 64;
+                            alert(body.clientHeight);
+                            window.scrollTo(0, 0);
+                        }
+                    }
+                }
             }
             
             function failInit() {
