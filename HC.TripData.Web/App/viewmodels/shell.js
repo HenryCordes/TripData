@@ -68,7 +68,16 @@
                 log('Trip Data Loaded!', null, true);
                 router.map(config.routes);
                 //We need a timeout here, otherwise the metadata is not ready at the moment of initializing the trip viewmodel
-                setTimeout(function() {
+                setTimeout(function () {
+                    if (/mobi/i.test(navigator.userAgent)) {
+                        if (("standalone" in window.navigator) && !window.navigator.standalone) {
+                            if (!pageYOffset) {
+                                var body = document.getElementsByTagName("body")[0];
+                                body.height = body.height + 64;
+                                window.scrollTo(0, 0);
+                            }
+                        }
+                    }
                     if (driver) {
                         log('Router.activate ' + config.startModule);
                         return router.activate(config.startModule);
@@ -76,6 +85,8 @@
                         log('Router.activate account/login');
                         return router.activate('account/login');
                     }
+                    
+                  
                 }, 700);
             }
             
