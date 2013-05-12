@@ -72,6 +72,7 @@
                     if (/mobi/i.test(navigator.userAgent)) {
                         if (("standalone" in window.navigator) && !window.navigator.standalone) {
                             if (!pageYOffset) {
+                                alert.showMessage('yes', null, 'scrollto', 'OK');
                                 var body = document.getElementById('content');
                                 body.clientHeight = body.clientHeight + 64;
                                 window.scrollTo(0, 0);
