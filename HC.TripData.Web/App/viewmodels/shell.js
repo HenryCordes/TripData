@@ -86,11 +86,10 @@
                 if (/mobi/i.test(navigator.userAgent)) {
                     if (("standalone" in window.navigator) && !window.navigator.standalone) {
                         if (!pageYOffset) {
-                            alert('yes');
-                            var body = document.getElementById('content');
-                            alert(body.clientHeight);
-                            body.clientHeight = body.clientHeight + 64;
-                            alert(body.clientHeight);
+                            var applicationHost = document.getElementById('applicationHost');
+                            alert(applicationHost.clientHeight);
+                            applicationHost.style.height =(applicationHost.clientHeight + 64) + 'px';
+                            alert(applicationHost.style.height);
                             window.scrollTo(0, 0);
                         }
                     }
