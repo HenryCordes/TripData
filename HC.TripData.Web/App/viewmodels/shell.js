@@ -72,8 +72,8 @@
                     if (/mobi/i.test(navigator.userAgent)) {
                         if (("standalone" in window.navigator) && !window.navigator.standalone) {
                             if (!pageYOffset) {
-                                var body = document.getElementsByTagName("body")[0];
-                                body.height = body.height + 64;
+                                var body = document.getElementById('content');
+                                body.clientHeight = body.clientHeight + 64;
                                 window.scrollTo(0, 0);
                             }
                         }
