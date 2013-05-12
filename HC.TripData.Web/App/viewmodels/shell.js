@@ -20,19 +20,13 @@
         return shell;
         
         //#region Internal Methods
-        function activate() {
-            return checkAccess().fail(failInit);
-        }
         
-        function failInit() {
-            log('Could not load app', null, true);
-        }
-
-        function checkAccess() {
+        function activate() {
             return Q.fcall(initializeDatacontext)
                     .then(getLoggedInDriver)
                     .then(checkToken)
-                    .then(boot);
+                    .then(boot)
+                    .fail(failInit);
 
             function checkToken(localDriver) {
                 if (localDriver === null) {
@@ -84,8 +78,13 @@
                     }
                 }, 700);
             }
+            
+            function failInit() {
+                log('Could not load app', null, true);
+            }
         }
-
+        
+        
         function log(msg, data, showToast) {
             logger.log(msg, data, system.getModuleId(shell), showToast);
         }

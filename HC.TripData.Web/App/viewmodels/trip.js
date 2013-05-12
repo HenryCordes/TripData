@@ -1,14 +1,25 @@
-﻿define(['services/logger', 'services/datacontext', 'durandal/plugins/router'],
-    function (logger, datacontext, router) {
+﻿define(['services/logger', 'services/datacontext', 'durandal/plugins/router', 'services/authentication', 'services/localdatastore', 'config'],
+    function (logger, datacontext, router, authentication, localdatastore, config) {
 
         var isSaving = ko.observable(false),
             trip = ko.observable(),
            // cars = ko.observableArray(),
 
-            activate = function() {
+            activate = function () {
                 trip(datacontext.createTrip());
                 logger.log('Trip Activated', null, 'trip', true);
-                return true;
+                return true; 
+            },
+            canActivate = function() {
+                var driver = localdatastore.getDriver();
+                if (driver && driver.id > 0) {
+                    logger.log('Trip Activated', null, 'trip', true);
+                    return true;
+                } else {
+                    logger.log('Logged in driver NULL TRIP', null, true);
+                    router.navigateTo('#/' + config.startModule, 'replace');
+                    return false;
+                }
             },
             cancel = function (complete) {
                 router.navigateBack();
@@ -41,6 +52,7 @@
     
 
     var vm = {
+        canActivate: canActivate,
         activate: activate,
         canSave: canSave,
         cancel: cancel,
