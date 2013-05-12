@@ -56,8 +56,7 @@
 
                 /mobi/i.test(navigator.userAgent) && !location.hash && setTimeout(function () {
                     if (("standalone" in window.navigator) && !window.navigator.standalone) {
-                        if (!pageYOffset) window.scrollTo(0, 0);
-                        window.resize();
+                        if (!pageYOffset) window.scrollTo(0, 1);
                     }
                 }, 1000);
       </script>
