@@ -50,7 +50,14 @@ input::-webkit-inner-spin-button {
 }
 
 section.main {
-    margin-top: 50px;
+    /*margin-top: 50px;*/
+    top: 42px;
+    left: 0;
+    bottom: 20px;
+    right: 0;
+    overflow-y: auto;
+    overflow-x: hidden;
+    position: absolute;
 }
 
 .navbar .brand {
