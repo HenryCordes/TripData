@@ -49,6 +49,7 @@ namespace HC.TripData.Web
                 .Include("~/Content/bootstrap-responsive.css")
                 .Include("~/Content/durandal.css")
                 .Include("~/Content/toastr.css")
+                .Include("~/Content/icons.css")
                 .Include("~/Content/app.css")
        //         .Include("~/Content/site.css")
               );
