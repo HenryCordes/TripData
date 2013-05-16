@@ -1075,6 +1075,8 @@ fieldset div.header {
     margin-bottom: 6px;
     font-weight: bold;
 }
+
+fieldset.trip{ padding-bottom: 25px;}
 label.checkbox-label {display: inline-block;padding-bottom: 5px;}
 .centered{ width: 100%;text-align: center; margin-left: -46px; }
 

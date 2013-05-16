@@ -87,7 +87,7 @@
                     if (("standalone" in window.navigator) && !window.navigator.standalone) {
                         if (!pageYOffset) {
                             var applicationHost = document.getElementById('applicationHost');
-                            applicationHost.style.height =(applicationHost.clientHeight + 128) + 'px';
+                            applicationHost.style.height =(applicationHost.clientHeight + 122) + 'px';
                             window.scrollTo(0, 0);
                         }
                     }
