@@ -361,6 +361,7 @@
     <Content Include="fonts\entypo.ttf" />
     <Content Include="fonts\entypo.woff" />
     <Content Include="fonts\entypo.otf" />
+    <Content Include="fonts\entypo.eot" />
     <None Include="Scripts\jquery-1.9.1.intellisense.js" />
     <None Include="Scripts\breeze.intellisense.js" />
     <None Include="Scripts\amplify-vsdoc.js" />
