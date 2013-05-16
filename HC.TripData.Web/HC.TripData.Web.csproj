@@ -294,6 +294,7 @@
     <Content Include="Content\images\list-item.png" />
     <Content Include="Content\images\navbar-black.png" />
     <Content Include="Content\images\navbar-btn-black-active.png" />
+    <Content Include="Content\images\navbar-btn.png" />
     <Content Include="Content\images\sidemenu-header.png" />
     <Content Include="Content\images\tripdata.png" />
     <Content Include="Content\images\tripdata_s.png" />
