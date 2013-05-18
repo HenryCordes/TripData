@@ -46,8 +46,8 @@
                 </div>
                 <div class="controls center">
                     <div class="btn-group">
-                        <button class="btn" data-bind="click: function () { tripType(0) }, css: { active: tripType() == 0 }" value="0">Business</button>
-                        <button class="btn" data-bind="click: function () { tripType(1) }, css: { active: tripType() == 1 }" value="1">Private</button>
+                        <button class="btn" data-bind="click: function () { tripType(0) }, css: { active: tripType() == 0, 'btn-blue': tripType() == 0 }" value="0">Business</button>
+                        <button class="btn" data-bind="click: function () { tripType(1) }, css: { active: tripType() == 1, 'btn-blue': tripType() == 1 }" value="1">Private</button>
                     </div>
                 </div>
             <!-- <div class="control-group">
@@ -59,7 +59,7 @@
             </div>
             <div class="control-group">
                 <div class="controls">
-                    <button type="submit" class="btn top10" data-bind="click: save">Save</button>
+                    <button type="submit" class="btn btn-primary top10" data-bind="click: save">Save</button>
                 </div>
             </div>
         </form>

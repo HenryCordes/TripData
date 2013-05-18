@@ -8,6 +8,8 @@
             activate = function () {
                 trip(datacontext.createTrip());
                 logger.log('Trip Activated', null, 'trip', true);
+                document.getElementById('header-title').innerText = 'Enter Trip';
+                
                 return true; 
             },
             canActivate = function() {
