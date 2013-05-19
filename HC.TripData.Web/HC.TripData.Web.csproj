@@ -266,14 +266,14 @@
     <Content Include="App\views\trip.html" />
     <Content Include="App\viewmodels\settings.js" />
     <Content Include="App\viewmodels\details.js" />
-    <Content Include="App\viewmodels\home.js" />
+    <Content Include="App\viewmodels\sync.js" />
     <Content Include="App\viewmodels\shell.js" />
     <Content Include="App\views\account\register.html" />
     <Content Include="App\views\account\login.html" />
     <Content Include="App\views\settings.html" />
     <Content Include="App\views\details.html" />
     <Content Include="App\views\footer.html" />
-    <Content Include="App\views\home.html" />
+    <Content Include="App\views\sync.html" />
     <Content Include="App\views\nav.html" />
     <Content Include="App\views\shell.html" />
     <Content Include="Content\app.css" />

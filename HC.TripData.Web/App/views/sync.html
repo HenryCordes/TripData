@@ -1,0 +1,24 @@
+﻿<section>
+    <h2 class="page-title" data-bind="text: title"></h2>
+    
+     <fieldset id="sync">
+        
+        <legend>Sync</legend>
+
+        <form class="form-horizontal" >
+            <div>
+                <br /><br />
+                This section allows you to sync your trips to the server.   
+            </div>
+            <div><br /><br /><br /><br />
+                <span data-bind="text: numberOfTrips"></span> Trips to sync.
+            </div><br />
+            <div class="control-group">
+                <div class="controls">
+                    <button type="submit" class="btn btn-primary" data-bind="click: sync">Sync with server</button>
+                </div>
+            </div>
+        </form>
+    </fieldset>
+
+</section>

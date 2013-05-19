@@ -37,17 +37,17 @@
         visible: true,
         caption: 'Settings'
     }, {
+        url: 'sync',
+        moduleId: 'viewmodels/sync',
+        name: 'Sync',
+        visible: true,
+        caption: 'Sync'
+    }, {
         url: 'trips',
         moduleId: 'viewmodels/trips',
         name: 'Trips',
         visible: true,
         caption: 'Trips'
-    }, {
-        url: 'drivers',
-        moduleId: 'viewmodels/drivers',
-        name: 'Drivers',
-        visible: true,
-        caption: 'Drivers'
     }];
 
     var startModule = 'trip';
