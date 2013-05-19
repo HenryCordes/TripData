@@ -77,6 +77,13 @@
         };
         
         var syncWithServer = function () {
+            var currentDriver;
+            var driver = localdatastore.getDriver();
+            if (driver && driver.id > 0) {
+                var currDriver = getDriverById(driver.id, currentDriver);
+                currDriver.firstName = currDriver.firstName;
+                
+            }
             var localChanges = localdatastore.getChanges();
             if (localChanges) {
                 manager.importEntities(localChanges);

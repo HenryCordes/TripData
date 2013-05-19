@@ -6,7 +6,8 @@
             driver(localdatastore.getDriver());
             logger.log('Settings Activated', null, 'settings', true);
             document.getElementById('header-title').innerText = 'Settings';
-
+            $('ul#navigation > li').removeClass('active');
+            $('ul#navigation > li[data-nav="settings"]').addClass('active');
             return true;
         },
         save = function() {

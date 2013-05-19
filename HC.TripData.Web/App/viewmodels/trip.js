@@ -9,7 +9,8 @@
                 trip(datacontext.createTrip());
                 logger.log('Trip Activated', null, 'trip', true);
                 document.getElementById('header-title').innerText = 'Enter Trip';
-                
+                $('ul#navigation > li').removeClass('active');
+                $('ul#navigation > li[data-nav="trip"]').addClass('active');
                 return true; 
             },
             canActivate = function() {

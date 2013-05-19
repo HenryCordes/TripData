@@ -670,7 +670,7 @@ body {
   border-radius: 0 0 0 0 !important;
   top: 44px;
   left: 0;
-  bottom: 30px;
+  bottom: 49px;
   right: 0;
   overflow-y: auto;
   overflow-x: hidden;
@@ -1035,6 +1035,8 @@ input::-webkit-inner-spin-button {
     display: none;
 }
 
+
+.form-horizontal .controls { margin-bottom: 4px; }
 /* End Boostrap overrides  */
 /***************************/
 .form-horizontal .trip { width: 400px;}
@@ -1100,12 +1102,12 @@ label.checkbox-label {display: inline-block;padding-bottom: 5px;}
     .nav-collapse, .nav-collapse.collapse { padding-top: 6px; }
     section.main {margin-top: 0;}
 
-    form { margin: 0 0 10px;}
+    form { margin: 0;}
     .form-horizontal .trip { width: 465px; }
     .form-horizontal .control-group { margin-bottom: 4px;}
 
     legend { display: none;}
-    fieldset {padding: 10px 0px;}
+    fieldset {padding: 10px 0 0 0;}
 
     .form-horizontal .control-group.right .controls input, textarea, .uneditable-input,
     .form-horizontal .control-group.left .controls input, textarea, .uneditable-input {
@@ -1156,6 +1158,6 @@ label.checkbox-label {display: inline-block;padding-bottom: 5px;}
     footer span { padding: 0; font-size: 14px;}
     button.btn, input[type="submit"].btn { margin-top: 4px;}
     .center {text-align: center;}
-    button[type="submit"].btn.top10 { margin-top: 10px;}
+    button[type="submit"].btn.top10 { margin-top: 6px; }
     .row-fluid .span8.pad62 {padding-left: 62px;}
 }

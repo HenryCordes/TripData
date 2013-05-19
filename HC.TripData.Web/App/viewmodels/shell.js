@@ -81,7 +81,8 @@
                   
                 }, 700);
             }
-            
+
+
             function adjustBrowserBar() {
                 if (/mobi/i.test(navigator.userAgent)) {
                     if (("standalone" in window.navigator) && !window.navigator.standalone) {
@@ -93,7 +94,7 @@
                     }
                 }
             }
-            
+
             function failInit() {
                 log('Could not load app', null, true);
             }
