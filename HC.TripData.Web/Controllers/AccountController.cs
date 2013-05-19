@@ -57,12 +57,17 @@ namespace HC.TripData.Web.Controllers
                     }
                     _driverRepository.UpdateDriver(driver);
 
-                    var car = driver.Cars.FirstOrDefault(c => c.IsCurrentCar);
                     long carId = 0;
-                    if (car != null)
+                    if (driver.Cars != null)
                     {
-                        carId = car.CarId;
+                        var car = driver.Cars.FirstOrDefault(c => c.IsCurrentCar);
+
+                        if (car != null)
+                        {
+                            carId = car.CarId;
+                        }
                     }
+                   
                     var responseMessage = Request.CreateResponse<LogonResponseModel>(HttpStatusCode.OK, AccountHelper.GetLogonResponseModel(true, 
                                                                                                                                             driver.Token.Token, 
                                                                                                                                             driver.DriverId, 

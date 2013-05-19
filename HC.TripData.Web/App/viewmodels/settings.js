@@ -17,7 +17,7 @@
                     .then(goToEditView).fin(complete);
 
             function goToEditView() {
-                dialog.showMessage('Save succeeded', null, 'Save', 'OK');
+               return dialog.showMessage('Save succeeded', null, 'Save', 'OK');
             }
 
             function complete() {

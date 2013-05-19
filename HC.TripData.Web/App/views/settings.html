@@ -6,35 +6,37 @@
         
         <legend>Driver</legend>
 
-        <form class="form-horizontal">
-            <div class="control-group">
-                <label class="control-label" for="LastName">Lastname</label>
-                <div class="controls">
-                    <input type="text" id="LastName" placeholder="Lastname" data-bind="text: lastName">
+        <form class="form-horizontal" >
+            <div  data-bind="with: driver">
+                <div class="control-group">
+                    <label class="control-label" for="LastName">Lastname</label>
+                    <div class="controls">
+                        <input type="text" id="LastName" placeholder="Lastname" data-bind="value: lastName">
+                    </div>
                 </div>
-            </div>
-            <div class="control-group">
-                <label class="control-label" for="FirstName">Firstname</label>
-                <div class="controls">
-                    <input type="text" id="FirstName" placeholder="Firstname" data-bind="text: firstName">
+                <div class="control-group">
+                    <label class="control-label" for="FirstName">Firstname</label>
+                    <div class="controls">
+                        <input type="text" id="FirstName" placeholder="Firstname" data-bind="value: firstName">
+                    </div>
                 </div>
-            </div>
-            <div class="control-group">
-                <label class="control-label" for="Email">Email</label>
-                <div class="controls">
-                    <input type="text" id="Email" placeholder="Email" data-bind="text: email">
+                <div class="control-group">
+                    <label class="control-label" for="Email">Email</label>
+                    <div class="controls">
+                        <input type="text" id="Email" placeholder="Email" data-bind="value: email">
+                    </div>
                 </div>
-            </div>
-            <div class="control-group">
-                <label class="control-label" for="Password">Password</label>
-                <div class="controls">
-                    <input type="password" id="Password" placeholder="password">
+                <div class="control-group">
+                    <label class="control-label" for="Password">Password</label>
+                    <div class="controls">
+                        <input type="password" id="Password" placeholder="password">
+                    </div>
                 </div>
-            </div>
-            <div class="control-group">
-                <label class="control-label" for="VerifyPassword">Verify password</label>
-                <div class="controls">
-                    <input type="password" id="VerifyPassword" placeholder="password">
+                <div class="control-group">
+                    <label class="control-label" for="VerifyPassword">Verify password</label>
+                    <div class="controls">
+                        <input type="password" id="VerifyPassword" placeholder="password">
+                    </div>
                 </div>
             </div>
             <div class="control-group">

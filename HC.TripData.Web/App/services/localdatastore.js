@@ -13,15 +13,30 @@
         return localdatastore;
         
         function storeDriver(driver) {
-            amplify.store('driver', {
-                id: driver.DriverId,
-                email: driver.Email,
-                firstName: driver.FirstName,
-                lastName: driver.LastName,
-                currentCarId: driver.CurrentCarId,
-                identifier: driver.AccessToken,
-                password: null
-            });
+            if (driver && driver.Email) {
+                amplify.store('driver', {
+                    id: driver.DriverId,
+                    email: driver.Email,
+                    firstName: driver.FirstName,
+                    lastName: driver.LastName,
+                    currentCarId: driver.CurrentCarId,
+                    identifier: driver.AccessToken,
+                    password: null
+                });
+                return driver;
+            } else if (driver() && driver().email) {
+                amplify.store('driver', {
+                    id: driver().id,
+                    email: driver().email,
+                    firstName: driver().firstName,
+                    lastName: driver().lastName,
+                    currentCarId: driver().currentCarId,
+                    identifier: driver().identifier,
+                    password: null
+                });
+                return driver;
+            }
+            return null;
         }
         
         function getDriver() {
