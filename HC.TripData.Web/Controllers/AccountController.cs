@@ -56,7 +56,20 @@ namespace HC.TripData.Web.Controllers
                         driver.Token = token;
                     }
                     _driverRepository.UpdateDriver(driver);
-                    var responseMessage = Request.CreateResponse<LogonResponseModel>(HttpStatusCode.OK, AccountHelper.GetLogonResponseModel(true, driver.Token.Token, driver.DriverId, driver.EmailAddress));
+
+                    var car = driver.Cars.FirstOrDefault(c => c.IsCurrentCar);
+                    long carId = 0;
+                    if (car != null)
+                    {
+                        carId = car.CarId;
+                    }
+                    var responseMessage = Request.CreateResponse<LogonResponseModel>(HttpStatusCode.OK, AccountHelper.GetLogonResponseModel(true, 
+                                                                                                                                            driver.Token.Token, 
+                                                                                                                                            driver.DriverId, 
+                                                                                                                                            driver.EmailAddress, 
+                                                                                                                                            driver.FirstName, 
+                                                                                                                                            driver.LastName,
+                                                                                                                                            carId));
                     SecurityHelper.SetUseronThread(driver);
 
                     var cookie = new CookieHeaderValue(SecurityHelper.AccessTokenCookieName, driver.Token.Token);

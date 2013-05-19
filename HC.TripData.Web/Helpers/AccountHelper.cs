@@ -19,14 +19,23 @@ namespace HC.TripData.Web.Helpers
             accessToken.Token = string.Format("{0}|{1}", SecurityHelper.CreateToken(TokenLength), driverId);
         }
 
-        public static LogonResponseModel GetLogonResponseModel(bool success, string token = null, long? driverId = null, string driverEmail = null)
+        public static LogonResponseModel GetLogonResponseModel(bool success, 
+                                                                string token = null, 
+                                                                long? driverId = null, 
+                                                                string driverEmail = null, 
+                                                                string driverFirstName = null,
+                                                                string driverLastname = null,
+                                                                long? currentCar = 0 )
         {
             var returnValue = new LogonResponseModel()
                 {
                     Success = success,
                     AccessToken = token,
                     DriverId = driverId,
-                    DriverEmail = driverEmail
+                    Email = driverEmail,
+                    FirstName = driverFirstName,
+                    LastName = driverLastname,
+                    CurrentCarId = currentCar
                 };
 
             return returnValue;

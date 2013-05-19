@@ -10,6 +10,9 @@ namespace HC.TripData.Web.Models
         public bool Success { get; set; }
         public string AccessToken { get; set; }
         public long? DriverId { get; set; }
-        public string DriverEmail { get; set; }
+        public string Email { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public long? CurrentCarId { get; set; }
     }
 }

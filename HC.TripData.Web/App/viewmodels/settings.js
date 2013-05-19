@@ -1,18 +1,38 @@
-﻿define(['services/logger'], function (logger) {
+﻿define(['services/logger', 'services/localdatastore', 'services/datacontext', 'services/alert'], function (logger, localdatastore, datacontext, dialog) {
+   
+    var isSaving = ko.observable(false),
+        driver = ko.observable(),
+        activate = function() {
+            driver(localdatastore.getDriver());
+            logger.log('Settings Activated', null, 'settings', true);
+            document.getElementById('header-title').innerText = 'Settings';
+
+            return true;
+        },
+        save = function() {
+
+            isSaving(true);
+            return Q.fcall(localdatastore.storeDriver(driver))
+                    .then(datacontext.saveLocal)
+                    .then(goToEditView).fin(complete);
+
+            function goToEditView() {
+                dialog.showMessage('Save succeeded', null, 'Save', 'OK');
+            }
+
+            function complete() {
+                isSaving(false);
+            }
+    };
+
+
+
     var vm = {
         activate: activate,
         title: 'Settings',
-        settings: {}
+        driver: driver,
+        save: save,
     };
 
     return vm;
-
-
-    //#region Internal Methods
-    function activate() {
-        logger.log('Settings Activated', null, 'settings', true);
-        return true;
-    }
-
-    //#endregion
 });

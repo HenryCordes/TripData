@@ -28,6 +28,22 @@
                 return tripObservable(s);
             }
         };
+        
+        var getDriverById = function (driverId, driverObservable) {
+            // 1st - fetchEntityByKey will look in local cache 
+            // first (because 3rd parm is true) 
+            // if not there then it will go remote
+            return manager.fetchEntityByKey(
+                entityNames.driver, driverId, true)
+                .then(fetchSucceeded)
+                .fail(queryFailed);
+
+            // 2nd - Refresh the entity from remote store (if needed)
+            function fetchSucceeded(data) {
+                var s = data.entity;
+                return driverObservable(s);
+            }
+        };
 
         var cancelChanges = function () {
             manager.rejectChanges();
@@ -51,6 +67,22 @@
             }
         };
 
+        var saveLocal = function () {
+            var changes = manager.getChanges();
+            if (changes) {
+                var changesExport = manager.exportEntities(changes);
+                localdatastore.storeChanges(changesExport);
+
+            }
+        };
+        
+        var syncWithServer = function () {
+            var localChanges = localdatastore.getChanges();
+            if (localChanges) {
+                manager.importEntities(localChanges);
+                saveChanges();
+            }
+        };
 
         var createTrip = function () {
             return manager.createEntity(entityNames.trip);
@@ -75,9 +107,12 @@
             createTrip: createTrip,
             hasChanges: hasChanges,
             getTripById: getTripById,
+            getDriverById: getDriverById,
             cancelChanges: cancelChanges,
             saveChanges: saveChanges,
-            fetchMetadata:fetchMetadata
+            fetchMetadata: fetchMetadata,
+            saveLocal: saveLocal,
+            syncWithServer: syncWithServer
         };
 
         return datacontext;

@@ -35,7 +35,7 @@
             save = function () {
 
                 isSaving(true);
-                datacontext.saveChanges()
+                return Q.fcall(datacontext.saveLocal)
                     .then(goToEditView).fin(complete);
 
                 function goToEditView() {

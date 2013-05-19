@@ -4,7 +4,10 @@
         var localdatastore = {
             storeDriver: storeDriver,
             getDriver: getDriver,
-            deleteDriver: deleteDriver
+            deleteDriver: deleteDriver,
+            storeChanges: storeChanges,
+            getChanges: getChanges.length,
+            deleteChanges: deleteChanges
         };
 
         return localdatastore;
@@ -12,8 +15,12 @@
         function storeDriver(driver) {
             amplify.store('driver', {
                 id: driver.DriverId,
-                email: driver.DriverEmail,
-                identifier: driver.AccessToken
+                email: driver.Email,
+                firstName: driver.FirstName,
+                lastName: driver.LastName,
+                currentCarId: driver.CurrentCarId,
+                identifier: driver.AccessToken,
+                password: null
             });
         }
         
@@ -25,5 +32,15 @@
             amplify.store('driver', null);
         }
         
+        function storeChanges(changes) {
+            amplify.store('changes', changes);
+        }
+        
+        function getChanges() {
+            return amplify.store('changes');
+        }
+        function deleteChanges() {
+            return amplify.store('changes', null);
+        }
         
 });
