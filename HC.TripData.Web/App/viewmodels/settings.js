@@ -1,4 +1,9 @@
-﻿define(['services/logger', 'services/localdatastore', 'services/datacontext', 'services/alert'], function (logger, localdatastore, datacontext, dialog) {
+﻿define(['durandal/app',
+        'services/logger',
+        'services/localdatastore',
+        'services/datacontext',
+        'services/alert'],
+    function (app, logger, localdatastore, datacontext, dialog) {
    
     var isSaving = ko.observable(false),
         driver = ko.observable(),
@@ -6,8 +11,7 @@
             driver(localdatastore.getDriver());
             logger.log('Settings Activated', null, 'settings', true);
             document.getElementById('header-title').innerText = 'Settings';
-            $('ul#navigation > li').removeClass('active');
-            $('ul#navigation > li[data-nav="settings"]').addClass('active');
+            app.trigger('navigation:change', 'settings');
             return true;
         },
         save = function() {

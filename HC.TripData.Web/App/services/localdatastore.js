@@ -6,7 +6,7 @@
             getDriver: getDriver,
             deleteDriver: deleteDriver,
             storeChanges: storeChanges,
-            getChanges: getChanges.length,
+            getChanges: getChanges,
             deleteChanges: deleteChanges
         };
 

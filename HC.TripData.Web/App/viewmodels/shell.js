@@ -23,6 +23,7 @@
         
         function activate() {
             return Q.fcall(initializeDatacontext)
+                    .then(initializeState)
                     .then(getLoggedInDriver)
                     .then(checkToken)
                     .then(boot)
@@ -65,6 +66,10 @@
                 return datacontext.fetchMetadata();
             }
             
+            function initializeState() {
+                return datacontext.setStateFromLocalStorage();
+            }
+            
             function boot(driver) {
                 log('Trip Data Loaded!', null, true);
                 router.map(config.routes);
@@ -77,8 +82,6 @@
                         log('Router.activate account/login');
                         return router.activate('account/login');
                     }
-                    
-                  
                 }, 700);
             }
 

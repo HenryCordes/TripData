@@ -28,6 +28,12 @@ define(['durandal/app', 'durandal/viewLocator', 'durandal/system', 'durandal/plu
         //Show the app by setting the root view model for our application.
         app.setRoot('viewmodels/shell', 'entrance');
     });
+        
+    app.on('navigation:change').then(function (navigationId) {
+        $('ul#navigation > li').removeClass('active');
+        $('ul#navigation > li[data-nav="' + navigationId + '"]').addClass('active');
+    });
+        
  });
 
 

@@ -67,27 +67,33 @@
             }
         };
 
+        var getChanges = function() {
+            return manager.getChanges();
+        };
+        
         var saveLocal = function () {
             var changes = manager.getChanges();
             if (changes) {
                 var changesExport = manager.exportEntities(changes);
                 localdatastore.storeChanges(changesExport);
-
             }
         };
         
         var syncWithServer = function () {
-            var currentDriver;
-            var driver = localdatastore.getDriver();
-            if (driver && driver.id > 0) {
-                var currDriver = getDriverById(driver.id, currentDriver);
-                currDriver.firstName = currDriver.firstName;
-                
-            }
+            //var currentDriver;
+            //var driver = localdatastore.getDriver();
+            //if (driver && driver.id > 0) {
+            //    var currDriver = getDriverById(driver.id, currentDriver);
+            //    currDriver.firstName = currDriver.firstName;  
+            //}
+            setStateFromLocalStorage();
+            saveChanges();
+        };
+        
+        var setStateFromLocalStorage = function() {
             var localChanges = localdatastore.getChanges();
             if (localChanges) {
                 manager.importEntities(localChanges);
-                saveChanges();
             }
         };
 
@@ -117,9 +123,11 @@
             getDriverById: getDriverById,
             cancelChanges: cancelChanges,
             saveChanges: saveChanges,
+            getChanges: getChanges,
             fetchMetadata: fetchMetadata,
             saveLocal: saveLocal,
-            syncWithServer: syncWithServer
+            syncWithServer: syncWithServer,
+            setStateFromLocalStorage: setStateFromLocalStorage
         };
 
         return datacontext;

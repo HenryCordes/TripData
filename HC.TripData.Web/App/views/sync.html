@@ -5,17 +5,17 @@
         
         <legend>Sync</legend>
 
-        <form class="form-horizontal" >
+        <form class="form-horizontal">
             <div>
-                <br /><br />
-                This section allows you to sync your trips to the server.   
+                This section allows you to synchronise your trips to the TripData server. 
             </div>
-            <div><br /><br /><br /><br />
-                <span data-bind="text: numberOfTrips"></span> Trips to sync.
+            <br />
+            <div>
+                <span data-bind="text: numberOfTrips"></span> trips to sync.
             </div><br />
             <div class="control-group">
-                <div class="controls">
-                    <button type="submit" class="btn btn-primary" data-bind="click: sync">Sync with server</button>
+                <div class="controls center">
+                    <button type="submit" class="btn btn-primary large" data-bind="click: sync">Sync with server</button>
                 </div>
             </div>
         </form>

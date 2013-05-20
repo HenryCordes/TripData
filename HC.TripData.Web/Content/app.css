@@ -1070,17 +1070,17 @@ fieldset div.header {
     margin-bottom: 6px;
     font-weight: bold;
 }
-
 fieldset.trip{ padding-bottom: 25px;}
 label.checkbox-label {display: inline-block;padding-bottom: 5px;}
 .centered{ width: 100%;text-align: center; margin-left: -46px; }
-
 #register-button{ margin-top: 10px;}
 .btn-blue.active {
     color: #ffffff;
     background-color: rgb(58, 114, 224);
     text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
 }
+.btn.large { padding-left: 36px; padding-right: 36px; }
+button.btn.top20 { margin-top: 20px;}
 
 @media (max-width: 767px) {
     [class*="span"], .uneditable-input[class*="span"], .row-fluid [class*="span"] {
@@ -1093,6 +1093,8 @@ label.checkbox-label {display: inline-block;padding-bottom: 5px;}
     .row-fluid .span8 {
         width: 65.95744680851064% !important;
     }
+
+    .btn.large {width: 292px;padding-left: 0;padding-right: 0;}
 }
 
 @media only screen and (max-width: 979px) {
@@ -1107,7 +1109,7 @@ label.checkbox-label {display: inline-block;padding-bottom: 5px;}
     .form-horizontal .control-group { margin-bottom: 4px;}
 
     legend { display: none;}
-    fieldset {padding: 10px 0 0 0;}
+    fieldset {padding: 3px 0 0 0;}
 
     .form-horizontal .control-group.right .controls input, textarea, .uneditable-input,
     .form-horizontal .control-group.left .controls input, textarea, .uneditable-input {

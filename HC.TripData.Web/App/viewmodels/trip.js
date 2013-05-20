@@ -1,5 +1,11 @@
-﻿define(['services/logger', 'services/datacontext', 'durandal/plugins/router', 'services/authentication', 'services/localdatastore', 'config'],
-    function (logger, datacontext, router, authentication, localdatastore, config) {
+﻿define(['durandal/app',
+        'services/logger',
+        'services/datacontext',
+        'durandal/plugins/router',
+        'services/authentication',
+        'services/localdatastore',
+        'config'],
+    function (app, logger, datacontext, router, authentication, localdatastore, config) {
 
         var isSaving = ko.observable(false),
             trip = ko.observable(),
@@ -9,17 +15,14 @@
                 trip(datacontext.createTrip());
                 logger.log('Trip Activated', null, 'trip', true);
                 document.getElementById('header-title').innerText = 'Enter Trip';
-                $('ul#navigation > li').removeClass('active');
-                $('ul#navigation > li[data-nav="trip"]').addClass('active');
+                app.trigger('navigation:change', 'trip');
                 return true; 
             },
             canActivate = function() {
                 var driver = localdatastore.getDriver();
                 if (driver && driver.id > 0) {
-                    logger.log('Trip Activated', null, 'trip', true);
                     return true;
                 } else {
-                    logger.log('Logged in driver NULL TRIP', null, true);
                     router.navigateTo('#/' + config.startModule, 'replace');
                     return false;
                 }
