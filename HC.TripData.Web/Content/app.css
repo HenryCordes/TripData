@@ -498,12 +498,14 @@ width: 100%;
   float: left;
 }
 #header, header {
-  position: absolute;
-  left: 0;
-  right: 0;
-  margin: 0;
-  width: 100%;
-  height: 44px;
+    position: fixed;
+    left: 0;
+    right: 0;
+    margin: 0;
+    width: 100%;
+    height: 44px;
+    overflow: hidden;
+    -webkit-overflow-scrolling: none;
 }
 
 #header .navbar-inner {
@@ -989,7 +991,7 @@ h2.page-title {
 legend { margin-bottom: 15px;padding-top: 10px;}
 
 .btn {
-    text-transform: uppercase;
+   
     letter-spacing: 1px;
 }
 
@@ -1036,7 +1038,7 @@ input::-webkit-inner-spin-button {
 }
 
 
-.form-horizontal .controls { margin-bottom: 4px; }
+.form-horizontal .controls { margin-bottom: 0px; }
 /* End Boostrap overrides  */
 /***************************/
 .form-horizontal .trip { width: 400px;}
@@ -1073,14 +1075,18 @@ fieldset div.header {
 fieldset.trip{ padding-bottom: 25px;}
 label.checkbox-label {display: inline-block;padding-bottom: 5px;}
 .centered{ width: 100%;text-align: center; margin-left: -46px; }
+
+.btn-group .btn {color: #777;font-weight: bold; text-shadow: 0 1px 1px #fff; letter-spacing: 0px;
+}
 #register-button{ margin-top: 10px;}
 .btn-blue.active {
     color: #ffffff;
     background-color: rgb(58, 114, 224);
     text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
 }
-.btn.large { padding-left: 36px; padding-right: 36px; }
-button.btn.top20 { margin-top: 20px;}
+.btn.large {width: 218px; padding: 9px; font-weight: bold; text-shadow: -1px 2px 0px rgba(0, 0, 0, 0.25);  font-size: 22px;}
+button.btn.top10, .btn.large.top10 { margin-top: 10px;}
+button.btn.top20, .btn.large.top20 { margin-top: 20px;}
 
 @media (max-width: 767px) {
     [class*="span"], .uneditable-input[class*="span"], .row-fluid [class*="span"] {
@@ -1094,7 +1100,7 @@ button.btn.top20 { margin-top: 20px;}
         width: 65.95744680851064% !important;
     }
 
-    .btn.large {width: 292px;padding-left: 0;padding-right: 0;}
+   
 }
 
 @media only screen and (max-width: 979px) {
@@ -1106,7 +1112,7 @@ button.btn.top20 { margin-top: 20px;}
 
     form { margin: 0;}
     .form-horizontal .trip { width: 465px; }
-    .form-horizontal .control-group { margin-bottom: 4px;}
+    .form-horizontal .control-group { margin-bottom: 2px;}
 
     legend { display: none;}
     fieldset {padding: 3px 0 0 0;}
@@ -1117,10 +1123,9 @@ button.btn.top20 { margin-top: 20px;}
     }
     
    .form-horizontal .control-label { width: 160px;}
-    .navbar-fixed-bottom { position: fixed;}
-     footer span { padding: 0; font-size: 16px;}
-     .navbar-fixed-top, .navbar-fixed-bottom, .navbar-static-top {margin-right: 0;margin-left: 0;
-    }
+   .navbar-fixed-bottom { position: fixed;}
+   footer span { padding: 0; font-size: 16px;}
+   .navbar-fixed-top, .navbar-fixed-bottom, .navbar-static-top {margin-right: 0;margin-left: 0; }
 }
 @media only screen and (max-width: 480px) {
     body { padding-right: 5px; padding-left: 5px; }
@@ -1135,6 +1140,12 @@ button.btn.top20 { margin-top: 20px;}
         padding-top: 5px;
         padding-left: 12px;
         padding-right: 12px;
+    }
+    #body-container { padding: 0; }
+    fieldset#trip, fieldset#settings, fieldset#sync {
+        margin-left: auto;
+        margin-right: auto;
+        width: 293px;
     }
 
     label.checkbox-label { top: 4px; position: relative; }
@@ -1162,4 +1173,6 @@ button.btn.top20 { margin-top: 20px;}
     .center {text-align: center;}
     button[type="submit"].btn.top10 { margin-top: 6px; }
     .row-fluid .span8.pad62 {padding-left: 62px;}
+    .btn-group { margin-top: 10px; }
+    .btn.large {width: 292px;}
 }
