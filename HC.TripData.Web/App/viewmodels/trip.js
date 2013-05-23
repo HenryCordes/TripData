@@ -38,11 +38,14 @@
             }),
             save = function () {
 
+                if (!trip.entityAspect.validateEntity()) {
+                    alert('validation');
+                }
                 isSaving(true);
                 return Q.fcall(datacontext.saveLocal)
-                    .then(goToEditView).fin(complete);
+                    .then(storeLastEntry).fin(complete);
 
-                function goToEditView() {
+                function storeLastEntry() {
                     amplify.store('lastEntry', {
                         endMilage: trip().endMilage(),
                         destination: trip().destination()
@@ -53,7 +56,7 @@
                 function complete() {
                     isSaving(false);
                 }
-        };
+            };
 
     
 

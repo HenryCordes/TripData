@@ -40,6 +40,7 @@ namespace HC.TripData.Web
                .Include("~/scripts/bootstrap.js")
                .Include("~/scripts/moment.js")
                .Include("~/scripts/amplify.js")
+               .Include("~/scripts/scrollfix.js")
              );
 
             bundles.Add(

@@ -96,6 +96,9 @@
                         }
                     }
                 }
+                
+                var scrollable = document.getElementById("body-container");
+                new ScrollFix(scrollable);
             }
 
             function failInit() {

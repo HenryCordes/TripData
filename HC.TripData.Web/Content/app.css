@@ -168,6 +168,7 @@ width: 100%;
   margin: 0 auto;
   width: 940px;
   height: 44px;
+  z-index: 100001;
 }
 #header .navbar-inner {
   position: relative;
@@ -505,6 +506,7 @@ width: 100%;
     width: 100%;
     height: 44px;
     overflow: hidden;
+    z-index: 100001;
     -webkit-overflow-scrolling: none;
 }
 
@@ -684,10 +686,10 @@ body {
   min-height: 289px;
   padding-bottom: 150px;
 }
-#body-container div,
+/*#body-container div,
 #body-container table {
   max-width: 295px;
-}
+}*/
 body.login-view-visible {
   height: 600px;
 }
@@ -703,7 +705,7 @@ body.login-view-visible {
 /* iphone */  
 @media screen and (device-aspect-ratio: 2/3) {
   #body-container div {
-    max-width: 295px;   
+    /*max-width: 295px;*/   
   }
 
  
@@ -1159,9 +1161,9 @@ button.btn.top20, .btn.large.top20 { margin-top: 20px;}
     .form-horizontal  .control-group.left {float: left;width: 50%;}
     .form-horizontal  .control-group.right {float: right;width: 50%;}
     .form-horizontal  .control-group.left .control-label { text-align: left; float: left;}
-    .form-horizontal .control-group.right .control-label { text-align: left;text-align: left;width: 118px;float: right;}
+    .form-horizontal .control-group.right .control-label { text-align: left;width: 134px;float: right;}
     input, textarea, .uneditable-input { width: 292px; }
-    input#EndMilage { float: right;margin-right: 2px;}
+    input#EndMilage { float: left; margin-left: 19px; }
 
     input, textarea, .uneditable-input {width: 278px;}
 
