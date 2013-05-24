@@ -1,7 +1,6 @@
 ﻿define(['config', 'durandal/system', 'services/logger'],
     function (config, system, logger) {
         var nulloDate = new Date(1900, 0, 1);
-        var referenceCheckValidator;
         var Validator = breeze.Validator;
 
         var orderBy = {
@@ -17,38 +16,26 @@
         var model = {
             configureMetadataStore: configureMetadataStore,
             entityNames: entityNames,
-            orderBy: orderBy,
-            createNullos: createNullos,
-            applySessionValidators: applySessionValidators
+            orderBy: orderBy
         };
 
         return model;
 
         //#region Internal Methods
         
-
-        function createReferenceCheckValidator() {
-            var name = 'realReferenceObject';
-            var ctx = { messageTemplate: 'Missing %displayName%' };
+        function createGreaterThanStartMilageValidator() {
+            var name = 'greaterThanStartMilageValidator';
+            var ctx = { messageTemplate: "EndMilage: '%endMilage%' must be greater than StartMilage" };
             var val = new Validator(name, valFunction, ctx);
-            log('Validators created');
+            log('GreaterThanStartMilageValidator Validator created');
             return val;
 
-            function valFunction(value, context) {
-                return value ? value.id() !== 0 : true;
+            function valFunction(entity, context) {
+                var startMilage = entity.getProperty("StartMilage");
+                var endMilage = entity.getProperty("EndMilage");
+                context.endMilage = endMilage;
+                return (endMilage > startMilage);
             }
-        }
-
-        function applySessionValidators(metadataStore) {
-            //var types = ['trip', 'car', 'driver'];
-            //types.forEach(addValidator);
-            //log('Validators applied', types);
-
-            //function addValidator(propertyName) {
-            //    var sessionType = metadataStore.getEntityType('Trip');
-            //    sessionType.getProperty(propertyName)
-            //        .validators.push(referenceCheckValidator);
-            //}
         }
         
         function createNullos(manager) {
@@ -69,12 +56,23 @@
             metadataStore.registerEntityTypeCtor('Car',null);
             metadataStore.registerEntityTypeCtor('Trip', null, tripInitializer);
             metadataStore.registerEntityTypeCtor('Driver', null);
-            
-       //     referenceCheckValidator = createReferenceCheckValidator();
-      //      Validator.register(referenceCheckValidator); 
         }
         
+        function tripValidationConfig(metadataStore) {
+            var greaterThanStartMilageValidator = createGreaterThanStartMilageValidator();
+            Validator.register(greaterThanStartMilageValidator);
 
+            tripValidationConfig(metadataStore);
+            
+            var tripType = metadataStore.getEntityType("Trip");
+            tripType.getProperty("StartMilage").validators.push(Validator.required);
+            tripType.getProperty("EndMilage").validators.push(Validator.required);
+            tripType.getProperty("DateTime").validators.push(Validator.required);
+            tripType.getProperty("PlaceOfDeparture").validators.push(Validator.required);
+            tripType.getProperty("Destination").validators.push(Validator.required);
+            tripType.validators.push(greaterThanStartMilageValidator);
+        }
+        
         function tripInitializer(trip) {
 
             var lastentry = amplify.store('lastEntry');

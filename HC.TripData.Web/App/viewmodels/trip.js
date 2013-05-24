@@ -38,7 +38,7 @@
             }),
             save = function () {
 
-                if (!trip.entityAspect.validateEntity()) {
+                if (!trip().entityAspect.validateEntity()) {
                     alert('validation');
                 }
                 isSaving(true);

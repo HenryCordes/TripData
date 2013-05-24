@@ -93,7 +93,11 @@
         var setStateFromLocalStorage = function() {
             var localChanges = localdatastore.getChanges();
             if (localChanges) {
-                manager.importEntities(localChanges);
+                try {
+                    manager.importEntities(localChanges);
+                }catch(error) {
+                    log(error.message, null, false);
+                }
             }
         };
 
