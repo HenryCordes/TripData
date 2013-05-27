@@ -10,16 +10,19 @@ namespace HC.TripData.Domain
         [Key]
         public long TripId { get; set; }
 
-        public int? StartMilage { get; set; }
-        public int? EndMilage { get; set; }
+        public int StartMilage { get; set; }
+        public int EndMilage { get; set; }
 
         [DataType(DataType.Date)]
         public DateTime DateTime  { get; set; }
 
+        [StringLength(100)]
         public string PlaceOfDeparture { get; set; }
+
+         [StringLength(100)]
         public string Destination { get; set; }
-        public string DepartureZipCode { get; set; }
-        public string DestinationZipCode { get; set; }
+
+         [StringLength(250)]
         public string Description { get; set; }
         public TripType TripType { get; set; }
 

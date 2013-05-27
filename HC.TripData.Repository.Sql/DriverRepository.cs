@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -49,7 +50,14 @@ namespace HC.TripData.Repository.Sql
                         Password = _encryptionHelper.Encrypt(password, salt)
                     };
                 tripDataContext.Drivers.Add(driver);
-                tripDataContext.SaveChanges();
+                try
+                {
+                    tripDataContext.SaveChanges();
+                }
+                catch (Exception ex)
+                {
+                    Trace.Write(ex.Message);
+                }
 
                 return driver.DriverId;
             }

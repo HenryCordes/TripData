@@ -38,9 +38,11 @@
             }),
             save = function () {
 
-                if (!trip().entityAspect.validateEntity()) {
-                    alert('validation');
-                }
+                //if (!trip().entityAspect.validateEntity()) {
+                //    alert('validation');
+                //    return null;
+                //}
+                
                 isSaving(true);
                 return Q.fcall(datacontext.saveLocal)
                     .then(storeLastEntry).fin(complete);
@@ -56,20 +58,20 @@
                 function complete() {
                     isSaving(false);
                 }
-            };
+        };
 
-    
-
-    var vm = {
-        canActivate: canActivate,
-        activate: activate,
-        canSave: canSave,
-        cancel: cancel,
-        hasChanges: hasChanges,
-        trip: trip,
-        save: save,
-        title: 'Trip'
-    };
+        var vm = {
+            canActivate: canActivate,
+            activate: activate,
+            canSave: canSave,
+            cancel: cancel,
+            hasChanges: hasChanges,
+            trip: trip,
+            save: save,
+            title: 'Trip'
+        };
+        
+      //  vm.errors = ko.validation.group(vm);
 
     return vm;
 });

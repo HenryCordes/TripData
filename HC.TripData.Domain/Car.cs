@@ -11,10 +11,13 @@ namespace HC.TripData.Domain
         [Key]
         public long CarId { get; set; }
         [Required]
+        [StringLength(20)]
         public string LicensePlateNumber { get; set; }
         [Required]
+        [StringLength(100)]
         public string Make { get; set; }
         [Required]
+        [StringLength(100)]
         public string Model { get; set; }
         public bool IsCurrentCar { get; set; }
 
