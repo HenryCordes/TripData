@@ -49,7 +49,7 @@
 
                 function storeLastEntry() {
                     amplify.store('lastEntry', {
-                        endMilage: trip().endMilage(),
+                        endMilage: parseInt(trip().endMilage()),
                         destination: trip().destination()
                     });
                     activate();
