@@ -45,14 +45,15 @@
                 
                 isSaving(true);
                 return Q.fcall(datacontext.saveLocal)
-                    .then(storeLastEntry).fin(complete);
+                        .then(storeLastEntry)
+                        .then(activate)
+                        .fin(complete);
 
                 function storeLastEntry() {
                     amplify.store('lastEntry', {
                         endMilage: parseInt(trip().endMilage()),
                         destination: trip().destination()
                     });
-                    activate();
                 }
 
                 function complete() {

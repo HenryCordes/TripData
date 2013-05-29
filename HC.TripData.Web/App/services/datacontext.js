@@ -53,10 +53,16 @@
         var saveChanges = function () {
             return manager.saveChanges()
                 .then(saveSucceeded)
+                .then(removeStateFromLocalStorage)
                 .fail(saveFailed);
 
             function saveSucceeded(saveResult) {
                 log('Saved data successfully', saveResult, true);
+                return true;
+            }
+            
+            function removeStateFromLocalStorage() {
+                localdatastore.deleteChanges();
             }
 
             function saveFailed(error) {
@@ -87,7 +93,7 @@
             //    currDriver.firstName = currDriver.firstName;  
             //}
             setStateFromLocalStorage();
-            saveChanges();
+            return saveChanges();
         };
         
         var setStateFromLocalStorage = function() {

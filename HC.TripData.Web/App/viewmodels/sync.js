@@ -1,4 +1,7 @@
-﻿define(['durandal/app', 'services/logger', 'services/datacontext'], function (app, logger, datacontext) {
+﻿define(['durandal/app',
+        'services/logger',
+        'services/datacontext',
+        'services/alert'], function (app, logger, datacontext, dialog) {
 
     var numberOfTrips = ko.observable(0),
         changes = null,
@@ -13,10 +16,20 @@
             }
             return true;
         },
-        sync = function() {
-            datacontext.syncWithServer();
+        sync = function () {
+            datacontext.syncWithServer()
+                .then(showSuccess)
+                .then(activate)
+                .fail(showFailure);
+            
+            function showSuccess(result) {
+                return dialog.showMessage('Sync succeeded', null, 'Sync', 'OK');
+            }
+            
+            function showFailure() {
+                return dialog.showMessage('Sync failed', null, 'Sync error', 'OK');
+            }
         };
- 
     
     var vm = {
         activate: activate,
@@ -27,4 +40,6 @@
     };
 
     return vm;
+    
+    
 });
