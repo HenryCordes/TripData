@@ -58,42 +58,20 @@
             metadataStore.registerEntityTypeCtor('Driver', null);
         }
         
-        //Can be removed when other validation option is active
-        function tripValidationConfig(metadataStore) {
-            var greaterThanStartMilageValidator = createGreaterThanStartMilageValidator();
-            Validator.register(greaterThanStartMilageValidator);
-            
-            var tripType = metadataStore.getEntityType('Trip');
-            tripType.getProperty('StartMilage').validators.push(Validator.required);
-            tripType.getProperty('EndMilage').validators.push(Validator.required);
-            tripType.getProperty('DateTime').validators.push(Validator.required);
-            tripType.getProperty('PlaceOfDeparture').validators.push(Validator.required);
-            tripType.getProperty('Destination').validators.push(Validator.required);
-            tripType.validators.push(greaterThanStartMilageValidator);
-        }
-        
         function tripInitializer(trip) {
 
             var lastentry = amplify.store('lastEntry');
             if (lastentry) {
                 if (lastentry.endMilage) {
-                    trip.startMilage = ko.observable(lastentry.endMilage).extend({ required: true });
-                } else {
-                    trip.startMilage = ko.observable().extend({ required: true });
+                    trip.startMilage = ko.observable(lastentry.endMilage);
                 }
                 if (lastentry.destination) {
-                    trip.placeOfDeparture = ko.observable(lastentry.destination).extend({ required: true });
-                } else {
-                    trip.placeOfDeparture = ko.observable().extend({ required: true });
+                    trip.placeOfDeparture = ko.observable(lastentry.destination);
                 }
-            } else {
-                trip.startMilage = ko.observable().extend({ required: true });
-                trip.placeOfDeparture = ko.observable().extend({ required: true });
             }
-            trip.endMilage = ko.observable().extend({ required: true });
-            trip.destination = ko.observable().extend({ required: true });
 
-            trip.dateTime = ko.observable(new Date()).extend({ required: true });
+            trip.dateTime = ko.observable(new Date());
+            trip.tripType = ko.observable('0');
             var driver = amplify.store('driver');
             if (driver) {
                 trip.driverId = ko.observable(driver.id);
@@ -103,5 +81,19 @@
         function log(msg, data, showToast) {
             logger.log(msg, data, system.getModuleId(model), showToast);
         }
+        
+        ////Can be removed when other validation option is active
+        //function tripValidationConfig(metadataStore) {
+        //    var greaterThanStartMilageValidator = createGreaterThanStartMilageValidator();
+        //    Validator.register(greaterThanStartMilageValidator);
+
+        //    var tripType = metadataStore.getEntityType('Trip');
+        //    tripType.getProperty('StartMilage').validators.push(Validator.required);
+        //    tripType.getProperty('EndMilage').validators.push(Validator.required);
+        //    tripType.getProperty('DateTime').validators.push(Validator.required);
+        //    tripType.getProperty('PlaceOfDeparture').validators.push(Validator.required);
+        //    tripType.getProperty('Destination').validators.push(Validator.required);
+        //    tripType.validators.push(greaterThanStartMilageValidator);
+        //}
         //#endregion
     });
