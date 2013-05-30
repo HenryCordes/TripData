@@ -17,17 +17,43 @@
             return true;
         },
         sync = function () {
+
+            showProgressBar();
             datacontext.syncWithServer()
                 .then(showSuccess)
                 .then(activate)
                 .fail(showFailure);
             
             function showSuccess(result) {
+                hideProgressBar();
                 return dialog.showMessage('Sync succeeded', null, 'Sync', 'OK');
             }
             
             function showFailure() {
+                hideProgressBar();
                 return dialog.showMessage('Sync failed', null, 'Sync error', 'OK');
+            }
+            
+            function showProgressBar() {
+                $('#progressbar').fadeIn();
+                
+                var progress = setInterval(function () {
+                    var $bar = $('.bar');
+                    var totalWidth = $('.progress-container').width();
+
+                    if (totalWidth <= $bar.width()) {
+                        clearInterval(progress);
+                        $('.progress').removeClass('active');
+                    } else {
+                        $bar.width($bar.width() + 10);
+                    }
+
+                    $bar.text(Math.round(($bar.width() / totalWidth * 100)) + "%");
+                }, 100);
+            }
+            
+            function hideProgressBar() {
+                $('#progressbar').fadeOut();
             }
         };
     

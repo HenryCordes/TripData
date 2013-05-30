@@ -2,16 +2,23 @@
      <fieldset id="sync">
         <legend>Sync</legend>
         <form class="form-horizontal">
-            <div>
+            <div class="top20">
                 This section allows you to synchronise your trips to the TripData server. 
             </div>
             <br />
-            <div>
+            <div class="center bottom20">
                 <span class="bold" data-bind="text: numberOfTrips"></span> trip(s) to sync.
-            </div><br />
+            </div>
+            <div class="placeholder">
+                <div id="progressbar" class="progress-container" style="display: none;">
+                    <div class="progress progress-striped active">
+                        <div class="bar" style="width: 100%;"></div>
+                    </div>
+                </div>
+            </div>
             <div class="control-group">
                 <div class="controls center">
-                    <button type="submit" class="btn btn-primary large" data-bind="click: sync">Sync with server</button>
+                    <button type="submit" class="btn btn-primary large" data-bind="enable: numberOfTrips() > 0, click: sync">Sync with server</button>
                 </div>
             </div>
         </form>

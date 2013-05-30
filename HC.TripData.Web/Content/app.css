@@ -629,10 +629,7 @@ body.login-view-visible #header {
 .error-messages {
   margin-bottom: 8px;
 }
-#register-button {
-  margin: 0 20%;
-  width: 60%;
-}
+
 .register-message {
   color: #999;
   margin-top: 50px;
@@ -1097,16 +1094,20 @@ label.checkbox-label {display: inline-block;padding-bottom: 5px;}
     border: 3px solid;
     border-color: rgb(61, 70, 121) rgb(90, 90, 153) rgb(94, 94, 168) rgb(78, 81, 158);
 }
-button.btn.top10, .btn.large.top10 { margin-top: 10px;}
-button.btn.top20, .btn.large.top20 { margin-top: 20px;}
-button.btn.top15, .btn.large.top15 { margin-top: 15px;}
-button.btn.top12, .btn.large.top12 { margin-top: 12px; }
+button.btn.top10, .btn.large.top10, .top10 { margin-top: 10px;}
+button.btn.top20, .btn.large.top20, .top20 { margin-top: 20px;}
+button.btn.top15, .btn.large.top15, .top15 { margin-top: 15px;}
+button.btn.top12, .btn.large.top12, .top12 { margin-top: 12px; }
 .bold { font-weight: bold; }
 
 .btn-group > .btn {
     font-size: 18px;
     padding: 7px 13px;
 }
+
+div.placeholder { height: 70px;}
+.bottom20 { margin-bottom: 20px;}
+.progress-container { margin-top: 36px;margin-left: 15px; margin-right: 15px; }
 
 @media (max-width: 767px) {
     [class*="span"], .uneditable-input[class*="span"], .row-fluid [class*="span"] {
@@ -1195,4 +1196,5 @@ button.btn.top12, .btn.large.top12 { margin-top: 12px; }
     .row-fluid .span8.pad62 {padding-left: 62px;}
     .btn-group { margin-top: 6px; }
     .btn.large {width: 292px;}
+    fieldset#login .btn.large, fieldset#register .btn.large {width: 280px;}
 }

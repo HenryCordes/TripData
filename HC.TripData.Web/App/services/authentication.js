@@ -16,7 +16,7 @@
 
         return authentication;
         
-        function login (userInfo, successRoute) {
+        function login (userInfo, successCallback, noSuccessCallback) {
 
             var jqxhr = $.post(config.remoteServiceUrl + '/api/account', userInfo)
                 .done(function (result) {
@@ -24,21 +24,23 @@
                         logger.log('login sucess id ' + result.DriverId, null, true);
                         localdatastore.storeDriver(result);
                         processAccessToken();
-                        router.navigateTo(successRoute);
+                        successCallback();
                     } else {
                         logger.log('login no-success', null, true);
                         alert.showMessage('Combination name and password invalid!', null, 'Login');
+                        noSuccessCallback();
                     }
                 })
                 .fail(function (result) {
                     logger.log('error login! ' + result.status + ' - ' + result.statusText, null, true);
                     alert.showMessage('Oops an error occured while logging in!', null, 'Login');
+                    noSuccessCallback();
                 });
 
             return jqxhr;
         }
     
-        function register(userInfo, successRoute) {
+        function register(userInfo, successCallback, noSuccessCallback) {
             
             var jqxhr = $.ajax({
                 url: config.remoteServiceUrl + '/api/account',
@@ -49,15 +51,17 @@
                         logger.log('register sucess id ' + result.DriverId, null, true);
                         localdatastore.storeDriver(result);
                         processAccessToken();
-                        router.navigateTo(successRoute);
+                        successCallback();
                     } else {
                         logger.log('no-success', null, true);
                         alert.showMessage('Oops something went wrong, try again', null, 'Register');
+                        noSuccessCallback();
                     }
                 },
                 error: (function (result) {
                     logger.log('error register! ' + +result.status + ' - ' + result.statusText, null, true);
                     alert.showMessage('Oops an error occured while registering', null, 'Register');
+                    noSuccessCallback();
                 })
             });
    

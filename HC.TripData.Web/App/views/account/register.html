@@ -5,7 +5,7 @@
             <div class="control-group">
                 <label class="control-label" for="RegisterEmail">Email</label>
                 <div class="controls">
-                    <input type="text" id="RegisterEmail" placeholder="Email" data-bind="value: email" autocapitalize="off" />
+                    <input type="email" id="RegisterEmail" placeholder="Email" data-bind="value: email" autocapitalize="off" />
                 </div>
             </div>
       
@@ -24,7 +24,7 @@
   
             <div class="control-group">
                 <div class="controls">
-                    <button type="submit" class="btn" id="register-button" data-bind="click: register">Register</button>
+                    <button type="submit" class="btn btn-primary large" id="register-button" data-bind="click: register, text: registerCaption"></button>
                 </div>
             </div>
         </form>
