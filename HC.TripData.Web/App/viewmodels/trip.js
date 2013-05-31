@@ -12,7 +12,13 @@
            // cars = ko.observableArray(),
 
             activate = function () {
-                trip(datacontext.createTrip());
+                var localTrip = localdatastore.getCurrentTrip();
+                if (localTrip && localTrip.startMilage > 0) {
+                    trip(localTrip);
+                } else {
+                    trip(datacontext.createTrip());
+                }
+               
                 logger.log('Trip Activated', null, 'trip', true);
                 document.getElementById('header-title').innerText = 'Enter Trip';
                 app.trigger('navigation:change', 'trip');
@@ -27,6 +33,10 @@
                     return false;
                 }
             },
+            canDeactivate = function() {
+                localdatastore.storeCurrentTrip(trip());
+                return true;
+            },
             cancel = function (complete) {
                 router.navigateBack();
             },
@@ -38,10 +48,10 @@
             }),
             save = function () {
 
-                //if (!trip().entityAspect.validateEntity()) {
-                //    alert('validation');
-                //    return null;
-                //}
+                if (!trip().entityAspect.validateEntity()) {
+                    alert('validation');
+                    return null;
+                }
                 
                 isSaving(true);
                 return Q.fcall(datacontext.saveLocal)
@@ -50,10 +60,8 @@
                         .fin(complete);
 
                 function storeLastEntry() {
-                    amplify.store('lastEntry', {
-                        endMilage: parseInt(trip().endMilage()),
-                        destination: trip().destination()
-                    });
+                    localdatastore.storeLastEntry(parseInt(trip().endMilage(),
+                                                  trip().destination()));
                 }
 
                 function complete() {
@@ -63,6 +71,7 @@
 
         var vm = {
             canActivate: canActivate,
+            canDeactivate:canDeactivate,
             activate: activate,
             canSave: canSave,
             cancel: cancel,

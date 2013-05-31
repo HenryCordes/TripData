@@ -7,7 +7,11 @@
             deleteDriver: deleteDriver,
             storeChanges: storeChanges,
             getChanges: getChanges,
-            deleteChanges: deleteChanges
+            deleteChanges: deleteChanges,
+            storeLastEntry: storeLastEntry,
+            storeCurrentTrip: storeCurrentTrip,
+            getCurrentTrip: getCurrentTrip,
+            deleteCurrentTrip: deleteCurrentTrip
         };
 
         return localdatastore;
@@ -56,6 +60,34 @@
         }
         function deleteChanges() {
             return amplify.store('changes', null);
+        }
+        
+        function storeLastEntry(endMilage, destination) {
+            amplify.store('lastEntry', {
+                endMilage: endMilage,
+                destination: destination
+            });
+        }
+
+       
+        function storeCurrentTrip(trip) {
+            amplify.store('currentTrip', {
+                tripId: trip.tripId,
+                startMilage: trip.startMilage,
+                endMilage: trip.endMilage,
+                dateTime: trip.dateTime,
+                placeOfDeparture: trip.placeOfDeparture,
+                destination: trip.destination,
+                description: trip.description,
+                tripType: trip.tripType
+            });
+        }
+
+        function getCurrentTrip() {
+            return amplify.store('currentTrip');
+        }
+        function deleteCurrentTrip() {
+            return amplify.store('currentTrip', null);
         }
         
 });
