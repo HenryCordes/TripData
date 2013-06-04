@@ -72,14 +72,15 @@
        
         function storeCurrentTrip(trip) {
             amplify.store('currentTrip', {
-                tripId: trip.tripId,
-                startMilage: trip.startMilage,
-                endMilage: trip.endMilage,
-                dateTime: trip.dateTime,
-                placeOfDeparture: trip.placeOfDeparture,
-                destination: trip.destination,
-                description: trip.description,
-                tripType: trip.tripType
+                tripId: trip().tripId(),
+                startMilage: trip().startMilage(),
+                endMilage: trip().endMilage(),
+                dateTime: trip().dateTime(),
+                placeOfDeparture: trip().placeOfDeparture(),
+                destination: trip().destination(),
+                description: trip().description(),
+                tripType: trip().tripType(),
+                driverId: trip().driverId()
             });
         }
 

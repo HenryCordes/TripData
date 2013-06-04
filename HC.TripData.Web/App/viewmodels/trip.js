@@ -2,10 +2,11 @@
         'services/logger',
         'services/datacontext',
         'durandal/plugins/router',
+        'services/model',
         'services/authentication',
         'services/localdatastore',
         'config'],
-    function (app, logger, datacontext, router, authentication, localdatastore, config) {
+    function (app, logger, datacontext, router, model, authentication, localdatastore, config) {
 
         var isSaving = ko.observable(false),
             trip = ko.observable(),
@@ -13,10 +14,12 @@
 
             activate = function () {
                 var localTrip = localdatastore.getCurrentTrip();
+                
                 if (localTrip && localTrip.startMilage > 0) {
                     trip(localTrip);
                 } else {
-                    trip(datacontext.createTrip());
+                    trip(new Trip());
+                    model.tripInitializer(trip);
                 }
                
                 logger.log('Trip Activated', null, 'trip', true);
@@ -34,7 +37,7 @@
                 }
             },
             canDeactivate = function() {
-                localdatastore.storeCurrentTrip(trip());
+                localdatastore.storeCurrentTrip(trip);
                 return true;
             },
             cancel = function (complete) {
@@ -48,26 +51,97 @@
             }),
             save = function () {
 
-                if (!trip().entityAspect.validateEntity()) {
-                    alert('validation');
-                    return null;
-                }
-                
-                isSaving(true);
-                return Q.fcall(datacontext.saveLocal)
+                if (validateTrip()) {
+
+                    isSaving(true);
+                    return Q.fcall(mapTripToDatacontext)
+                        .then(datacontext.saveLocal)
                         .then(storeLastEntry)
+                        .then(deleteCurrentTrip)
                         .then(activate)
                         .fin(complete);
+                } 
 
-                function storeLastEntry() {
-                    localdatastore.storeLastEntry(parseInt(trip().endMilage(),
-                                                  trip().destination()));
+                function validateTrip() {
+                    if (trip().startMilage() === '') {
+                        alert('startMilage is required');
+                        return false;
+                    }
+                    
+                    if (trip().endMilage() == undefined || trip().endMilage() === '') {
+                        alert('endMilage is required');
+                        return false;
+                    }
+                    
+                    if (trip().dateTime() == undefined) {
+                        alert('dateTime is required');
+                        return false;
+                    }
+                    if (trip().placeOfDeparture() == undefined || trip().placeOfDeparture() === '') {
+                        alert('placeOfDeparture is required');
+                        return false;
+                    }
+                    if (trip().destination() == undefined || trip().destination() === '') {
+                        alert('destination is required');
+                        return false;
+                    }
+                    if (trip().description() == undefined || trip().description() === '') {
+                        alert('description is required');
+                        return false;
+                    }
+           
+
+                    if (parseInt(trip().startMilage()) >= parseInt(trip().endMilage())) {
+                        alert('StartMilage must be smaller than EndMilage');
+                        return false;
+                    }
+
+                    return true;
                 }
+                
+                function mapTripToDatacontext() {
+                    var dcTrip = datacontext.createTrip();
+                    
+                    dcTrip.startMilage(parseInt(trip().startMilage()));
+                    dcTrip.endMilage(parseInt(trip().endMilage()));
+                    dcTrip.dateTime(trip().dateTime());
+                    dcTrip.placeOfDeparture(trip().placeOfDeparture());
+                    dcTrip.destination(trip().destination());
+                    dcTrip.description(trip().description());
+                    dcTrip.tripType(trip().tripType());
+                    dcTrip.driverId(trip().driverId());
 
+                    return true;
+                }
+                
+                function storeLastEntry() {
+                    return localdatastore.storeLastEntry(parseInt(trip().endMilage()),
+                                                         trip().destination());
+                }
+                
+                function deleteCurrentTrip() {
+                    return localdatastore.deleteCurrentTrip();
+                }
+                
                 function complete() {
                     isSaving(false);
                 }
-        };
+            };
+        
+        function Trip() {
+            var self = this;
+
+            self.tripId = ko.observable();
+            self.startMilage = ko.observable();
+            self.endMilage = ko.observable();
+            self.dateTime = ko.observable();
+            self.placeOfDeparture = ko.observable();
+            self.destination = ko.observable();
+            self.description = ko.observable();
+            self.tripType = ko.observable();
+            self.driverId = ko.observable();
+        }
+
 
         var vm = {
             canActivate: canActivate,

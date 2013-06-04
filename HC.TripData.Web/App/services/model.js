@@ -16,7 +16,8 @@
         var model = {
             configureMetadataStore: configureMetadataStore,
             entityNames: entityNames,
-            orderBy: orderBy
+            orderBy: orderBy,
+            tripInitializer: tripInitializer
         };
 
         return model;
@@ -54,7 +55,7 @@
         }
         function configureMetadataStore(metadataStore) {
             metadataStore.registerEntityTypeCtor('Car',null);
-            metadataStore.registerEntityTypeCtor('Trip', null, tripInitializer);
+            metadataStore.registerEntityTypeCtor('Trip', null);
             metadataStore.registerEntityTypeCtor('Driver', null);
         }
         
@@ -63,18 +64,18 @@
             var lastentry = amplify.store('lastEntry');
             if (lastentry) {
                 if (lastentry.endMilage) {
-                    trip.startMilage = ko.observable(lastentry.endMilage);
+                    trip().startMilage(lastentry.endMilage);
                 }
                 if (lastentry.destination) {
-                    trip.placeOfDeparture = ko.observable(lastentry.destination);
+                    trip().placeOfDeparture(lastentry.destination);
                 }
             }
 
-            trip.dateTime = ko.observable(new Date());
-            trip.tripType = ko.observable('0');
+            trip().dateTime(new Date());
+            trip().tripType('0');
             var driver = amplify.store('driver');
             if (driver) {
-                trip.driverId = ko.observable(driver.id);
+                trip().driverId(driver.id);
             }
         }
  
