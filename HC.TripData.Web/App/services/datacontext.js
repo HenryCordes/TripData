@@ -92,7 +92,6 @@
             //    var currDriver = getDriverById(driver.id, currentDriver);
             //    currDriver.firstName = currDriver.firstName;  
             //}
-            setStateFromLocalStorage();
             return saveChanges();
         };
         

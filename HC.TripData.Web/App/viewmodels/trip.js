@@ -16,7 +16,7 @@
                 var localTrip = localdatastore.getCurrentTrip();
                 
                 if (localTrip && localTrip.startMilage > 0) {
-                    trip(localTrip);
+                    trip(new Trip(localTrip));
                 } else {
                     trip(new Trip());
                     model.tripInitializer(trip);
@@ -128,18 +128,29 @@
                 }
             };
         
-        function Trip() {
+        function Trip(currentTrip) {
             var self = this;
 
             self.tripId = ko.observable();
-            self.startMilage = ko.observable();
-            self.endMilage = ko.observable();
-            self.dateTime = ko.observable();
-            self.placeOfDeparture = ko.observable();
-            self.destination = ko.observable();
-            self.description = ko.observable();
-            self.tripType = ko.observable();
-            self.driverId = ko.observable();
+            if (currentTrip) {
+                self.startMilage = ko.observable(currentTrip.startMilage);
+                self.endMilage = ko.observable(currentTrip.endMilage);
+                self.dateTime = ko.observable(currentTrip.dateTime);
+                self.placeOfDeparture = ko.observable(currentTrip.placeOfDeparture);
+                self.destination = ko.observable(currentTrip.destination);
+                self.description = ko.observable(currentTrip.description);
+                self.tripType = ko.observable(currentTrip.tripType);
+                self.driverId = ko.observable(currentTrip.driverId);
+            } else {
+                self.startMilage = ko.observable();
+                self.endMilage = ko.observable();
+                self.dateTime = ko.observable();
+                self.placeOfDeparture = ko.observable();
+                self.destination = ko.observable();
+                self.description = ko.observable();
+                self.tripType = ko.observable();
+                self.driverId = ko.observable();
+            }
         }
 
 
