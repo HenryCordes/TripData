@@ -18,31 +18,37 @@
                 <div class="control-group">
                     <label class="control-label" for="PlaceOfDeparture">Place of departure</label>
                     <div class="controls">
-                        <input type="text" id="PlaceOfDeparture" placeholder="Place of departure" data-bind="value: placeOfDeparture"  required />
+                        <input type="text" id="PlaceOfDeparture" placeholder="Place of departure" data-bind="value: placeOfDeparture"  required /> 
+                        <button class="btn btn-primary only-icon" data-bind="click: $root.getPlaceOfDeparture">
+                            <i class="icon-white icon-map-marker"></i>
+                        </button>
                     </div>
                 </div>
                 <div class="control-group">
                     <label class="control-label" for="Destination">Destination</label>
                     <div class="controls">
-                        <input type="text" id="Destination" placeholder="Destination" data-bind="value: destination"  required />
+                        <input type="text" id="Destination" placeholder="Destination" data-bind="value: destination"  required /> 
+                        <button class="btn btn-primary only-icon" data-bind="click: $root.getDestination">
+                            <i class="icon-white icon-map-marker"></i>
+                        </button>
                     </div>
                 </div>
-                <div class="control-group">
+                <div class="control-group left">
                     <label class="control-label" for="Description">Description</label>
                     <div class="controls">
                         <input type="text" id="Description" placeholder="Description" data-bind="value: description" />
                     </div>
                 </div>
-                <div class="control-group">
-                    <label class="control-label" for="Description">Date</label>
+                <div class="control-group right">
+                    <label class="control-label" for="DateTime">Date</label>
                     <div class="controls">
                         <input type="date" id="DateTime" placeholder="Date" data-bind="dateString: dateTime" />
                     </div>
                 </div>
                 <div class="controls center">
                     <div class="btn-group">
-                        <button class="btn" data-bind="click: function () { tripType(0) }, css: { active: tripType() == 0, 'btn-blue': tripType() == 0 }" value="0">Business</button>
-                        <button class="btn" data-bind="click: function () { tripType(1) }, css: { active: tripType() == 1, 'btn-blue': tripType() == 1 }" value="1">Private</button>
+                        <button class="btn top4" data-bind="click: function () { tripType(0) }, css: { active: tripType() == 0, 'btn-blue': tripType() == 0 }" value="0">Business</button>
+                        <button class="btn top4" data-bind="click: function () { tripType(1) }, css: { active: tripType() == 1, 'btn-blue': tripType() == 1 }" value="1">Private</button>
                     </div>
                 </div>
             </div>

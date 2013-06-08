@@ -43,6 +43,12 @@
         visible: true,
         caption: 'Sync'
     }, {
+        url: 'places',
+        moduleId: 'viewmodels/places',
+        name: 'Places',
+        visible: false,
+        caption: 'Places'
+    }, {
         url: 'trips',
         moduleId: 'viewmodels/trips',
         name: 'Trips',

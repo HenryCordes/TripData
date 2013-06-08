@@ -277,7 +277,9 @@
     <Content Include="App\services\model.js" />
     <Content Include="App\viewmodels\account\login.js" />
     <Content Include="App\viewmodels\account\register.js" />
+    <Content Include="App\viewmodels\places.js" />
     <Content Include="App\viewmodels\trip.js" />
+    <Content Include="App\views\places.html" />
     <Content Include="App\views\trip.html" />
     <Content Include="App\viewmodels\settings.js" />
     <Content Include="App\viewmodels\details.js" />

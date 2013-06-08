@@ -1109,6 +1109,8 @@ div.placeholder { height: 70px;}
 .bottom20 { margin-bottom: 20px;}
 .progress-container { margin-top: 36px;margin-left: 15px; margin-right: 15px; }
 
+.btn.only-icon { padding: 4px 8px; }
+
 @media (max-width: 767px) {
     [class*="span"], .uneditable-input[class*="span"], .row-fluid [class*="span"] {
         display: block;
@@ -1139,9 +1141,8 @@ div.placeholder { height: 70px;}
     fieldset {padding: 3px 0 0 0;}
 
     .form-horizontal .control-group.right .controls input, textarea, .uneditable-input,
-    .form-horizontal .control-group.left .controls input, textarea, .uneditable-input {
-      width: 104px;
-    }
+    .form-horizontal .control-group.left .controls input, textarea, .uneditable-input
+     { width: 128px;}
     
    .form-horizontal .control-label { width: 160px;}
    .navbar-fixed-bottom { position: fixed;}
@@ -1180,17 +1181,18 @@ div.placeholder { height: 70px;}
     .form-horizontal  .control-group.left {float: left;width: 50%;}
     .form-horizontal  .control-group.right {float: right;width: 50%;}
     .form-horizontal  .control-group.left .control-label { text-align: left; float: left;}
-    .form-horizontal .control-group.right .control-label { text-align: left;width: 134px;float: right;}
+    .form-horizontal .control-group.right .control-label { text-align: left; width: 160px; float: right;}
     input, textarea, .uneditable-input { width: 292px; }
-    input#EndMilage { float: left; margin-left: 19px; }
+    input#EndMilage,  input#DateTime {  margin-left: -6px; }
 
     input, textarea, .uneditable-input {width: 278px;}
+    input#PlaceOfDeparture, input#Destination { width: 240px;}
 
     legend { margin-bottom: 3px; padding-top: 2px;font-size: 18px; line-height: 28px;}
     .navbar-fixed-bottom .navbar-inner { padding: 0px; }
     .navbar-inner { min-height: 0px; }
     footer span { padding: 0; font-size: 14px;}
-    button.btn, input[type="submit"].btn { margin-top: 4px;}
+    button.btn.top4, input[type="submit"].btn.top4 { margin-top: 4px;}
     .center {text-align: center;}
     button[type="submit"].btn.top10 { margin-top: 6px; }
     .row-fluid .span8.pad62 {padding-left: 62px;}

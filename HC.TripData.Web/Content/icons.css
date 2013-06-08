@@ -39,9 +39,13 @@
 .icon,
 [class^="icon-"],
 [class*=" icon-"] {
-    background-image: none !important;	
+  /*  background-image: none !important;	*/
 }
-
+.icon,
+[class^="icon-cog"],
+[class*=" icon-cog"]{
+    background-image: none !important;
+}
 .icon {
     font-family: "entypo", sans-serif;
     font-size: 1em;

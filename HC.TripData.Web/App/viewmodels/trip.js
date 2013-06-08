@@ -49,6 +49,13 @@
             canSave = ko.computed(function () {
                 return hasChanges() && !isSaving();
             }),
+             getPlaceOfDeparture = function () {
+                 router.navigateTo('#/places');
+                 return false;
+             },
+            getDestination = function () {
+                router.navigateTo('#/places');
+            },
             save = function () {
 
                 if (validateTrip()) {
@@ -163,6 +170,8 @@
             hasChanges: hasChanges,
             trip: trip,
             save: save,
+            getPlaceOfDeparture: getPlaceOfDeparture,
+            getDestination: getDestination,
             title: 'Trip'
         };
         
