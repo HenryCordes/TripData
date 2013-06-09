@@ -64,6 +64,7 @@
                     return Q.fcall(mapTripToDatacontext)
                         .then(datacontext.saveLocal)
                         .then(storeLastEntry)
+                        .then(storePlaces)
                         .then(deleteCurrentTrip)
                         .then(activate)
                         .fin(complete);
@@ -117,13 +118,19 @@
                     dcTrip.description(trip().description());
                     dcTrip.tripType(trip().tripType());
                     dcTrip.driverId(trip().driverId());
-
                     return true;
                 }
                 
                 function storeLastEntry() {
                     return localdatastore.storeLastEntry(parseInt(trip().endMilage()),
                                                          trip().destination());
+                }
+                
+                function storePlaces() {
+                    localdatastore.storePlace(trip().placeOfDeparture());
+                    localdatastore.storePlace(trip().destination());
+
+                    return true;
                 }
                 
                 function deleteCurrentTrip() {

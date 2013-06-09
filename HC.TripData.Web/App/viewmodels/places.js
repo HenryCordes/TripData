@@ -1,20 +1,24 @@
 ﻿define(['durandal/app',
+        'services/localdatastore',
         'services/logger'],
-    function (app,logger) {
-    var vm = {
-        activate: activate,
-        title: 'Places'
-    };
+    function (app, localdatastore, logger) {
 
-    return vm;
+        var places = ko.observableArray(),
+            activate = function() {
+                logger.log('Places Activated', null, 'places', true);
 
-    //#region Internal Methods
-    function activate() {
-        logger.log('Places Activated', null, 'places', true);
+                places(localdatastore.getPlaces());
+
+                document.getElementById('header-title').innerText = 'Select a place';
+                app.trigger('navigation:change', 'places');
+                return true;
+            };
         
-        document.getElementById('header-title').innerText = 'Select a place';
-        app.trigger('navigation:change', 'places');
-        return true;
-    }
-    //#endregion
+        var vm = {
+            activate: activate,
+            places: places,
+            title: 'Places'
+        };
+
+        return vm;
 });

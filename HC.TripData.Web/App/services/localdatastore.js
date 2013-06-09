@@ -11,7 +11,10 @@
             storeLastEntry: storeLastEntry,
             storeCurrentTrip: storeCurrentTrip,
             getCurrentTrip: getCurrentTrip,
-            deleteCurrentTrip: deleteCurrentTrip
+            deleteCurrentTrip: deleteCurrentTrip,
+            storePlace: storePlace,
+            getPlaces: getPlaces,
+            deletePlaces: deletePlaces
         };
 
         return localdatastore;
@@ -91,4 +94,25 @@
             return amplify.store('currentTrip', null);
         }
         
+
+        function getPlaces() {
+           return amplify.store('places');
+        }
+        
+        function storePlace(place) {
+            var storedPlaces = amplify.store('places');
+            if (storedPlaces === undefined || storedPlaces.length === 0) {
+                storedPlaces = new Array();
+                storedPlaces[0] = { 'place': place };
+            } else {
+                storedPlaces.push({ 'place': place });
+            }
+            
+            return amplify.store('places', storedPlaces);
+        }
+        
+        function deletePlaces() {
+            return amplify.store('places', null);
+        }
+
 });
