@@ -1111,6 +1111,73 @@ div.placeholder { height: 70px;}
 
 .btn.only-icon { padding: 4px 8px; }
 
+
+/*   LISTS */
+.listing-view .nav-list {
+  padding-right: 0;
+  padding-left: 10px;
+  width: 320px;
+  border-top: solid 1px #333;
+}
+.listing-view .nav-list li {
+  border-bottom: solid 1px #d4d4d4;
+  border-top: solid 1px #fff;
+  margin-left: -15px;
+}
+.listing-view .nav-list li a {
+  background: #ebebeb;
+  height: 64px;
+  line-height: 64px;
+  padding: 10px 30px;
+  color: #4d4d4d;
+  text-shadow: 0 1px 1px #ddd;
+}
+.listing-view .nav-list li.even a {
+  background: #f5f5f5;
+  border-top: solid 1px #fff;
+}
+.listing-view .nav-list .icon.arrow:before {
+  display: inline-block;
+  float: right;
+  font-size: 1.8em;
+  margin-right: 8px;
+}
+.box-icon {
+  display: block;
+  float: left;
+  height: 64px;
+  width: 64px;
+  margin-right: 10px;
+  text-shadow: 0 1px 2px #000;
+  background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#839cd6), to(#395594), color-stop(0.97, #395594));
+  background-image: -moz-linear-gradient(-90deg, #839cd6, #395594 97%, #395594);
+  background-image: -o-linear-gradient(top, #839cd6 0%, #395594 100%);
+  background-image: -ms-linear-gradient(top, #839cd6 0%, #395594 100%);
+  box-shadow: 0 1px 2px rgba(0,0,0,0.35);
+  -webkit-box-shadow: 0 1px 2px rgba(0,0,0,0.35), inset 0 0 1px rgba(0,0,0,0.8), inset 0 1px 1px rgba(255,255,255,0.6);
+  border-radius: 8px 8px 8px 8px;
+}
+.list-group-items-view.nav-list li a {
+  height: 24px;
+  line-height: 24px;
+}
+li.list-group {
+  background-color: transparent;
+  background-image: url("../content/images/list-group-header.png");
+  background-position: 0 0;
+  background-repeat: repeat-x;
+  background-size: 320px 24px;
+  border: 0 none;
+  color: #fff;
+  display: block;
+  font-weight: bold;
+  height: 24px;
+  padding-left: 15px;
+  text-shadow: 1px 1px 1px #555;
+  width: 320px;
+  border-top: 0 !important;
+}
+
 @media (max-width: 767px) {
     [class*="span"], .uneditable-input[class*="span"], .row-fluid [class*="span"] {
         display: block;

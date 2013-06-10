@@ -14,7 +14,10 @@
             deleteCurrentTrip: deleteCurrentTrip,
             storePlace: storePlace,
             getPlaces: getPlaces,
-            deletePlaces: deletePlaces
+            deletePlaces: deletePlaces,
+            storePlaceToSelectState: storePlaceToSelectState,
+            getPlaceToSelectState: getPlaceToSelectState,
+            deletePlaceToSelectState: deletePlaceToSelectState
         };
 
         return localdatastore;
@@ -114,5 +117,16 @@
         function deletePlaces() {
             return amplify.store('places', null);
         }
+        
+        function storePlaceToSelectState(state) {
+            amplify.store('placeToSelectState', state);
+        }
+        
+        function getPlaceToSelectState() {
+            return amplify.store('placeToSelectState');
+        }
 
+        function deletePlaceToSelectState() {
+            return amplify.store('placeToSelectState', null);
+        }
 });

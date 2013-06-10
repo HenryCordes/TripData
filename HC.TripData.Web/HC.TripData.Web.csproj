@@ -313,6 +313,8 @@
     <Content Include="Content\images\header-bar.png" />
     <Content Include="Content\images\header-nav-btn.png" />
     <Content Include="Content\images\icon.png" />
+    <Content Include="Content\images\list-group-header.png" />
+    <Content Include="Content\images\list-item-selected.png" />
     <Content Include="Content\images\list-item.png" />
     <Content Include="Content\images\navbar-black.png" />
     <Content Include="Content\images\navbar-btn-black-active.png" />
