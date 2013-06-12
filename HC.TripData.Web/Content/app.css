@@ -500,6 +500,7 @@ width: 100%;
 }
 #header, header {
     position: fixed;
+    top: 0;
     left: 0;
     right: 0;
     margin: 0;
@@ -1115,19 +1116,19 @@ div.placeholder { height: 70px;}
 /*   LISTS */
 .listing-view .nav-list {
   padding-right: 0;
-  padding-left: 10px;
-  width: 320px;
+  padding-left: 0;
+  width: 100%;
   border-top: solid 1px #333;
 }
 .listing-view .nav-list li {
   border-bottom: solid 1px #d4d4d4;
-  margin-left: -15px;
+  margin-left: 0;
 }
 .listing-view .nav-list li a {
   background: #fff;
   height: 64px;
   line-height: 64px;
-  padding: 10px 30px;
+  padding: 10px 10px;
     color: #4d4d4d ;/*  #000*/
 }
 .listing-view .nav-list li.even a {
@@ -1138,7 +1139,7 @@ div.placeholder { height: 70px;}
   display: inline-block;
   float: right;
   font-size: 1.8em;
-  margin-right: 8px;
+  margin-right: 0px;
 }
 .box-icon {
   display: block;
@@ -1155,7 +1156,7 @@ div.placeholder { height: 70px;}
   -webkit-box-shadow: 0 1px 2px rgba(0,0,0,0.35), inset 0 0 1px rgba(0,0,0,0.8), inset 0 1px 1px rgba(255,255,255,0.6);
   border-radius: 8px 8px 8px 8px;
 }
-.list-group-items-view.nav-list li a { height: 20px; line-height: 20px; }
+.list-group-items-view.nav-list li a { height: 20px; line-height: 20px;margin-left: 0;margin-right: 0;}
 .list-group-items-view.nav-list li a span { text-overflow: ellipsis; overflow: hidden; white-space: nowrap; display: block; font-weight: bold;}
 li.list-group {
   background-color: transparent;
