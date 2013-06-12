@@ -104,13 +104,16 @@
         
         function storePlace(place) {
             var storedPlaces = amplify.store('places');
+            var oPlace = { 'place': place };
             if (storedPlaces === undefined || storedPlaces.length === 0) {
                 storedPlaces = new Array();
-                storedPlaces[0] = { 'place': place };
+                storedPlaces[0] = oPlace;
             } else {
-                storedPlaces.push({ 'place': place });
+                if (isInArray(storedPlaces,oPlace) === -1) {
+                    storedPlaces.push(oPlace);
+                }
             }
-            
+       
             return amplify.store('places', storedPlaces);
         }
         
@@ -129,4 +132,16 @@
         function deletePlaceToSelectState() {
             return amplify.store('placeToSelectState', null);
         }
+        
+
+        //region private helpers
+        function isInArray(array, element) {
+            for (var i = 0; i < array.length; i++) {
+                if (array[i].place === element.place) {
+                    return i;
+                }
+            }
+            return -1;
+        }
+        //endregion
 });
